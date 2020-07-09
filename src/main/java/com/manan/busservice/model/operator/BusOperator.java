@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.manan.busservice.model.operations.Trip;
 import com.manan.busservice.model.user.UserRole;
 
 import lombok.Data;
@@ -25,6 +26,7 @@ public class BusOperator {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_operator")
 	private int idOperator;
 	
 	@OneToOne(mappedBy = "operator")
@@ -38,5 +40,8 @@ public class BusOperator {
 	
 	@OneToMany(mappedBy = "operator", cascade = CascadeType.ALL)
 	private List<Bus> bus;
+
+	@OneToMany(mappedBy = "operator", cascade = CascadeType.ALL)
+	private List<Trip> trip;
 
 }
