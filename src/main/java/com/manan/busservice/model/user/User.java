@@ -44,7 +44,7 @@ public class User {
 	
 	@PrimaryKeyJoinColumn
 	@OneToOne(cascade = CascadeType.ALL, optional = false)
-	@Column(nullable = false) private UserAuth userAuth;
+	private UserAuth userAuth;
 	
 	@OneToOne(optional = true)
 	private BusOperator operator;
