@@ -30,11 +30,12 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_user")
 	private int idUser;
-	@Column(nullable = false) private String userName;
+	@Column(nullable = false, unique = true) private String userName;
 	@Column(nullable = false) private String firstName;
 	@Column(nullable = false) private String lastName;
-	@Column(nullable = false) private String email;
-	@Column(nullable = false) private String phoneNo;
+	@Column(nullable = false, unique = true) private String email;
+	@Column(nullable = false, unique = true) private String phoneNo;
+	@Column(nullable = false) private String role;
 	
 	@OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL)
 	private List<Ticket> ticket;

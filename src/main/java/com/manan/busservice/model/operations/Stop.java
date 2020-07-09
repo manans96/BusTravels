@@ -21,10 +21,10 @@ public class Stop {
 	@Column(name = "id_stop")
 	private int idStop;
 	
-	@Column(name = "name", nullable = false) private String stopName;
+	@Column(name = "name", nullable = false, unique = true) private String stopName;
 	
 	@Column(name = "type", nullable = false) private String stopType;
 	
-	@Column(name = "code", nullable = false) private String stopCode;
+	@Column(name = "code", nullable = false, unique = true) private String stopCode;
 
 }

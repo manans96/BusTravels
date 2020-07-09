@@ -29,7 +29,7 @@ public class Trip {
 	@Column(name = "id_trip")
 	private int idTrip;
 	
-	@Column(nullable = false) private String code;
+	@Column(nullable = false, unique = true) private String code;
 	
 	@Column(nullable = false) private String departStopCode;
 

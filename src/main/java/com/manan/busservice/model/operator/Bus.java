@@ -34,7 +34,7 @@ public class Bus {
 	@JoinColumn(name = "id_operator")
 	private BusOperator operator;
 	
-	@Column(name = "bus_code", nullable = false) private String busCode;
+	@Column(name = "bus_code", nullable = false, unique = true) private String busCode;
 	
 	@Column(name = "capacity", nullable = false) private int capacity;
 	
