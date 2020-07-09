@@ -1,4 +1,4 @@
-package com.manan.busservice;
+package com.manan.busservice.main;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

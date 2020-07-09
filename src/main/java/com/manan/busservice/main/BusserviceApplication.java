@@ -1,4 +1,4 @@
-package com.manan.busservice;
+package com.manan.busservice.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
