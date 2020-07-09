@@ -1,5 +1,6 @@
 package com.manan.busservice.model.user;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,14 +18,14 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int iduser;
+	private int idUser;
 	@Column(nullable = false) private String userName;
 	@Column(nullable = false) private String firstName;
 	@Column(nullable = false) private String lastName;
 	@Column(nullable = false) private String email;
 	@Column(nullable = false) private String phoneNo;
 	
-	@OneToOne(mappedBy = "user")
+	@OneToOne(cascade = CascadeType.ALL)
 	@Column(nullable = false) private UserRole role;
 	
 }
