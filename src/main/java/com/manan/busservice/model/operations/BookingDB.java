@@ -11,7 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.manan.busservice.model.operator.Bus;
+import com.manan.busservice.model.operator.BusDB;
+import com.manan.busservice.model.user.UserDB;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -19,27 +20,29 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Entity
-@Table(name="tripdetails")
-public class TripDetails {
-	
+@Table(name="booking")
+public class BookingDB {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_trip_detail")
-	private int idTripDetails;
+	@Column(name = "id_Booking")
+	private int idBooking;
 	
 	@ManyToOne
 	@JoinColumn(name = "code")
-	private Trip tripCode;
+	private TripDB tripCode;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_user")
+	private UserDB passenger;
 
 	@ManyToOne
 	@JoinColumn(name = "bus_code")
-	private Bus bus;
+	private BusDB bus;
 	
 	private Date departureTime;
 	
-	private int cost;
-	
-	private int availableSeats;
+	private int totalCost;
 
 	@Column(nullable = false) private java.util.Date lastUpdate;
 

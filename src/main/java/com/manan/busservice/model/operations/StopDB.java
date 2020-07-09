@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Entity
 @Table(name="stop")
-public class Stop {
+public class StopDB {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
