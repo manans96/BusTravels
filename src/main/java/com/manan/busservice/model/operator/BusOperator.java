@@ -30,7 +30,7 @@ public class BusOperator {
 	private int idOperator;
 	
 	@OneToOne(mappedBy = "operator")
-	@Column(name = "name", nullable = false) private UserRole operatorName;
+	private UserRole operatorName;
 	
 	@Column(name = "code", nullable = false)
 	private String operatoreCode;

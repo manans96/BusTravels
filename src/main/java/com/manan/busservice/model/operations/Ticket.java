@@ -29,7 +29,7 @@ public class Ticket {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_user")
-	@Column(nullable = false) private User passenger;
+	private User passenger;
 	
 	private int totalTicket;
 	

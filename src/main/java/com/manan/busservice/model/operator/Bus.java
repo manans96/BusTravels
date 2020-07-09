@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.manan.busservice.model.operations.Booking;
 import com.manan.busservice.model.operations.TripDetails;
 
 import lombok.Data;
@@ -33,7 +34,7 @@ public class Bus {
 	@JoinColumn(name = "id_operator")
 	private BusOperator operator;
 	
-	@Column(name = "code", nullable = false) private String busCode;
+	@Column(name = "bus_code", nullable = false) private String busCode;
 	
 	@Column(name = "capacity", nullable = false) private int capacity;
 	
@@ -45,5 +46,8 @@ public class Bus {
 	
 	@OneToMany(mappedBy = "bus", cascade = CascadeType.ALL)
 	private List<TripDetails> tripDetails;
+	
+	@OneToMany(mappedBy = "bus", cascade = CascadeType.ALL)
+	private List<Booking> booking;
 
 }

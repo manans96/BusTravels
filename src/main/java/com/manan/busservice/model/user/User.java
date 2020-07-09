@@ -35,7 +35,7 @@ public class User {
 	@Column(nullable = false) private String phoneNo;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@Column(nullable = false) private UserRole role;
+	private UserRole role;
 	
 	@OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL)
 	private List<Ticket> ticket;

@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.manan.busservice.model.operator.BusOperator;
@@ -32,21 +31,12 @@ public class Trip {
 	
 	@Column(nullable = false) private String code;
 	
-	@JoinColumn(name = "code")
-	@OneToOne(cascade = {CascadeType.REFRESH})
-	@Column(nullable = false) private Stop departStopCode;
+	@Column(nullable = false) private String departStopCode;
 
-	@JoinColumn(name = "code")
-	@OneToOne(cascade = {CascadeType.REFRESH})
-	@Column(nullable = false) private Stop arriveStopCode;
+	@Column(nullable = false) private String arriveStopCode;
 
-	@JoinColumn(name = "code")
-	@OneToOne(cascade = {CascadeType.REFRESH})
-	private Stop haltStop1;
-
-	@JoinColumn(name = "code")
-	@OneToOne(cascade = {CascadeType.REFRESH})
-	private Stop haltStop2;
+	private String haltStop1;
+	private String haltStop2;
 	
 	@Column(nullable = false) private int journeyTime;
 	
@@ -58,10 +48,10 @@ public class Trip {
 	@JoinColumn(name = "id_operator")
 	private BusOperator operator;
 	
-	@OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "tripCode", cascade = CascadeType.ALL)
 	private List<TripDetails> tripDetails;
 	
-	@OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "tripCode", cascade = CascadeType.ALL)
 	private List<Booking> booking;
 
 }

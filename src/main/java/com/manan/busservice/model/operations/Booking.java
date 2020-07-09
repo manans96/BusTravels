@@ -30,15 +30,15 @@ public class Booking {
 	
 	@ManyToOne
 	@JoinColumn(name = "code")
-	@Column(nullable = false) private Trip tripCode;
+	private Trip tripCode;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_user")
-	@Column(nullable = false) private User passenger;
+	private User passenger;
 
+	@ManyToOne
+	@JoinColumn(name = "bus_code")
 	private Bus bus;
-	
-	private Trip trip;
 	
 	private Date departureTime;
 	

@@ -29,10 +29,10 @@ public class TripDetails {
 	
 	@ManyToOne
 	@JoinColumn(name = "code")
-	@Column(nullable = false) private Trip tripCode;
+	private Trip tripCode;
 
 	@ManyToOne
-	@JoinColumn(name = "code")
+	@JoinColumn(name = "bus_code")
 	private Bus bus;
 	
 	private Date departureTime;
