@@ -16,7 +16,6 @@ import javax.persistence.Table;
 import com.manan.busservice.model.operations.Booking;
 import com.manan.busservice.model.operations.Ticket;
 import com.manan.busservice.model.operator.BusOperator;
-import com.sun.istack.NotNull;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -45,9 +44,9 @@ public class User {
 	
 	@PrimaryKeyJoinColumn
 	@OneToOne(cascade = CascadeType.ALL, optional = false)
-	@NotNull private UserAuth userAuth;
+	@Column(nullable = false) private UserAuth userAuth;
 	
-	@OneToOne
+	@OneToOne(optional = true)
 	private BusOperator operator;
 	
 }
