@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Entity
-@Table(name="booking")
+@Table(name="ticket")
 public class Ticket {
 
 	@Id
