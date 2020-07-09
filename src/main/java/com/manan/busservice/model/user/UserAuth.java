@@ -4,10 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.manan.busservice.model.operator.BusOperator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -15,17 +15,14 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Entity
-@Table(name="userrole")
-public class UserRole {
+@Table(name="userauth")
+public class UserAuth {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idRole;
-	
-	@OneToOne(mappedBy = "role")
-	private User user;
-	
-	@OneToOne
-	private BusOperator operator;
+	@JsonIgnore
+	private int idUserAuth;
+	@NotNull private String password;
+	@NotNull private java.util.Date lastUpdate;	
 
 }

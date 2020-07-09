@@ -44,4 +44,6 @@ public class Booking {
 	
 	private int totalCost;
 
+	@Column(nullable = false) private java.util.Date lastUpdate;
+
 }

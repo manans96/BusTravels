@@ -41,4 +41,6 @@ public class TripDetails {
 	
 	private int availableSeats;
 
+	@Column(nullable = false) private java.util.Date lastUpdate;
+
 }

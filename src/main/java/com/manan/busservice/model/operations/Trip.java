@@ -54,4 +54,6 @@ public class Trip {
 	@OneToMany(mappedBy = "tripCode", cascade = CascadeType.ALL)
 	private List<Booking> booking;
 
+	@Column(nullable = false) private java.util.Date lastUpdate;
+
 }

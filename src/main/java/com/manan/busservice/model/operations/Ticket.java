@@ -36,5 +36,7 @@ public class Ticket {
 	private String ticketNumber;
 	
 	private boolean isCancellable;
+
+	@Column(nullable = false) private java.util.Date lastUpdate;
 	
 }

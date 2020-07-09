@@ -10,10 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.manan.busservice.model.operations.Booking;
 import com.manan.busservice.model.operations.Ticket;
+import com.manan.busservice.model.operator.BusOperator;
+import com.sun.istack.NotNull;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -34,13 +37,17 @@ public class User {
 	@Column(nullable = false) private String email;
 	@Column(nullable = false) private String phoneNo;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	private UserRole role;
-	
 	@OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL)
 	private List<Ticket> ticket;
 	
 	@OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL)
 	private List<Booking> booking;
+	
+	@PrimaryKeyJoinColumn
+	@OneToOne(cascade = CascadeType.ALL, optional = false)
+	@NotNull private UserAuth userAuth;
+	
+	@OneToOne
+	private BusOperator operator;
 	
 }

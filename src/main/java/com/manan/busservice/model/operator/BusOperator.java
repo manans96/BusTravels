@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.manan.busservice.model.operations.Trip;
-import com.manan.busservice.model.user.UserRole;
+import com.manan.busservice.model.user.User;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -30,7 +30,7 @@ public class BusOperator {
 	private int idOperator;
 	
 	@OneToOne(mappedBy = "operator")
-	private UserRole operatorName;
+	private User operatorName;
 	
 	@Column(name = "code", nullable = false)
 	private String operatoreCode;
@@ -43,5 +43,7 @@ public class BusOperator {
 
 	@OneToMany(mappedBy = "operator", cascade = CascadeType.ALL)
 	private List<Trip> trip;
+
+	@Column(nullable = false) private java.util.Date lastUpdate;
 
 }
