@@ -8,8 +8,10 @@ import javax.persistence.Table;
 import com.manan.busservice.model.operator.BusOperator;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 @Entity
 @Table(name="userrole")
 public class UserRole {

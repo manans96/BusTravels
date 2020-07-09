@@ -15,8 +15,10 @@ import javax.persistence.Table;
 import com.manan.busservice.model.user.UserRole;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 @Entity
 @Table(name="operator")
 public class BusOperator {

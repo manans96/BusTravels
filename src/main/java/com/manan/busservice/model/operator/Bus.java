@@ -9,8 +9,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 @Entity
 @Table(name = "bus")
 public class Bus {
@@ -29,6 +31,6 @@ public class Bus {
 	
 	private int cost;
 	
-	private int busModel;
+	private String busModel;
 
 }
