@@ -25,17 +25,17 @@ public class TicketDB {
 	@Column(name = "id_Ticket")
 	private int idTicket;
 	
-	private int amountPaid;
+	@Column(nullable = false) private int amountPaid;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_user")
 	private UserDB passenger;
 	
-	private int totalTicket;
+	@Column(nullable = false) private int totalTicket;
 	
-	private String ticketNumber;
+	@Column(nullable = false) private String ticketNumber;
 	
-	private boolean isCancellable;
+	@Column(nullable = false) private boolean isCancellable;
 
 	@Column(nullable = false) private java.util.Date lastUpdate;
 	

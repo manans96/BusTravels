@@ -40,8 +40,10 @@ public class BookingDB {
 	@JoinColumn(name = "bus_code")
 	private BusDB bus;
 	
+	@Column(nullable = false)
 	private Date departureTime;
-	
+
+	@Column(nullable = false)
 	private int totalCost;
 
 	@Column(nullable = false) private java.util.Date lastUpdate;
