@@ -13,8 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.manan.busservice.model.operations.BookingDB;
-import com.manan.busservice.model.operations.TripDetailsDB;
+import com.manan.busservice.model.operations.BookingEntity;
+import com.manan.busservice.model.operations.TripDetailsEntity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -23,7 +23,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Entity
 @Table(name = "bus")
-public class BusDB {
+public class BusEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +32,7 @@ public class BusDB {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_operator")
-	private BusOperatorDB operator;
+	private BusOperatorEntity operator;
 	
 	@Column(name = "bus_code", nullable = false, unique = true) private String busCode;
 	
@@ -45,10 +45,10 @@ public class BusDB {
 	@Column(name = "model", nullable = false) private String busModel;
 	
 	@OneToMany(mappedBy = "bus", cascade = CascadeType.ALL)
-	private List<TripDetailsDB> tripDetails;
+	private List<TripDetailsEntity> tripDetails;
 	
 	@OneToMany(mappedBy = "bus", cascade = CascadeType.ALL)
-	private List<BookingDB> booking;
+	private List<BookingEntity> booking;
 
 	@Column(nullable = false) private java.util.Date lastUpdate;
 

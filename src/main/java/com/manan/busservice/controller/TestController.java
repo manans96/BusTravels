@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.manan.busservice.dto.model.user.User;
+import com.manan.busservice.dto.model.user.UserAuth;
 import com.manan.busservice.jpa.repository.UserRepository;
-import com.manan.busservice.model.user.UserDB;
-import com.manan.busservice.model.user.UserAuthDB;
+import com.manan.busservice.model.user.UserEntity;
 
 @RestController
 @RequestMapping(path = "/test")
@@ -22,24 +23,24 @@ public class TestController {
 	
 	@PostMapping(path = "/add")
 	public void setUser() {
-		UserDB user = new UserDB()
+		User user = new User()
 				.setFirstName("Manan")
 				.setLastName("Sanghvi")
 				.setUserName("test96")
 				.setEmail("mks8328@rthgire")
 				.setPhoneNo("24646464848")
 				.setRole("admin")
-				.setUserAuth(new UserAuthDB()
+				.setUserAuth(new UserAuth()
 						.setLastUpdate(new Date())
 						.setPassword("4fdr4g6ds4dfb")
 						);
 		
-		userRepository.save(user);
+//		userRepository.save(user);
 			
 	}
 	
 	@GetMapping(path = "/get")
-	public @ResponseBody UserDB getUser() {
+	public @ResponseBody UserEntity getUser() {
 		return userRepository.findById(1).get();
 	}
 

@@ -2,8 +2,8 @@ package com.manan.busservice.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.manan.busservice.model.operator.BusOperatorDB;
+import com.manan.busservice.model.operator.BusOperatorEntity;
 
-public interface BusOperatorRepository extends JpaRepository<BusOperatorDB, Integer> {
+public interface BusOperatorRepository extends JpaRepository<BusOperatorEntity, Integer> {
 
 }

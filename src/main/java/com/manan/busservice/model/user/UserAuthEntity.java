@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Entity
 @Table(name="userauth")
-public class UserAuthDB {
+public class UserAuthEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

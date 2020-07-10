@@ -13,9 +13,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import com.manan.busservice.model.operations.BookingDB;
-import com.manan.busservice.model.operations.TicketDB;
-import com.manan.busservice.model.operator.BusOperatorDB;
+import com.manan.busservice.model.operations.BookingEntity;
+import com.manan.busservice.model.operations.TicketEntity;
+import com.manan.busservice.model.operator.BusOperatorEntity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -24,7 +24,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Entity
 @Table(name="user")
-public class UserDB {
+public class UserEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,16 +38,16 @@ public class UserDB {
 	@Column(nullable = false) private String role;
 	
 	@OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL)
-	private List<TicketDB> ticket;
+	private List<TicketEntity> ticket;
 	
 	@OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL)
-	private List<BookingDB> booking;
+	private List<BookingEntity> booking;
 	
 	@PrimaryKeyJoinColumn
 	@OneToOne(cascade = CascadeType.ALL, optional = false)
-	private UserAuthDB userAuth;
+	private UserAuthEntity userAuth;
 	
 	@OneToOne(optional = true)
-	private BusOperatorDB operator;
+	private BusOperatorEntity operator;
 	
 }

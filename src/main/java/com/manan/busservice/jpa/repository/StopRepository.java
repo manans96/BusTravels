@@ -2,8 +2,8 @@ package com.manan.busservice.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.manan.busservice.model.operations.StopDB;
+import com.manan.busservice.model.operations.StopEntity;
 
-public interface StopRepository extends JpaRepository<StopDB, Integer> {
+public interface StopRepository extends JpaRepository<StopEntity, Integer> {
 
 }
