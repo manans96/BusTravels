@@ -12,7 +12,7 @@ public class BusOperatorMapper {
 		return new BusOperator()
 				.setBus(BusMapper.toBus(busOperator.getBus()))
 				.setLastUpdate(busOperator.getLastUpdate())
-				.setOperatorCode(busOperator.getOperatoreCode())
+				.setOperatorCode(busOperator.getOperatorCode())
 				.setOperatorDetails(busOperator.getOperatorDetails())
 				.setOperatorName(UserMapper.toUser(busOperator.getOperatorName()))
 				.setTrip(TripMapper.toTrip(busOperator.getTrip()));
