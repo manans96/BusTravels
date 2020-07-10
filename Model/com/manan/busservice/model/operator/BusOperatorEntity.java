@@ -33,7 +33,7 @@ public class BusOperatorEntity {
 	private UserEntity operatorName;
 	
 	@Column(name = "code", nullable = false, unique = true)
-	private String operatoreCode;
+	private String operatorCode;
 	
 	@Column(name = "details")
 	private String operatorDetails;
