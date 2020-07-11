@@ -29,11 +29,7 @@ public class TestController {
 				.setUserName("test96")
 				.setEmail("mks8328@rthgire")
 				.setPhoneNo("24646464848")
-				.setRole("admin")
-				.setUserAuth(new UserAuth()
-						.setLastUpdate(new Date())
-						.setPassword("4fdr4g6ds4dfb")
-						);
+				.setRole("admin");
 		
 //		userRepository.save(user);
 			
