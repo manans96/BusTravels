@@ -21,7 +21,7 @@ public class TripDetails {
 	@NotNull private Date departureTime;
 	@NotNull private int cost;
 	@NotNull private int availableSeats;
-	@NotNull private boolean isAvailable;
+	@NotNull private boolean isActive;
 	@NotNull private Date lastUpdate;
 
 }

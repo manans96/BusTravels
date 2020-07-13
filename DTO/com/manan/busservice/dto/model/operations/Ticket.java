@@ -22,5 +22,6 @@ public class Ticket {
 	@NotNull private String ticketNumber;
 	@NotNull private boolean isCancellable;
 	@NotNull private Date lastUpdate;
+	@NotNull private TripDetails tripDetails;
 
 }
