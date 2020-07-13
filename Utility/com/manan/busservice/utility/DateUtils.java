@@ -3,6 +3,10 @@ package com.manan.busservice.utility;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @author Manan Sanghvi
+ *
+ */
 public class DateUtils {
 	
 	private static SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
