@@ -17,6 +17,7 @@ public class BusMapper {
 				.setBusModel(bus.getBusModel())
 				.setHaltCost(bus.getHaltCost())
 				.setLastUpdate(bus.getLastUpdate())
+				.setAvailable(bus.isAvailable())
 				.setRunCost(bus.getRunCost())
 				.setTripDetails(TripDetailsMapper.toTripDetails(bus.getTripDetails()))
 				.setBooking(BookingMapper.toBooking(bus.getBooking()))

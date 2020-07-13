@@ -44,6 +44,8 @@ public class BusEntity {
 	
 	@Column(name = "model", nullable = false) private String busModel;
 	
+	@Column(nullable = false) private boolean isAvailable;
+	
 	@OneToMany(mappedBy = "bus", cascade = CascadeType.ALL)
 	private List<TripDetailsEntity> tripDetails;
 	

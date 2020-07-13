@@ -22,6 +22,7 @@ public class Bus {
 	@NotNull private String busCode;
 	@NotNull private int runCost;
 	@NotNull private int haltCost;
+	@NotNull private boolean isAvailable;
 	@NotNull private String busModel;
 	private List<TripDetails> tripDetails;
 	private List<Booking> booking;
