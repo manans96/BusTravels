@@ -1,5 +1,7 @@
 package com.manan.busservice.service.user;
 
+import java.util.List;
+
 import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.dto.model.user.UserAuth;
 
@@ -17,5 +19,13 @@ public interface UserService {
 	User updateProfile(User user);
 	
 	User updatePassword(User user, UserAuth userAuth);
+	
+	User changeRole(User user);
+	
+	User findUser(String userName);
+
+	User findUser(User user);
+	
+	List<User> findAllUsers();
 
 }

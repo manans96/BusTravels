@@ -1,7 +1,5 @@
 package com.manan.busservice.controller;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,18 +9,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.dto.model.user.UserAuth;
-import com.manan.busservice.jpa.repository.UserRepository;
-import com.manan.busservice.model.user.UserEntity;
+import com.manan.busservice.service.user.UserService;
+import com.manan.busservice.utility.DateUtils;
 
 @RestController
-@RequestMapping(path = "/test")
+@RequestMapping("/test")
 public class TestController {
 	
-	@Autowired
-	UserRepository userRepository;
+	UserService userService;
 	
-	@PostMapping(path = "/add")
-	public void setUser() {
+	@Autowired
+	public TestController(UserService userService) {
+		this.userService = userService;
+	}
+	
+	@PostMapping("/add")
+	public void register() {
+		
 		User user = new User()
 				.setFirstName("Manan")
 				.setLastName("Sanghvi")
@@ -31,13 +34,20 @@ public class TestController {
 				.setPhoneNo("24646464848")
 				.setRole("admin");
 		
+		UserAuth userAuth = new UserAuth()
+				.setPassword("neiuewn48fi")
+				.setLastUpdate(DateUtils.today());
+		
+		userService.signup(user, userAuth);
+		
 //		userRepository.save(user);
 			
 	}
 	
-	@GetMapping(path = "/get")
-	public @ResponseBody UserEntity getUser() {
-		return userRepository.findById(1).get();
+	@GetMapping("/get")
+	public @ResponseBody User getUser() {
+
+		return userService.findUser("test96");
 	}
 
 }

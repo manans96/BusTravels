@@ -1,8 +1,10 @@
 package com.manan.busservice.service.user;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.manan.busservice.dto.mapper.user.UserMapper;
 import com.manan.busservice.dto.model.user.User;
@@ -17,6 +19,7 @@ import com.manan.busservice.utility.DateUtils;
  *
  */
 
+@Component
 public class UserServiceImpl implements UserService {
 
 	//These are the autowired fields autowired by constructor
@@ -31,6 +34,11 @@ public class UserServiceImpl implements UserService {
 	//These are the normal fields needed by Business logic
 	
 	private Optional<UserEntity> optional;
+	
+	
+	private void findByUserName(String userName) {
+		optional = userRepository.findByUserName(userName);
+	}
 	
 	@Override
 	public User signup(User user, UserAuth userAuth) {
@@ -95,8 +103,35 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	private void findByUserName(String userName) {
-		optional = userRepository.findByUserName(userName);
+	@Override
+	public User changeRole(User user) {
+
+		findByUserName(user.getUserName());
+		if(!optional.isEmpty()) {
+			UserEntity userEntity = optional.get();
+			return UserMapper.toUser(userRepository.save(userEntity
+					.setRole(user.getRole())));
+		} else {
+			return new User();
+		}
+	}
+
+	@Override
+	public User findUser(String userName) {
+
+		findByUserName(userName);
+		return UserMapper.toUser(optional.get());
+	}
+
+	@Override
+	public List<User> findAllUsers() {
+		return UserMapper.toUser(userRepository.findAll());
+	}
+
+	@Override
+	public User findUser(User user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
