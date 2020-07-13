@@ -17,7 +17,8 @@ public class TicketMapper {
 				.setLastUpdate(ticket.getLastUpdate())
 				.setTicketNumber(ticket.getTicketNumber())
 				.setTotalTicket(ticket.getTotalTicket())
-				.setPassenger(UserMapper.toUser(ticket.getPassenger()));
+				.setPassenger(UserMapper.toUser(ticket.getPassenger()))
+				.setTripDetails(TripDetailsMapper.toTripDetails(ticket.getTripDetails()));
 		
 	}
 
