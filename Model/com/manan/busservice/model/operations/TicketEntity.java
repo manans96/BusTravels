@@ -39,4 +39,8 @@ public class TicketEntity {
 
 	@Column(nullable = false) private java.util.Date lastUpdate;
 	
+	@ManyToOne
+	@JoinColumn(name = "id_trip_detail")
+	private TripDetailsEntity tripDetails;
+	
 }
