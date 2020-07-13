@@ -45,6 +45,9 @@ public class BookingEntity {
 
 	@Column(nullable = false)
 	private int totalCost;
+	
+	@Column(nullable = false)
+	private boolean isCancelled;
 
 	@Column(nullable = false) private java.util.Date lastUpdate;
 

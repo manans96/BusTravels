@@ -36,6 +36,8 @@ public class TicketEntity {
 	@Column(nullable = false) private String ticketNumber;
 	
 	@Column(nullable = false) private boolean isCancellable;
+	
+	@Column(nullable = false) private boolean isCancelled;
 
 	@Column(nullable = false) private java.util.Date lastUpdate;
 	

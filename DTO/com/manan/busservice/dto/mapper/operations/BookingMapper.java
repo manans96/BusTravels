@@ -16,6 +16,7 @@ public class BookingMapper {
 				.setDepartureTime(booking.getDepartureTime())
 				.setLastUpdate(booking.getLastUpdate())
 				.setTotalCost(booking.getTotalCost())
+				.setCancelled(booking.isCancelled())
 				.setPassenger(UserMapper.toUser(booking.getPassenger()))
 				.setBus(BusMapper.toBus(booking.getBus()))
 				.setTripCode(TripMapper.toTrip(booking.getTripCode()));

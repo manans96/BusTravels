@@ -1,5 +1,8 @@
 package com.manan.busservice.dto.mapper.operator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.manan.busservice.dto.mapper.operations.TripMapper;
 import com.manan.busservice.dto.mapper.user.UserMapper;
 import com.manan.busservice.dto.model.operator.BusOperator;
@@ -16,6 +19,16 @@ public class BusOperatorMapper {
 				.setOperatorDetails(busOperator.getOperatorDetails())
 				.setOperatorName(UserMapper.toUser(busOperator.getOperatorName()))
 				.setTrip(TripMapper.toTrip(busOperator.getTrip()));
+		
+	}
+	
+	public static List<BusOperator> toBusOperator(List<BusOperatorEntity> busOperator) {
+		
+		List<BusOperator> busOperators = new ArrayList<>();
+		for(BusOperatorEntity busOp : busOperator) {
+			busOperators.add(toBusOperator(busOp));
+		}
+		return busOperators;
 		
 	}
 

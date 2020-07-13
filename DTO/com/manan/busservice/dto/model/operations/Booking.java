@@ -22,6 +22,7 @@ public class Booking {
 	@NotNull private Bus bus;
 	@NotNull private Date departureTime;
 	@NotNull private int totalCost;
+	@NotNull private boolean isCancelled;
 	@NotNull private Date lastUpdate;
 
 }
