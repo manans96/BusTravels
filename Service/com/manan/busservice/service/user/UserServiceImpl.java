@@ -130,8 +130,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
+
+		findByUserName(user.getUserName());
+		return UserMapper.toUser(optional.get());
 	}
 
 }
