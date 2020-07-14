@@ -22,6 +22,8 @@ public interface TripService {
 	
 	List<Trip> viewAllTrips();
 	
+	List<Trip> viewAllTripsByOperator(BusOperator busOperator);
+	
 	void disableTrip(Trip trip);
 	
 	Trip enableTrip(Trip trip);

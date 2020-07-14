@@ -23,6 +23,8 @@ public interface BookingService {
 	
 	Booking viewBooking(Booking booking);
 	
+	List<Booking> viewAllBookingByUser(User user);
+	
 	List<Booking> viewAllBookings();
 
 }

@@ -22,6 +22,8 @@ public interface BusService {
 	
 	List<Bus> viewAllBus();
 	
+	List<Bus> viewAllBusByOperator(BusOperator busOperator);
+	
 	void disableBus(Bus bus);
 	
 	Bus enableBus(Bus bus);

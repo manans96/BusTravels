@@ -3,6 +3,8 @@
  */
 package com.manan.busservice.service.operations;
 
+import java.util.List;
+
 import com.manan.busservice.dto.model.operations.Ticket;
 import com.manan.busservice.dto.model.operations.TripDetails;
 import com.manan.busservice.dto.model.user.User;
@@ -19,6 +21,8 @@ public interface TicketService {
 	
 	Ticket viewTicket(Ticket ticket);
 	
-	Ticket viewAllTicket();
+	List<Ticket> viewAllTicketByUser(User user);
+	
+	List<Ticket> viewAllTickets();
 
 }
