@@ -12,14 +12,21 @@ public class BusOperatorMapper {
 	
 	public static BusOperator toBusOperator(BusOperatorEntity busOperator) {
 		
-		return new BusOperator()
-				.setBus(BusMapper.toBus(busOperator.getBus()))
+		BusOperator operator = new BusOperator();
+		
+		if(busOperator.getBus() != null) {
+			operator.setBus(BusMapper.toBusFromOperator(busOperator.getBus()));
+		}
+		if(busOperator.getTrip() != null) {
+			operator.setTrip(TripMapper.toTrip(busOperator.getTrip()));
+		}
+		
+		return operator
 				.setLastUpdate(busOperator.getLastUpdate())
 				.setOperatorCode(busOperator.getOperatorCode())
 				.setOperatorDetails(busOperator.getOperatorDetails())
 				.setOperatorName(busOperator.getOperatorName())
-				.setOperator(UserMapper.toUser(busOperator.getOperator()))
-				.setTrip(TripMapper.toTrip(busOperator.getTrip()));
+				.setOperator(UserMapper.toUser(busOperator.getOperator()));
 		
 	}
 	

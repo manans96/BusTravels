@@ -12,7 +12,16 @@ public class BusMapper {
 	
 	public static Bus toBus(BusEntity bus) {
 		
-		return new Bus()
+		Bus busMap = new Bus();
+		
+		if(bus.getBooking() != null) {
+			busMap.setBooking(BookingMapper.toBooking(bus.getBooking()));
+		}
+		if(bus.getTripDetails() != null) {
+			busMap.setTripDetails(TripDetailsMapper.toTripDetails(bus.getTripDetails()));
+		}
+		
+		return busMap
 				.setBusCode(bus.getBusCode())
 				.setBusModel(bus.getBusModel())
 				.setHaltCost(bus.getHaltCost())
@@ -20,10 +29,7 @@ public class BusMapper {
 				.setAvailable(bus.isAvailable())
 				.setCapacity(bus.getCapacity())
 				.setRunCost(bus.getRunCost())
-				.setTripDetails(TripDetailsMapper.toTripDetails(bus.getTripDetails()))
-				.setBooking(BookingMapper.toBooking(bus.getBooking()))
 				.setOperator(BusOperatorMapper.toBusOperator(bus.getOperator()));
-		
 	}
 	
 	public static List<Bus> toBus(List<BusEntity> busList) {
@@ -33,7 +39,33 @@ public class BusMapper {
 			buses.add(toBus(bus));
 		}
 		return buses;
+	}
+	
+	public static List<Bus> toBusFromOperator(List<BusEntity> busList) {
 		
+		List<Bus> buses = new ArrayList<>();
+		Bus busMap = new Bus();
+		for(BusEntity bus : busList) {
+			
+			if(bus.getBooking() != null) {
+				busMap.setBooking(BookingMapper.toBooking(bus.getBooking()));
+			}
+			if(bus.getTripDetails() != null) {
+				busMap.setTripDetails(TripDetailsMapper.toTripDetails(bus.getTripDetails()));
+			}
+			
+			busMap
+				.setBusCode(bus.getBusCode())
+				.setBusModel(bus.getBusModel())
+				.setHaltCost(bus.getHaltCost())
+				.setLastUpdate(bus.getLastUpdate())
+				.setAvailable(bus.isAvailable())
+				.setCapacity(bus.getCapacity())
+				.setRunCost(bus.getRunCost());
+			
+			buses.add(busMap);
+		}
+		return buses;
 	}
 
 }

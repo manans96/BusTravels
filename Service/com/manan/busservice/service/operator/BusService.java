@@ -14,7 +14,7 @@ import com.manan.busservice.dto.model.operator.BusOperator;
  */
 public interface BusService {
 	
-	Bus addBus(BusOperator busOperator, Bus bus);
+	Bus addBus(Bus bus);
 	
 	Bus editBus(Bus bus);
 	

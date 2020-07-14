@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import com.manan.busservice.dto.mapper.operator.BusOperatorMapper;
 import com.manan.busservice.dto.model.operator.BusOperator;
-import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.jpa.repository.BusOperatorRepository;
 import com.manan.busservice.jpa.repository.UserRepository;
 import com.manan.busservice.model.operator.BusOperatorEntity;
@@ -38,21 +37,21 @@ public class BusOperatorServiceImpl implements BusOperatorService {
 	
 	private Optional<BusOperatorEntity> optional;
 	
-	private void findByOperator(BusOperator busOperator) {
-		optional = busOperatorRepository.findByOperatorCode(busOperator.getOperatorCode());
+	private void findByOperatorCode(String code) {
+		optional = busOperatorRepository.findByOperatorCode(code);
 	}
 
 	@Override
-	public BusOperator addNewOperator(BusOperator busOperator, User user) {
+	public BusOperator addNewOperator(BusOperator busOperator) {
 
-		findByOperator(busOperator);
+		findByOperatorCode(busOperator.getOperatorCode());
 		if(optional.isEmpty()) {
 			return BusOperatorMapper.toBusOperator(busOperatorRepository.save(new BusOperatorEntity()
 					.setOperatorName(busOperator.getOperatorName())
 					.setLastUpdate(DateUtils.today())
 					.setOperatorCode(busOperator.getOperatorCode())
 					.setOperatorDetails(busOperator.getOperatorDetails())
-					.setOperator(userRepository.findByUserName(user.getUserName()).get())));
+					.setOperator(userRepository.findByUserName(busOperator.getOperator().getUserName()).get().setRole("operator"))));
 		} else {
 			return new BusOperator();
 		}
@@ -61,7 +60,7 @@ public class BusOperatorServiceImpl implements BusOperatorService {
 	@Override
 	public BusOperator updateBusOperatorDetails(BusOperator busOperator) {
 
-		findByOperator(busOperator);
+		findByOperatorCode(busOperator.getOperatorCode());
 		if(!optional.isEmpty()) {
 			BusOperatorEntity busOperatorEntity = optional.get();
 			return BusOperatorMapper.toBusOperator(busOperatorRepository.save(busOperatorEntity)
@@ -74,7 +73,7 @@ public class BusOperatorServiceImpl implements BusOperatorService {
 	@Override
 	public void deleteBusOperator(BusOperator busOperator) {
 
-		findByOperator(busOperator);
+		findByOperatorCode(busOperator.getOperatorCode());
 		if(!optional.isEmpty()) {
 			busOperatorRepository.delete(optional.get());
 		}
@@ -82,9 +81,9 @@ public class BusOperatorServiceImpl implements BusOperatorService {
 	}
 
 	@Override
-	public BusOperator viewBusOperator(BusOperator busOperator) {
+	public BusOperator viewBusOperator(String operatorCode) {
 
-		findByOperator(busOperator);
+		findByOperatorCode(operatorCode);
 		if(optional.isPresent()) {
 			return BusOperatorMapper.toBusOperator(optional.get());
 		} else {

@@ -29,7 +29,7 @@ public class BusOperatorEntity {
 	@Column(name = "id_operator")
 	private int idOperator;
 	
-	@OneToOne(mappedBy = "operator", optional = false)
+	@OneToOne(optional = true)
 	private UserEntity operator;
 	
 	@Column(name = "name", nullable = false, unique = true)

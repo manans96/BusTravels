@@ -46,8 +46,8 @@ public class UserEntity {
 	@PrimaryKeyJoinColumn
 	@OneToOne(cascade = CascadeType.ALL, optional = false)
 	private UserAuthEntity userAuth;
-	
-	@OneToOne(optional = true)
+
+	@OneToOne(mappedBy = "operator", optional = true)
 	private BusOperatorEntity operator;
 	
 }

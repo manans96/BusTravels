@@ -21,7 +21,10 @@ public class BusOperator {
 	@NotNull private String operatorName;
 	@NotNull private String operatorCode;
 	private String operatorDetails;
+	
+	@JsonIgnoreProperties("operator")
 	private List<Bus> bus;
+	
 	private List<Trip> trip;
 	@NotNull private Date lastUpdate;
 	@NotNull private User operator;

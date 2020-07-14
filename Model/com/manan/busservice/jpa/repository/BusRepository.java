@@ -9,7 +9,6 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.manan.busservice.model.operator.BusEntity;
-import com.manan.busservice.model.operator.BusOperatorEntity;
 
 /**
  * @author Manan Sanghvi
@@ -17,8 +16,8 @@ import com.manan.busservice.model.operator.BusOperatorEntity;
  */
 public interface BusRepository extends JpaRepository<BusEntity, Integer> {
 	
-	Optional<BusEntity> findByCode(String code);
+	Optional<BusEntity> findByBusCode(String code);
 	
-	List<BusEntity> findAllBusByOperator(BusOperatorEntity busOperatorEntity);
+	List<BusEntity> findByOperator(int operatorId);
 
 }

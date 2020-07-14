@@ -39,11 +39,11 @@ public class BusServiceImpl implements BusService {
 	Optional<BusEntity> optional;
 	
 	private void findByCode(Bus bus) {
-		optional = busRepository.findByCode(bus.getBusCode());
+		optional = busRepository.findByBusCode(bus.getBusCode());
 	}
 
 	@Override
-	public Bus addBus(BusOperator busOperator, Bus bus) {
+	public Bus addBus(Bus bus) {
 
 		findByCode(bus);
 		if(optional.isEmpty()) {
@@ -55,7 +55,7 @@ public class BusServiceImpl implements BusService {
 					.setHaltCost(bus.getHaltCost())
 					.setLastUpdate(DateUtils.today())
 					.setRunCost(bus.getRunCost())
-					.setOperator(busOperatorRepository.findByOperatorCode(busOperator.getOperatorCode()).get())));
+					.setOperator(busOperatorRepository.findByOperatorCode(bus.getOperator().getOperatorCode()).get())));
 		} else {
 			return new Bus();
 		}
@@ -96,9 +96,9 @@ public class BusServiceImpl implements BusService {
 	@Override
 	public List<Bus> viewAllBusByOperator(BusOperator busOperator) {
 
-		return BusMapper.toBus(busRepository.findAllBusByOperator(busOperatorRepository
+		return BusMapper.toBus(busRepository.findByOperator(busOperatorRepository
 				.findByOperatorCode(busOperator.getOperatorCode())
-				.get()));
+				.get().getIdOperator()));
 	}
 
 	@Override
