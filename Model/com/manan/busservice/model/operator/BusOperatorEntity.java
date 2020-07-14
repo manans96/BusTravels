@@ -30,7 +30,10 @@ public class BusOperatorEntity {
 	private int idOperator;
 	
 	@OneToOne(mappedBy = "operator", optional = false)
-	private UserEntity operatorName;
+	private UserEntity operator;
+	
+	@Column(name = "name", nullable = false, unique = true)
+	private String OperatorName;
 	
 	@Column(name = "code", nullable = false, unique = true)
 	private String operatorCode;

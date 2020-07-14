@@ -8,6 +8,6 @@ import com.manan.busservice.model.user.UserEntity;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 	
-	public Optional<UserEntity> findByUserName(String userName);
+	Optional<UserEntity> findByUserName(String userName);
 
 }

@@ -18,11 +18,12 @@ import lombok.experimental.Accessors;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BusOperator {
 	
-	@NotNull private User operatorName;
+	@NotNull private String operatorName;
 	@NotNull private String operatorCode;
 	private String operatorDetails;
 	private List<Bus> bus;
 	private List<Trip> trip;
 	@NotNull private Date lastUpdate;
+	@NotNull private User operator;
 
 }
