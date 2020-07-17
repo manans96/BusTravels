@@ -1,2 +1,2 @@
 # BusTravels
-A Bus travel service
+A Bus travel service by Manan Sanghvi
