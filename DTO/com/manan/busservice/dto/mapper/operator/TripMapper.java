@@ -1,11 +1,12 @@
-package com.manan.busservice.dto.mapper.operations;
+package com.manan.busservice.dto.mapper.operator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.manan.busservice.dto.mapper.operator.BusOperatorMapper;
-import com.manan.busservice.dto.model.operations.Trip;
-import com.manan.busservice.model.operations.TripEntity;
+import com.manan.busservice.dto.mapper.operations.BookingMapper;
+import com.manan.busservice.dto.mapper.operations.TripDetailsMapper;
+import com.manan.busservice.dto.model.operator.Trip;
+import com.manan.busservice.model.operator.TripEntity;
 
 public class TripMapper {
 	

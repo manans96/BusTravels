@@ -1,10 +1,11 @@
-package com.manan.busservice.dto.model.operations;
+package com.manan.busservice.dto.model.operator;
 
 import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.manan.busservice.dto.model.operator.BusOperator;
+import com.manan.busservice.dto.model.operations.Booking;
+import com.manan.busservice.dto.model.operations.TripDetails;
 import com.sun.istack.NotNull;
 
 import lombok.Data;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.manan.busservice.dto.mapper.operator.BusMapper;
+import com.manan.busservice.dto.mapper.operator.TripMapper;
 import com.manan.busservice.dto.mapper.user.UserMapper;
 import com.manan.busservice.dto.model.operations.Booking;
 import com.manan.busservice.model.operations.BookingEntity;

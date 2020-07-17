@@ -3,7 +3,6 @@ package com.manan.busservice.dto.mapper.operator;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.manan.busservice.dto.mapper.operations.TripMapper;
 import com.manan.busservice.dto.mapper.user.UserMapper;
 import com.manan.busservice.dto.model.operator.BusOperator;
 import com.manan.busservice.model.operator.BusOperatorEntity;

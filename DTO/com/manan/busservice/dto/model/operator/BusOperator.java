@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.manan.busservice.dto.model.operations.Trip;
 import com.manan.busservice.dto.model.user.User;
 import com.sun.istack.NotNull;
 

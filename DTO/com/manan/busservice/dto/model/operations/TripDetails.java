@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.manan.busservice.dto.model.operator.Bus;
+import com.manan.busservice.dto.model.operator.Trip;
 import com.sun.istack.NotNull;
 
 import lombok.Data;

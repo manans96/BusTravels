@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.manan.busservice.model.operator.BusEntity;
+import com.manan.busservice.model.operator.TripEntity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

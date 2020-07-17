@@ -98,7 +98,7 @@ public class BusServiceImpl implements BusService {
 
 		return BusMapper.toBus(busRepository.findByOperator(busOperatorRepository
 				.findByOperatorCode(busOperator.getOperatorCode())
-				.get().getIdOperator()));
+				.get()));
 	}
 
 	@Override

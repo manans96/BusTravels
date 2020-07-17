@@ -5,8 +5,8 @@ package com.manan.busservice.service.operations;
 
 import java.util.List;
 
-import com.manan.busservice.dto.model.operations.Trip;
 import com.manan.busservice.dto.model.operations.TripDetails;
+import com.manan.busservice.dto.model.operator.Trip;
 
 /**
  * @author Manan Sanghvi

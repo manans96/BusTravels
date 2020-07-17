@@ -1,5 +1,7 @@
 package com.manan.busservice.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,10 +55,11 @@ public class TestController {
 	}
 	
 	@GetMapping("/get")
-	public @ResponseBody BusOperator getUser() {
+	public @ResponseBody List<Bus> getUser() {
 
 //		return userService.findUser("test96");
-		return busOperatorService.viewBusOperator("AAC123");
+//		return busOperatorService.viewBusOperator("AAC123");
+		return busService.viewAllBusByOperator(new BusOperator().setOperatorCode("AAC123"));
 	}
 	
 	@PostMapping("/addoperator")

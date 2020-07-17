@@ -1,4 +1,4 @@
-package com.manan.busservice.model.operations;
+package com.manan.busservice.model.operator;
 
 import java.util.List;
 
@@ -13,7 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.manan.busservice.model.operator.BusOperatorEntity;
+import com.manan.busservice.model.operations.BookingEntity;
+import com.manan.busservice.model.operations.TripDetailsEntity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
