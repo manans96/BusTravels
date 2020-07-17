@@ -55,7 +55,8 @@ public class BusServiceImpl implements BusService {
 					.setHaltCost(bus.getHaltCost())
 					.setLastUpdate(DateUtils.today())
 					.setRunCost(bus.getRunCost())
-					.setOperator(busOperatorRepository.findByOperatorCode(bus.getOperator().getOperatorCode()).get())));
+					.setOperator(busOperatorRepository.findByOperatorCode(bus.getOperator().getOperatorCode())
+							.get())));
 		} else {
 			return new Bus();
 		}
