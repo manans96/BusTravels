@@ -41,6 +41,7 @@ public class BusMapper {
 		return buses;
 	}
 	
+	//Used to prevent error when called from BusOperatorMapper
 	public static List<Bus> toBusFromOperator(List<BusEntity> busList) {
 		
 		List<Bus> buses = new ArrayList<>();

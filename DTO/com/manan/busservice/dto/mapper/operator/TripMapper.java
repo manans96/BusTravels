@@ -12,7 +12,16 @@ public class TripMapper {
 	
 	public static Trip toTrip(TripEntity trip) {
 		
-		return new Trip()
+		Trip tripMap = new Trip();
+		
+		if(trip.getBooking() != null) {
+			tripMap.setBooking(BookingMapper.toBooking(trip.getBooking()));
+		}
+		if(trip.getTripDetails() != null) {
+			tripMap.setTripDetails(TripDetailsMapper.toTripDetails(trip.getTripDetails()));
+		}
+		
+		return tripMap
 				.setArriveCode(trip.getArriveStopCode())
 				.setCode(trip.getCode())
 				.setDepartCode(trip.getDepartStopCode())
@@ -22,8 +31,6 @@ public class TripMapper {
 				.setJourneyTime(trip.getJourneyTime())
 				.setLastUpdate(trip.getLastUpdate())
 				.setVisible(trip.isVisible())
-				.setBooking(BookingMapper.toBooking(trip.getBooking()))
-				.setTripDetails(TripDetailsMapper.toTripDetails(trip.getTripDetails()))
 				.setBusOperator(BusOperatorMapper.toBusOperator(trip.getOperator()));
 		
 	}
@@ -36,6 +43,37 @@ public class TripMapper {
 		}
 		return trips;
 		
+	}
+
+	//Used to prevent error when called from BusOperatorMapper
+	public static List<Trip> toTripFromOperator(List<TripEntity> tripList) {
+		
+		List<Trip> trips = new ArrayList<>();
+		Trip tripMap = new Trip();
+		
+		for(TripEntity trip : tripList) {
+			
+			if(trip.getBooking() != null) {
+				tripMap.setBooking(BookingMapper.toBooking(trip.getBooking()));
+			}
+			if(trip.getTripDetails() != null) {
+				tripMap.setTripDetails(TripDetailsMapper.toTripDetails(trip.getTripDetails()));
+			}
+			
+			tripMap
+			.setArriveCode(trip.getArriveStopCode())
+			.setCode(trip.getCode())
+			.setDepartCode(trip.getDepartStopCode())
+			.setHaltStop1(trip.getHaltStop1())
+			.setHaltStop2(trip.getHaltStop2())
+			.setHaltTime(trip.getHaltTime())
+			.setJourneyTime(trip.getJourneyTime())
+			.setLastUpdate(trip.getLastUpdate())
+			.setVisible(trip.isVisible());
+			
+			trips.add(tripMap);
+		}
+		return trips;
 	}
 
 }

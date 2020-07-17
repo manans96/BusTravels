@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.manan.busservice.dto.mapper.operator.TripMapper;
 import com.manan.busservice.dto.model.operator.BusOperator;
@@ -20,6 +21,7 @@ import com.manan.busservice.utility.DateUtils;
  * @author Manan Sanghvi
  *
  */
+@Component
 public class TripServiceImpl implements TripService {
 
 	private BusOperatorRepository busOperatorRepository;

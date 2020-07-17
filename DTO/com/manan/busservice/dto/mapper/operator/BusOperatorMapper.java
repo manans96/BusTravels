@@ -17,7 +17,7 @@ public class BusOperatorMapper {
 			operator.setBus(BusMapper.toBusFromOperator(busOperator.getBus()));
 		}
 		if(busOperator.getTrip() != null) {
-			operator.setTrip(TripMapper.toTrip(busOperator.getTrip()));
+			operator.setTrip(TripMapper.toTripFromOperator(busOperator.getTrip()));
 		}
 		
 		return operator

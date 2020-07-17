@@ -1,7 +1,5 @@
 package com.manan.busservice.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,10 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.manan.busservice.dto.model.operator.Bus;
 import com.manan.busservice.dto.model.operator.BusOperator;
+import com.manan.busservice.dto.model.operator.Trip;
 import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.dto.model.user.UserAuth;
 import com.manan.busservice.service.operator.BusOperatorService;
 import com.manan.busservice.service.operator.BusService;
+import com.manan.busservice.service.operator.TripService;
 import com.manan.busservice.service.user.UserService;
 import com.manan.busservice.utility.DateUtils;
 
@@ -25,12 +25,14 @@ public class TestController {
 	UserService userService;
 	BusOperatorService busOperatorService;
 	BusService busService;
+	TripService tripService;
 	
 	@Autowired
-	public TestController(UserService userService, BusOperatorService busOperatorService, BusService busService) {
+	public TestController(UserService userService, BusOperatorService busOperatorService, BusService busService, TripService tripService) {
 		this.userService = userService;
 		this.busOperatorService = busOperatorService;
 		this.busService = busService;
+		this.tripService = tripService;
 	}
 	
 	@PostMapping("/add")
@@ -55,11 +57,11 @@ public class TestController {
 	}
 	
 	@GetMapping("/get")
-	public @ResponseBody List<Bus> getUser() {
+	public @ResponseBody BusOperator getUser() {
 
 //		return userService.findUser("test96");
-//		return busOperatorService.viewBusOperator("AAC123");
-		return busService.viewAllBusByOperator(new BusOperator().setOperatorCode("AAC123"));
+		return busOperatorService.viewBusOperator("AAC123");
+//		return busService.viewAllBusByOperator(new BusOperator().setOperatorCode("AAC123"));
 	}
 	
 	@PostMapping("/addoperator")
@@ -92,6 +94,24 @@ public class TestController {
 				.setOperator(busOperator);
 		
 		busService.addBus(bus);
+		
+	}
+	
+	@PostMapping("/addtrip")
+	public void newTrip() {
+		
+		BusOperator busOperator = busOperatorService.viewBusOperator("AAC123");
+		
+		Trip trip = new Trip()
+				.setCode("TRIP1")
+				.setArriveCode("PUN")
+				.setDepartCode("MUM")
+				.setBusOperator(busOperator)
+				.setHaltStop1("LON")
+				.setHaltTime(15)
+				.setJourneyTime(120);
+		
+		tripService.addTrip(trip);
 		
 	}
 

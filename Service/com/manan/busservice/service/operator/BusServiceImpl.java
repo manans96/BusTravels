@@ -27,9 +27,6 @@ public class BusServiceImpl implements BusService {
 	private BusOperatorRepository busOperatorRepository;
 	private BusRepository busRepository;
 	
-	/**
-	 * 
-	 */
 	@Autowired
 	public BusServiceImpl(BusOperatorRepository busOperatorRepository, BusRepository busRepository) {
 		this.busOperatorRepository = busOperatorRepository;
