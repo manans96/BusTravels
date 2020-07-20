@@ -6,7 +6,6 @@ package com.manan.busservice.service.operations;
 import java.util.List;
 
 import com.manan.busservice.dto.model.operations.Booking;
-import com.manan.busservice.dto.model.operator.Trip;
 import com.manan.busservice.dto.model.user.User;
 
 /**
@@ -15,7 +14,7 @@ import com.manan.busservice.dto.model.user.User;
  */
 public interface BookingService {
 	
-	Booking newBooking(Trip trip, Booking booking, User user);
+	Booking newBooking(Booking booking);
 	
 	Booking editBooking(Booking booking);
 	

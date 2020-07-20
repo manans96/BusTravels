@@ -15,12 +15,13 @@ public class BookingMapper {
 		
 		return new Booking()
 				.setDepartureTime(booking.getDepartureTime())
+				.setBookingCode(booking.getBookingCode())
 				.setLastUpdate(booking.getLastUpdate())
 				.setTotalCost(booking.getTotalCost())
 				.setCancelled(booking.isCancelled())
 				.setPassenger(UserMapper.toUser(booking.getPassenger()))
-				.setBus(BusMapper.toBus(booking.getBus()))
-				.setTripCode(TripMapper.toTrip(booking.getTripCode()));
+				.setBus(BusMapper.toBusFromBooking(booking.getBus()))
+				.setTripCode(TripMapper.toTripFromBooking(booking.getTripCode()));
 		
 	}
 	

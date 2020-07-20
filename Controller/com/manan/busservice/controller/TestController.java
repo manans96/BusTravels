@@ -1,5 +1,7 @@
 package com.manan.busservice.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,12 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.manan.busservice.dto.model.operations.Booking;
 import com.manan.busservice.dto.model.operations.Stop;
 import com.manan.busservice.dto.model.operator.Bus;
 import com.manan.busservice.dto.model.operator.BusOperator;
 import com.manan.busservice.dto.model.operator.Trip;
 import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.dto.model.user.UserAuth;
+import com.manan.busservice.service.operations.BookingService;
 import com.manan.busservice.service.operations.StopService;
 import com.manan.busservice.service.operator.BusOperatorService;
 import com.manan.busservice.service.operator.BusService;
@@ -29,14 +33,21 @@ public class TestController {
 	BusService busService;
 	TripService tripService;
 	StopService stopService;
+	BookingService bookingService;
 	
 	@Autowired
-	public TestController(UserService userService, BusOperatorService busOperatorService, BusService busService, TripService tripService, StopService stopService) {
+	public TestController(UserService userService,
+			BusOperatorService busOperatorService,
+			BusService busService,
+			TripService tripService,
+			StopService stopService,
+			BookingService bookingService) {
 		this.userService = userService;
 		this.busOperatorService = busOperatorService;
 		this.busService = busService;
 		this.tripService = tripService;
 		this.stopService = stopService;
+		this.bookingService = bookingService;
 	}
 	
 	@PostMapping("/add")
@@ -129,6 +140,26 @@ public class TestController {
 		
 		stopService.addStop(stop);
 		return stopService.findStop(stop);
+	}
+	
+	@PostMapping("/addbooking")
+	public @ResponseBody Booking newBooking() {
+		
+		Booking booking = new Booking()
+				.setBus(new Bus().setBusCode("JAS123"))
+				.setBookingCode("BOOK789")
+				.setPassenger(new User().setUserName("test96"))
+				.setTripCode(new Trip().setCode("TRIP1"))
+				.setTotalCost(40000)
+				.setDepartureTime(new Date(1596110500000L));
+		
+		return bookingService.newBooking(booking);
+	}
+	
+	@GetMapping("/getbooking")
+	public @ResponseBody Booking getBooking() {
+		
+		return bookingService.viewBooking(new Booking().setBookingCode("BOOK123"));
 	}
 
 }

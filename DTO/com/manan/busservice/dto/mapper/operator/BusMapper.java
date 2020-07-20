@@ -69,4 +69,33 @@ public class BusMapper {
 		return buses;
 	}
 
+	//Used to prevent error when called from BookingMapper
+	public static Bus toBusFromBooking(BusEntity bus) {
+		
+		Bus busMap = new Bus();
+		
+		return busMap
+				.setBusCode(bus.getBusCode())
+				.setBusModel(bus.getBusModel())
+				.setHaltCost(bus.getHaltCost())
+				.setLastUpdate(bus.getLastUpdate())
+				.setAvailable(bus.isAvailable())
+				.setCapacity(bus.getCapacity())
+				.setRunCost(bus.getRunCost());
+	}
+	
+	//Used to prevent error when called from TripDetailsMapper
+	public static Bus toBusFromTripDetails(BusEntity bus) {
+		
+		Bus busMap = new Bus();
+		
+		return busMap
+				.setBusCode(bus.getBusCode())
+				.setBusModel(bus.getBusModel())
+				.setHaltCost(bus.getHaltCost())
+				.setLastUpdate(bus.getLastUpdate())
+				.setAvailable(bus.isAvailable())
+				.setCapacity(bus.getCapacity())
+				.setRunCost(bus.getRunCost());
+	}
 }

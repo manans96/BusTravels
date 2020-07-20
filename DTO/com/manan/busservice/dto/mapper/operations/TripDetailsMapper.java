@@ -17,7 +17,7 @@ public class TripDetailsMapper {
 				.setCost(tripDetails.getCost())
 				.setDepartureTime(tripDetails.getDepartureTime())
 				.setLastUpdate(tripDetails.getLastUpdate())
-				.setBus(BusMapper.toBus(tripDetails.getBus()))
+				.setBus(BusMapper.toBusFromTripDetails(tripDetails.getBus()))
 				.setTripCode(TripMapper.toTrip(tripDetails.getTripCode()))
 				.setActive(tripDetails.isActive());
 		

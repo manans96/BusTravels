@@ -46,6 +46,9 @@ public class BookingEntity {
 
 	@Column(nullable = false)
 	private int totalCost;
+
+	@Column(nullable = false)
+	private String bookingCode;
 	
 	@Column(nullable = false)
 	private boolean isCancelled;
