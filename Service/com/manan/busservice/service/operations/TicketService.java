@@ -15,13 +15,15 @@ import com.manan.busservice.dto.model.user.User;
  */
 public interface TicketService {
 	
-	Ticket newTicket(TripDetails tripDetails, Ticket ticket, User user);
+	Ticket newTicket(Ticket ticket);
 	
 	Ticket cancelTicket(Ticket ticket);
 	
 	Ticket viewTicket(Ticket ticket);
 	
 	List<Ticket> viewAllTicketByUser(User user);
+	
+	List<Ticket> viewAllTicketByTripDetails(TripDetails tripDetails);
 	
 	List<Ticket> viewAllTickets();
 

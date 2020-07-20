@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.manan.busservice.dto.model.operations.Booking;
 import com.manan.busservice.dto.model.operations.Stop;
+import com.manan.busservice.dto.model.operations.Ticket;
 import com.manan.busservice.dto.model.operations.TripDetails;
 import com.manan.busservice.dto.model.operator.Bus;
 import com.manan.busservice.dto.model.operator.BusOperator;
@@ -19,6 +20,7 @@ import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.dto.model.user.UserAuth;
 import com.manan.busservice.service.operations.BookingService;
 import com.manan.busservice.service.operations.StopService;
+import com.manan.busservice.service.operations.TicketService;
 import com.manan.busservice.service.operations.TripDetailService;
 import com.manan.busservice.service.operator.BusOperatorService;
 import com.manan.busservice.service.operator.BusService;
@@ -37,6 +39,7 @@ public class TestController {
 	StopService stopService;
 	BookingService bookingService;
 	TripDetailService tripDetailService;
+	TicketService ticketService;
 	
 	@Autowired
 	public TestController(UserService userService,
@@ -45,7 +48,8 @@ public class TestController {
 			TripService tripService,
 			StopService stopService,
 			BookingService bookingService,
-			TripDetailService tripDetailService) {
+			TripDetailService tripDetailService,
+			TicketService ticketService) {
 		this.userService = userService;
 		this.busOperatorService = busOperatorService;
 		this.busService = busService;
@@ -53,6 +57,7 @@ public class TestController {
 		this.stopService = stopService;
 		this.bookingService = bookingService;
 		this.tripDetailService = tripDetailService;
+		this.ticketService = ticketService;
 	}
 	
 	@PostMapping("/add")
@@ -185,6 +190,26 @@ public class TestController {
 	public @ResponseBody TripDetails getTripDetails() {
 		
 		return tripDetailService.viewTrip(new TripDetails().setTripDetailCode("TRIPDET123"));
+	}
+	
+	@PostMapping("/addticket")
+	public @ResponseBody Ticket addTicket() {
+		
+		Ticket ticket = new Ticket()
+				.setAmountPaid(500)
+				.setCancellable(true)
+				.setTicketNumber("TICKET123")
+				.setTotalTicket(2)
+				.setPassenger(userService.findUser("test96"))
+				.setTripDetails(tripDetailService.viewTrip(new TripDetails().setTripDetailCode("TRIPDET123")));
+		
+		return ticketService.newTicket(ticket);
+	}
+	
+	@GetMapping("/getticket")
+	public @ResponseBody Ticket getTicket() {
+		
+		return ticketService.viewTicket(new Ticket().setTicketNumber("TICKET123"));
 	}
 
 }
