@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.manan.busservice.dto.mapper.operations.BookingMapper;
 import com.manan.busservice.dto.model.operations.Booking;
+import com.manan.busservice.dto.model.operator.Trip;
 import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.jpa.repository.BookingRepository;
 import com.manan.busservice.jpa.repository.BusRepository;
@@ -119,6 +120,13 @@ public class BookingServiceImpl implements BookingService {
 	public List<Booking> viewAllBookings() {
 
 		return BookingMapper.toBooking(bookingRepository.findAll());
+	}
+
+	@Override
+	public List<Booking> viewBookingsByTrip(Trip trip) {
+
+		return BookingMapper.toBooking(bookingRepository.findByTripCode(tripRepository.findByCode(trip.getCode())
+				.get()));
 	}
 
 }

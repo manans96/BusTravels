@@ -18,6 +18,7 @@ import lombok.experimental.Accessors;
 public class TripDetails {
 	
 	@NotNull private Trip tripCode;
+	@NotNull private String tripDetailCode;
 	@NotNull private Bus bus;
 	@NotNull private Date departureTime;
 	@NotNull private int cost;

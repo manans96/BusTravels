@@ -30,6 +30,9 @@ public class TripDetailsEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_trip_detail")
 	private int idTripDetails;
+
+	@Column(nullable = false, unique = true)
+	private String tripDetailCode;
 	
 	@ManyToOne
 	@JoinColumn(name = "code")

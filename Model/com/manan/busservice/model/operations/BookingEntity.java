@@ -47,7 +47,7 @@ public class BookingEntity {
 	@Column(nullable = false)
 	private int totalCost;
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String bookingCode;
 	
 	@Column(nullable = false)

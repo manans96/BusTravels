@@ -14,7 +14,7 @@ import com.manan.busservice.dto.model.operator.Trip;
  */
 public interface TripDetailService {
 	
-	TripDetails addNewJourney(Trip trip, TripDetails tripDetails);
+	TripDetails addNewJourney(TripDetails tripDetails);
 	
 	TripDetails editJourney(TripDetails tripDetails);
 	
@@ -23,6 +23,8 @@ public interface TripDetailService {
 	TripDetails enableTrip(TripDetails tripDetails);
 	
 	TripDetails viewTrip(TripDetails tripDetails);
+	
+	List<TripDetails> viewTripDetailsByTrip(Trip trip);
 	
 	List<TripDetails> viewAllTrips();
 

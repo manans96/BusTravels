@@ -78,13 +78,22 @@ public class TripMapper {
 
 	public static Trip toTripFromBooking(TripEntity trip) {
 		
-		Trip tripMap = new Trip();
+		return new Trip()
+				.setArriveCode(trip.getArriveStopCode())
+				.setCode(trip.getCode())
+				.setDepartCode(trip.getDepartStopCode())
+				.setHaltStop1(trip.getHaltStop1())
+				.setHaltStop2(trip.getHaltStop2())
+				.setHaltTime(trip.getHaltTime())
+				.setJourneyTime(trip.getJourneyTime())
+				.setLastUpdate(trip.getLastUpdate())
+				.setVisible(trip.isVisible());
 		
-		if(trip.getTripDetails() != null) {
-			tripMap.setTripDetails(TripDetailsMapper.toTripDetails(trip.getTripDetails()));
-		}
+	}
+	
+	public static Trip toTripFromTripDetails(TripEntity trip) {
 		
-		return tripMap
+		return new Trip()
 				.setArriveCode(trip.getArriveStopCode())
 				.setCode(trip.getCode())
 				.setDepartCode(trip.getDepartStopCode())

@@ -13,12 +13,13 @@ public class TripDetailsMapper {
 	public static TripDetails toTripDetails(TripDetailsEntity tripDetails) {
 		
 		return new TripDetails()
+				.setTripDetailCode(tripDetails.getTripDetailCode())
 				.setAvailableSeats(tripDetails.getAvailableSeats())
 				.setCost(tripDetails.getCost())
 				.setDepartureTime(tripDetails.getDepartureTime())
 				.setLastUpdate(tripDetails.getLastUpdate())
 				.setBus(BusMapper.toBusFromTripDetails(tripDetails.getBus()))
-				.setTripCode(TripMapper.toTrip(tripDetails.getTripCode()))
+				.setTripCode(TripMapper.toTripFromTripDetails(tripDetails.getTripCode()))
 				.setActive(tripDetails.isActive());
 		
 	}

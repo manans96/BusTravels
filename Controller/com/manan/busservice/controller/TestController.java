@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.manan.busservice.dto.model.operations.Booking;
 import com.manan.busservice.dto.model.operations.Stop;
+import com.manan.busservice.dto.model.operations.TripDetails;
 import com.manan.busservice.dto.model.operator.Bus;
 import com.manan.busservice.dto.model.operator.BusOperator;
 import com.manan.busservice.dto.model.operator.Trip;
@@ -18,6 +19,7 @@ import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.dto.model.user.UserAuth;
 import com.manan.busservice.service.operations.BookingService;
 import com.manan.busservice.service.operations.StopService;
+import com.manan.busservice.service.operations.TripDetailService;
 import com.manan.busservice.service.operator.BusOperatorService;
 import com.manan.busservice.service.operator.BusService;
 import com.manan.busservice.service.operator.TripService;
@@ -34,6 +36,7 @@ public class TestController {
 	TripService tripService;
 	StopService stopService;
 	BookingService bookingService;
+	TripDetailService tripDetailService;
 	
 	@Autowired
 	public TestController(UserService userService,
@@ -41,13 +44,15 @@ public class TestController {
 			BusService busService,
 			TripService tripService,
 			StopService stopService,
-			BookingService bookingService) {
+			BookingService bookingService,
+			TripDetailService tripDetailService) {
 		this.userService = userService;
 		this.busOperatorService = busOperatorService;
 		this.busService = busService;
 		this.tripService = tripService;
 		this.stopService = stopService;
 		this.bookingService = bookingService;
+		this.tripDetailService = tripDetailService;
 	}
 	
 	@PostMapping("/add")
@@ -160,6 +165,26 @@ public class TestController {
 	public @ResponseBody Booking getBooking() {
 		
 		return bookingService.viewBooking(new Booking().setBookingCode("BOOK123"));
+	}
+	
+	@PostMapping("/addtripdetail")
+	public @ResponseBody TripDetails addTripDetails() {
+		
+		TripDetails tripDetails = new TripDetails()
+				.setAvailableSeats(40)
+				.setCost(500)
+				.setDepartureTime(new Date(1596110500000L))
+				.setTripDetailCode("TRIPDET123")
+				.setTripCode(tripService.viewTrip(new Trip().setCode("TRIP1")))
+				.setBus(busService.viewBus(new Bus().setBusCode("JAS123")));
+		
+		return tripDetailService.addNewJourney(tripDetails);
+	}
+	
+	@GetMapping("/gettripdetail")
+	public @ResponseBody TripDetails getTripDetails() {
+		
+		return tripDetailService.viewTrip(new TripDetails().setTripDetailCode("TRIPDET123"));
 	}
 
 }
