@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.manan.busservice.dto.model.operations.Stop;
 import com.manan.busservice.dto.model.operator.Bus;
 import com.manan.busservice.dto.model.operator.BusOperator;
 import com.manan.busservice.dto.model.operator.Trip;
 import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.dto.model.user.UserAuth;
+import com.manan.busservice.service.operations.StopService;
 import com.manan.busservice.service.operator.BusOperatorService;
 import com.manan.busservice.service.operator.BusService;
 import com.manan.busservice.service.operator.TripService;
@@ -26,13 +28,15 @@ public class TestController {
 	BusOperatorService busOperatorService;
 	BusService busService;
 	TripService tripService;
+	StopService stopService;
 	
 	@Autowired
-	public TestController(UserService userService, BusOperatorService busOperatorService, BusService busService, TripService tripService) {
+	public TestController(UserService userService, BusOperatorService busOperatorService, BusService busService, TripService tripService, StopService stopService) {
 		this.userService = userService;
 		this.busOperatorService = busOperatorService;
 		this.busService = busService;
 		this.tripService = tripService;
+		this.stopService = stopService;
 	}
 	
 	@PostMapping("/add")
@@ -113,6 +117,18 @@ public class TestController {
 		
 		tripService.addTrip(trip);
 		
+	}
+	
+	@PostMapping("/addstop")
+	public @ResponseBody Stop newStop() {
+		
+		Stop stop = new Stop()
+				.setStopCode("LON")
+				.setStopName("Lonavla")
+				.setStopType("minor");
+		
+		stopService.addStop(stop);
+		return stopService.findStop(stop);
 	}
 
 }
