@@ -91,5 +91,44 @@ public class BusAppException {
 		}
 	}
 
+	public static class ValidationException extends RuntimeException {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2064428674233075906L;
+		
+		private ResponseEntity entity;
+
+		public ValidationException(ResponseEntity entity) {
+			super();
+			this.entity = entity;
+		}
+
+		public ValidationException(ResponseEntity entity, String message, Throwable cause, boolean enableSuppression,
+				boolean writableStackTrace) {
+			super(message, cause, enableSuppression, writableStackTrace);
+			this.entity = entity;
+		}
+
+		public ValidationException(ResponseEntity entity, String message, Throwable cause) {
+			super(message, cause);
+			this.entity = entity;
+		}
+
+		public ValidationException(ResponseEntity entity, String message) {
+			super(message);
+			this.entity = entity;
+		}
+
+		public ValidationException(ResponseEntity entity, Throwable cause) {
+			super(cause);
+			this.entity = entity;
+		}
+
+		public ResponseEntity getEntity() {
+			return entity;
+		}
+	}
 	
 }

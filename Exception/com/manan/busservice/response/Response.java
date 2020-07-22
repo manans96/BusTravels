@@ -12,7 +12,6 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Response {
@@ -20,17 +19,26 @@ public class Response {
 	private ResponseError responseError;
 	private ResponseStatus status;
 	
+	private Response() {}
+	
 	public static Response notFound() {
 		
-		Response response = new Response();
-		response.setStatus(ResponseStatus.NOT_FOUND);
+		Response response = new Response()
+				.setStatus(ResponseStatus.NOT_FOUND);
 		return response;
 	}
 	
 	public static Response duplicate() {
 		
-		Response response = new Response();
-		response.setStatus(ResponseStatus.DUPLICATE_ENTITY);
+		Response response = new Response()
+				.setStatus(ResponseStatus.DUPLICATE_ENTITY);
+		return response;
+	}
+	
+	public static Response validationError() {
+		
+		Response response = new Response()
+				.setStatus(ResponseStatus.VALIDATION_EXCEPTION);
 		return response;
 	}
 	

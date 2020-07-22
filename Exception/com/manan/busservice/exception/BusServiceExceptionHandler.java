@@ -31,10 +31,20 @@ public class BusServiceExceptionHandler {
 	@ExceptionHandler(BusAppException.DuplicateEntityException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CONFLICT)
-	public Response handleDuplicateException(BusAppException.EntityNotFoundException enfe) {
+	public Response handleDuplicateException(BusAppException.DuplicateEntityException dee) {
 		
 		Response response = Response.notFound();
-		response.addErrorMsgToResponse(enfe, enfe.getEntity(), "");
+		response.addErrorMsgToResponse(dee, dee.getEntity(), "");
+		return response;
+	}
+	
+	@ExceptionHandler(BusAppException.ValidationException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	public Response handleValidationException(BusAppException.ValidationException ve) {
+		
+		Response response = Response.validationError();
+		response.addErrorMsgToResponse(ve, ve.getEntity(), "");
 		return response;
 	}
 }

@@ -9,9 +9,11 @@ import org.springframework.stereotype.Component;
 import com.manan.busservice.dto.mapper.user.UserMapper;
 import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.dto.model.user.UserAuth;
+import com.manan.busservice.exception.BusAppException;
 import com.manan.busservice.jpa.repository.UserRepository;
 import com.manan.busservice.model.user.UserAuthEntity;
 import com.manan.busservice.model.user.UserEntity;
+import com.manan.busservice.response.ResponseEntity;
 import com.manan.busservice.utility.DateUtils;
 
 /**
@@ -44,7 +46,7 @@ public class UserServiceImpl implements UserService {
 	public User signup(User user, UserAuth userAuth) {
 
 		findByUserName(user.getUserName());
-		if(!optional.isEmpty()) {
+		if(optional.isPresent()) {
 			return login(user, userAuth);
 		} else {
 			return UserMapper.toUser(userRepository.save(new UserEntity()
@@ -64,11 +66,12 @@ public class UserServiceImpl implements UserService {
 	public User login(User user, UserAuth userAuth) {
 
 		findByUserName(user.getUserName());
-		if(!optional.isEmpty()) {
+		if(optional.isPresent() && optional.get().getUserAuth().getPassword() == userAuth.getPassword()) {
 			return UserMapper.toUser(optional.get());
-		} else {
-			return new User();
-		}
+		} else if(optional.isPresent() && optional.get().getUserAuth().getPassword() != userAuth.getPassword()) {
+			throw new BusAppException.ValidationException(ResponseEntity.USER);
+		}	
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.USER);
 	}
 
 	@Override
@@ -120,7 +123,10 @@ public class UserServiceImpl implements UserService {
 	public User findUser(String userName) {
 
 		findByUserName(userName);
-		return UserMapper.toUser(optional.get());
+		if(optional.isPresent()) {
+			return UserMapper.toUser(optional.get());
+		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.USER);
 	}
 
 	@Override
