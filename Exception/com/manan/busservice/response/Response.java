@@ -36,7 +36,7 @@ public class Response {
 	
 	public void addErrorMsgToResponse(Exception ex, ResponseEntity entity, String details) {
 		ResponseError error = new ResponseError()
-				.setMessage(entity)
+				.setMessage(entity.getResponseEntity())
 				.setDetails(details)
 				.setTimestamp(DateUtils.today());
 		setResponseError(error);
@@ -50,7 +50,7 @@ public class Response {
 	@JsonIgnoreProperties(ignoreUnknown = true)
 	private class ResponseError {
 		
-		private ResponseEntity message;
+		private String message;
 		private String details;
 		private Date timestamp;
 	}
