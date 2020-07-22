@@ -3,6 +3,8 @@ package com.manan.busservice.controller;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,7 +63,7 @@ public class TestController {
 	}
 	
 	@PostMapping("/add")
-	public void register() {
+	public ResponseEntity<User> register() {
 		
 		User user = new User()
 				.setFirstName("Manan")
@@ -75,7 +77,7 @@ public class TestController {
 				.setPassword("neiuewn48fi")
 				.setLastUpdate(DateUtils.today());
 		
-		userService.signup(user, userAuth);
+		return new ResponseEntity<>(userService.signup(user, userAuth), HttpStatus.OK);
 		
 //		userRepository.save(user);
 			
