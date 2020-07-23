@@ -29,22 +29,6 @@ public class BusAppException {
 			super(message);
 			this.entity = entity;
 		}
-
-		public EntityNotFoundException(ResponseEntity entity, String message, Throwable cause, boolean enableSuppression,
-				boolean writableStackTrace) {
-			super(message, cause, enableSuppression, writableStackTrace);
-			this.entity = entity;
-		}
-
-		public EntityNotFoundException(ResponseEntity entity, String message, Throwable cause) {
-			super(message, cause);
-			this.entity = entity;
-		}
-
-		public EntityNotFoundException(ResponseEntity entity, Throwable cause) {
-			super(cause);
-			this.entity = entity;
-		}
 		
 		public ResponseEntity getEntity() {
 			return this.entity;
@@ -65,24 +49,8 @@ public class BusAppException {
 			this.entity = entity;
 		}
 
-		public DuplicateEntityException(ResponseEntity entity, String message, Throwable cause, boolean enableSuppression,
-				boolean writableStackTrace) {
-			super(message, cause, enableSuppression, writableStackTrace);
-			this.entity = entity;
-		}
-
-		public DuplicateEntityException(ResponseEntity entity, String message, Throwable cause) {
-			super(message, cause);
-			this.entity = entity;
-		}
-
 		public DuplicateEntityException(ResponseEntity entity, String message) {
 			super(message);
-			this.entity = entity;
-		}
-
-		public DuplicateEntityException(ResponseEntity entity, Throwable cause) {
-			super(cause);
 			this.entity = entity;
 		}
 		
@@ -105,24 +73,8 @@ public class BusAppException {
 			this.entity = entity;
 		}
 
-		public ValidationException(ResponseEntity entity, String message, Throwable cause, boolean enableSuppression,
-				boolean writableStackTrace) {
-			super(message, cause, enableSuppression, writableStackTrace);
-			this.entity = entity;
-		}
-
-		public ValidationException(ResponseEntity entity, String message, Throwable cause) {
-			super(message, cause);
-			this.entity = entity;
-		}
-
 		public ValidationException(ResponseEntity entity, String message) {
 			super(message);
-			this.entity = entity;
-		}
-
-		public ValidationException(ResponseEntity entity, Throwable cause) {
-			super(cause);
 			this.entity = entity;
 		}
 
@@ -130,5 +82,29 @@ public class BusAppException {
 			return entity;
 		}
 	}
-	
+
+	public static class WrongCredentialsException extends RuntimeException {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -1651100744220140201L;
+
+		private ResponseEntity entity;
+
+		public WrongCredentialsException(ResponseEntity entity) {
+			super();
+			this.entity = entity;
+		}
+
+		public WrongCredentialsException(ResponseEntity entity, String message) {
+			super(message);
+			this.entity = entity;
+		}
+
+		public ResponseEntity getEntity() {
+			return entity;
+		}
+		
+	}
 }

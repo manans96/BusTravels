@@ -40,11 +40,21 @@ public class BusServiceExceptionHandler {
 	
 	@ExceptionHandler(BusAppException.ValidationException.class)
 	@ResponseBody
-	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
 	public Response handleValidationException(BusAppException.ValidationException ve) {
 		
 		Response response = Response.validationError();
 		response.addErrorMsgToResponse(ve, ve.getEntity(), "");
+		return response;
+	}
+	
+	@ExceptionHandler(BusAppException.WrongCredentialsException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	public Response handleWrongCredentialsException(BusAppException.WrongCredentialsException wce) {
+		
+		Response response = Response.credentialsError();
+		response.addErrorMsgToResponse(wce, wce.getEntity(), "");
 		return response;
 	}
 }

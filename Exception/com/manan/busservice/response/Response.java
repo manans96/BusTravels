@@ -42,6 +42,13 @@ public class Response {
 		return response;
 	}
 	
+	public static Response credentialsError() {
+		
+		Response response = new Response()
+				.setStatus(ResponseStatus.WRONG_CREDENTIALS);
+		return response;
+	}
+	
 	public void addErrorMsgToResponse(Exception ex, ResponseEntity entity, String details) {
 		ResponseError error = new ResponseError()
 				.setMessage(entity.getResponseEntity())

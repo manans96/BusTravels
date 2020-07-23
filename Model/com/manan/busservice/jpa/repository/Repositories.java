@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.manan.busservice.model.operations.BookingEntity;
 import com.manan.busservice.model.operations.StopEntity;
@@ -23,36 +24,38 @@ import com.manan.busservice.model.user.UserEntity;
  * @author Manan Sanghvi
  *
  */
+@Component
 public class Repositories {
 	
+	@Repository
 	public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 		
 		Optional<UserEntity> findByUserName(String userName);
-
 	}
-	
+
+	@Repository
 	public interface BusOperatorRepository extends JpaRepository<BusOperatorEntity, Integer> {
 		
 		Optional<BusOperatorEntity> findByOperatorCode(String code);
-
 	}
-	
+
+	@Repository
 	public interface BusRepository extends JpaRepository<BusEntity, Integer> {
 		
 		Optional<BusEntity> findByBusCode(String code);
 		
 		List<BusEntity> findByOperator(BusOperatorEntity busOperatorEntity);
-
 	}
-	
+
+	@Repository
 	public interface TripRepository extends JpaRepository<TripEntity, Integer> {
 		
 		Optional<TripEntity> findByCode(String code);
 		
 		List<TripEntity> findByOperator(BusOperatorEntity busOperatorEntity);
-
 	}
 	
+	@Repository
 	public interface BookingRepository extends JpaRepository<BookingEntity, Integer> {
 		
 		List<BookingEntity> findByPassenger(UserEntity userEntity);
@@ -60,17 +63,17 @@ public class Repositories {
 		Optional<BookingEntity> findByBookingCode(String code);
 
 		List<BookingEntity> findByTripCode(TripEntity tripEntity);
-
 	}
-	
+
+	@Repository
 	public interface TripDetailsRepository extends JpaRepository<TripDetailsEntity, Integer> {
 		
 		Optional<TripDetailsEntity> findByTripDetailCode(String code);
 		
 		List<TripDetailsEntity> findByTripCode(TripEntity tripEntity);
-
 	}
-	
+
+	@Repository
 	public interface TicketRepository extends JpaRepository<TicketEntity, Integer> {
 		
 		Optional<TicketEntity> findByTicketNumber(String ticketNumber);
@@ -78,19 +81,18 @@ public class Repositories {
 		List<TicketEntity> findByPassenger(UserEntity userEntity);
 		
 		List<TicketEntity> findByTripDetails(TripDetailsEntity tripDetailsEntity);
-
 	}
-	
+
+	@Repository
 	public interface StopRepository extends JpaRepository<StopEntity, Integer> {
 		
 		Optional<StopEntity> findByStopCode(String code);
 
 	}
 	
-	
 	@Component
 	public class Container {
-		
+
 		public UserRepository userRepository;
 		public BusOperatorRepository busOperatorRepository;
 		public BusRepository busRepository;
@@ -99,6 +101,7 @@ public class Repositories {
 		public TripDetailsRepository tripDetailsRepository;
 		public TicketRepository ticketRepository;
 		public StopRepository stopRepository;
+		
 		
 		@Autowired
 		public Container(UserRepository userRepository,
@@ -118,6 +121,5 @@ public class Repositories {
 			this.ticketRepository = ticketRepository;
 			this.stopRepository = stopRepository;
 		}
-		
 	}
 }
