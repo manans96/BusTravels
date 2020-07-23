@@ -23,10 +23,6 @@ import com.manan.busservice.utility.DateUtils;
 @Component
 public class BusServiceImpl implements BusService {
 	
-	//deprecated
-//	private BusOperatorRepository busOperatorRepository;
-//	private BusRepository busRepository;
-	
 	private Repositories.Container repos;
 	
 	@Autowired

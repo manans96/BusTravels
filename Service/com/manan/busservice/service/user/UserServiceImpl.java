@@ -25,8 +25,6 @@ import com.manan.busservice.utility.DateUtils;
 public class UserServiceImpl implements UserService {
 
 	//These are the autowired fields autowired by constructor
-	
-//	private UserRepository userRepository;		//it is deprecated
 	private Repositories.Container repos;
 	
 	@Autowired

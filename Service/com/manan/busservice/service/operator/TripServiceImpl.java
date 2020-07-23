@@ -22,10 +22,6 @@ import com.manan.busservice.utility.DateUtils;
  */
 @Component
 public class TripServiceImpl implements TripService {
-
-	//deprecated
-//	private BusOperatorRepository busOperatorRepository;
-//	private TripRepository tripRepository;
 	
 	private Repositories.Container repos;
 	
