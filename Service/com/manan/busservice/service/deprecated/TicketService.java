@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.manan.busservice.service.operations;
+package com.manan.busservice.service.deprecated;
 
 import java.util.List;
 
