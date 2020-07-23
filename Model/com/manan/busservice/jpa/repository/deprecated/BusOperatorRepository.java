@@ -1,4 +1,4 @@
-package com.manan.busservice.jpa.repository;
+package com.manan.busservice.jpa.repository.deprecated;
 
 import java.util.Optional;
 
