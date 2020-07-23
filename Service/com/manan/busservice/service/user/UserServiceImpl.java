@@ -14,6 +14,7 @@ import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.user.UserAuthEntity;
 import com.manan.busservice.model.user.UserEntity;
 import com.manan.busservice.response.ResponseEntity;
+import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
 
 /**
@@ -22,11 +23,11 @@ import com.manan.busservice.utility.DateUtils;
  */
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements Services.UserService {
 
 	//These are the autowired fields autowired by constructor
 	private Repositories.Container repos;
-	
+
 	@Autowired
 	public UserServiceImpl(Repositories.Container repos) {
 		this.repos = repos;

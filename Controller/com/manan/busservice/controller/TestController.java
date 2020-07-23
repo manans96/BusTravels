@@ -20,46 +20,18 @@ import com.manan.busservice.dto.model.operator.BusOperator;
 import com.manan.busservice.dto.model.operator.Trip;
 import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.dto.model.user.UserAuth;
-import com.manan.busservice.service.operations.BookingService;
-import com.manan.busservice.service.operations.StopService;
-import com.manan.busservice.service.operations.TicketService;
-import com.manan.busservice.service.operations.TripDetailService;
-import com.manan.busservice.service.operator.BusOperatorService;
-import com.manan.busservice.service.operator.BusService;
-import com.manan.busservice.service.operator.TripService;
-import com.manan.busservice.service.user.UserService;
+import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
 
 @RestController
 @RequestMapping("/test")
 public class TestController {
-	
-	UserService userService;
-	BusOperatorService busOperatorService;
-	BusService busService;
-	TripService tripService;
-	StopService stopService;
-	BookingService bookingService;
-	TripDetailService tripDetailService;
-	TicketService ticketService;
+
+	private Services.Container services;
 	
 	@Autowired
-	public TestController(UserService userService,
-			BusOperatorService busOperatorService,
-			BusService busService,
-			TripService tripService,
-			StopService stopService,
-			BookingService bookingService,
-			TripDetailService tripDetailService,
-			TicketService ticketService) {
-		this.userService = userService;
-		this.busOperatorService = busOperatorService;
-		this.busService = busService;
-		this.tripService = tripService;
-		this.stopService = stopService;
-		this.bookingService = bookingService;
-		this.tripDetailService = tripDetailService;
-		this.ticketService = ticketService;
+	public TestController(Services.Container services) {
+		this.services = services;
 	}
 	
 	@PostMapping("/add")
@@ -77,7 +49,7 @@ public class TestController {
 				.setPassword("neiuewn48fi")
 				.setLastUpdate(DateUtils.today());
 		
-		return new ResponseEntity<>(userService.signup(user, userAuth), HttpStatus.OK);
+		return new ResponseEntity<>(services.userService.signup(user, userAuth), HttpStatus.OK);
 		
 //		userRepository.save(user);
 			
@@ -86,7 +58,7 @@ public class TestController {
 	@GetMapping("/get")
 	public @ResponseBody User getUser() {
 
-		return userService.login("test96" , "neiuewn48fi ");
+		return services.userService.login("test96" , "neiuewn48fi ");
 //		return busOperatorService.viewBusOperator("AAC123");
 //		return busService.viewAllBusByOperator(new BusOperator().setOperatorCode("AAC123"));
 	}
@@ -94,7 +66,7 @@ public class TestController {
 	@PostMapping("/addoperator")
 	public void newOperator() {
 		
-		User operator = userService.findUser("test96");
+		User operator = services.userService.findUser("test96");
 		
 		BusOperator busOperator = new BusOperator()
 				.setOperator(operator)
@@ -102,14 +74,14 @@ public class TestController {
 				.setOperatorDetails("Best Service!")
 				.setOperatorName("MyOperator");
 		
-		busOperatorService.addNewOperator(busOperator);
+		services.busOperatorService.addNewOperator(busOperator);
 		
 	}
 	
 	@PostMapping("/addbus")
 	public void newBus() {
 		
-		BusOperator busOperator = busOperatorService.viewBusOperator("AAC123");
+		BusOperator busOperator = services.busOperatorService.viewBusOperator("AAC123");
 		
 		Bus bus = new Bus()
 				.setBusCode("JAS123")
@@ -120,14 +92,14 @@ public class TestController {
 				.setAvailable(true)
 				.setOperator(busOperator);
 		
-		busService.addBus(bus);
+		services.busService.addBus(bus);
 		
 	}
 	
 	@PostMapping("/addtrip")
 	public void newTrip() {
 		
-		BusOperator busOperator = busOperatorService.viewBusOperator("AAC123");
+		BusOperator busOperator = services.busOperatorService.viewBusOperator("AAC123");
 		
 		Trip trip = new Trip()
 				.setCode("TRIP1")
@@ -138,7 +110,7 @@ public class TestController {
 				.setHaltTime(15)
 				.setJourneyTime(120);
 		
-		tripService.addTrip(trip);
+		services.tripService.addTrip(trip);
 		
 	}
 	
@@ -150,8 +122,8 @@ public class TestController {
 				.setStopName("Lonavla")
 				.setStopType("minor");
 		
-		stopService.addStop(stop);
-		return stopService.findStop(stop);
+		services.stopService.addStop(stop);
+		return services.stopService.findStop(stop);
 	}
 	
 	@PostMapping("/addbooking")
@@ -165,13 +137,13 @@ public class TestController {
 				.setTotalCost(40000)
 				.setDepartureTime(new Date(1596110500000L));
 		
-		return bookingService.newBooking(booking);
+		return services.bookingService.newBooking(booking);
 	}
 	
 	@GetMapping("/getbooking")
 	public @ResponseBody Booking getBooking() {
 		
-		return bookingService.viewBooking(new Booking().setBookingCode("BOOK123"));
+		return services.bookingService.viewBooking(new Booking().setBookingCode("BOOK123"));
 	}
 	
 	@PostMapping("/addtripdetail")
@@ -182,16 +154,16 @@ public class TestController {
 				.setCost(500)
 				.setDepartureTime(new Date(1596110500000L))
 				.setTripDetailCode("TRIPDET123")
-				.setTripCode(tripService.viewTrip(new Trip().setCode("TRIP1")))
-				.setBus(busService.viewBus(new Bus().setBusCode("JAS123")));
+				.setTripCode(services.tripService.viewTrip(new Trip().setCode("TRIP1")))
+				.setBus(services.busService.viewBus(new Bus().setBusCode("JAS123")));
 		
-		return tripDetailService.addNewJourney(tripDetails);
+		return services.tripDetailService.addNewJourney(tripDetails);
 	}
 	
 	@GetMapping("/gettripdetail")
 	public @ResponseBody TripDetails getTripDetails() {
 		
-		return tripDetailService.viewTrip(new TripDetails().setTripDetailCode("TRIPDET123"));
+		return services.tripDetailService.viewTrip(new TripDetails().setTripDetailCode("TRIPDET123"));
 	}
 	
 	@PostMapping("/addticket")
@@ -202,16 +174,16 @@ public class TestController {
 				.setCancellable(true)
 				.setTicketNumber("TICKET123")
 				.setTotalTicket(2)
-				.setPassenger(userService.findUser("test96"))
-				.setTripDetails(tripDetailService.viewTrip(new TripDetails().setTripDetailCode("TRIPDET123")));
+				.setPassenger(services.userService.findUser("test96"))
+				.setTripDetails(services.tripDetailService.viewTrip(new TripDetails().setTripDetailCode("TRIPDET123")));
 		
-		return ticketService.newTicket(ticket);
+		return services.ticketService.newTicket(ticket);
 	}
 	
 	@GetMapping("/getticket")
 	public @ResponseBody Ticket getTicket() {
 		
-		return ticketService.viewTicket(new Ticket().setTicketNumber("TICKET123"));
+		return services.ticketService.viewTicket(new Ticket().setTicketNumber("TICKET123"));
 	}
 
 }

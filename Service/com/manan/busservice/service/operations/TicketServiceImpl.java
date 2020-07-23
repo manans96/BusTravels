@@ -15,6 +15,7 @@ import com.manan.busservice.dto.model.operations.TripDetails;
 import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operations.TicketEntity;
+import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
 
 /**
@@ -22,7 +23,7 @@ import com.manan.busservice.utility.DateUtils;
  *
  */
 @Component
-public class TicketServiceImpl implements TicketService {
+public class TicketServiceImpl implements Services.TicketService {
 	
 	private Repositories.Container repos;
 	

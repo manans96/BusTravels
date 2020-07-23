@@ -13,13 +13,14 @@ import com.manan.busservice.dto.mapper.operations.StopMapper;
 import com.manan.busservice.dto.model.operations.Stop;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operations.StopEntity;
+import com.manan.busservice.service.Services;
 
 /**
  * @author Manan Sanghvi
  *
  */
 @Component
-public class StopServiceImpl implements StopService {
+public class StopServiceImpl implements Services.StopService {
 	
 	private Repositories.Container repos;
 	

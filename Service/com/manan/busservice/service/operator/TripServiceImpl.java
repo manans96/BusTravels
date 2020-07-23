@@ -14,6 +14,7 @@ import com.manan.busservice.dto.model.operator.BusOperator;
 import com.manan.busservice.dto.model.operator.Trip;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operator.TripEntity;
+import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
 
 /**
@@ -21,7 +22,7 @@ import com.manan.busservice.utility.DateUtils;
  *
  */
 @Component
-public class TripServiceImpl implements TripService {
+public class TripServiceImpl implements Services.TripService {
 	
 	private Repositories.Container repos;
 	
