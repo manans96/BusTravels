@@ -13,10 +13,7 @@ import com.manan.busservice.dto.mapper.operations.BookingMapper;
 import com.manan.busservice.dto.model.operations.Booking;
 import com.manan.busservice.dto.model.operator.Trip;
 import com.manan.busservice.dto.model.user.User;
-import com.manan.busservice.jpa.repository.BookingRepository;
-import com.manan.busservice.jpa.repository.BusRepository;
-import com.manan.busservice.jpa.repository.TripRepository;
-import com.manan.busservice.jpa.repository.UserRepository;
+import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operations.BookingEntity;
 import com.manan.busservice.utility.DateUtils;
 
@@ -27,23 +24,17 @@ import com.manan.busservice.utility.DateUtils;
 @Component
 public class BookingServiceImpl implements BookingService {
 	
-	private BookingRepository bookingRepository;
-	private UserRepository userRepository;
-	private TripRepository tripRepository;
-	private BusRepository busRepository;
+	private Repositories.Container repos;
 	
 	@Autowired
-	public BookingServiceImpl(BookingRepository bookingRepository, UserRepository userRepository, TripRepository tripRepository, BusRepository busRepository) {
-		this.bookingRepository = bookingRepository;
-		this.userRepository = userRepository;
-		this.tripRepository = tripRepository;
-		this.busRepository = busRepository;
+	public BookingServiceImpl(Repositories.Container repos) {
+		this.repos = repos;
 	}
 	
 	private Optional<BookingEntity> optional;
 	
 	private void findByBookingCode(Booking booking) {
-		optional = bookingRepository.findByBookingCode(booking.getBookingCode());
+		optional = repos.bookingRepository.findByBookingCode(booking.getBookingCode());
 	}
 
 	@Override
@@ -51,17 +42,17 @@ public class BookingServiceImpl implements BookingService {
 
 		findByBookingCode(booking);
 		if(optional.isEmpty()) {
-			return BookingMapper.toBooking(bookingRepository.save(new BookingEntity()
+			return BookingMapper.toBooking(repos.bookingRepository.save(new BookingEntity()
 					.setBookingCode(booking.getBookingCode())
 					.setCancelled(false)
 					.setDepartureTime(booking.getDepartureTime())
 					.setLastUpdate(DateUtils.today())
 					.setTotalCost(booking.getTotalCost())
-					.setBus(busRepository.findByBusCode(booking.getBus().getBusCode())
+					.setBus(repos.busRepository.findByBusCode(booking.getBus().getBusCode())
 							.get())
-					.setTripCode(tripRepository.findByCode(booking.getTripCode().getCode())
+					.setTripCode(repos.tripRepository.findByCode(booking.getTripCode().getCode())
 							.get())
-					.setPassenger(userRepository.findByUserName(booking.getPassenger().getUserName())
+					.setPassenger(repos.userRepository.findByUserName(booking.getPassenger().getUserName())
 							.get())));
 		} else {
 			return new Booking();
@@ -74,13 +65,13 @@ public class BookingServiceImpl implements BookingService {
 		findByBookingCode(booking);
 		if(optional.isPresent()) {
 			BookingEntity bookingEntity = optional.get();
-			return BookingMapper.toBooking(bookingRepository.save(bookingEntity
+			return BookingMapper.toBooking(repos.bookingRepository.save(bookingEntity
 					.setDepartureTime(booking.getDepartureTime())
 					.setLastUpdate(DateUtils.today())
 					.setTotalCost(booking.getTotalCost())
-					.setTripCode(tripRepository.findByCode(booking.getTripCode().getCode())
+					.setTripCode(repos.tripRepository.findByCode(booking.getTripCode().getCode())
 							.get())
-					.setBus(busRepository.findByBusCode(booking.getBus().getBusCode())
+					.setBus(repos.busRepository.findByBusCode(booking.getBus().getBusCode())
 							.get())
 					));
 		} else {
@@ -94,7 +85,7 @@ public class BookingServiceImpl implements BookingService {
 		findByBookingCode(booking);
 		if(optional.isPresent()) {
 			BookingEntity bookingEntity = optional.get();
-			BookingMapper.toBooking(bookingRepository.save(bookingEntity
+			BookingMapper.toBooking(repos.bookingRepository.save(bookingEntity
 					.setCancelled(true)));
 		}
 	}
@@ -113,19 +104,19 @@ public class BookingServiceImpl implements BookingService {
 	@Override
 	public List<Booking> viewAllBookingByUser(User user) {
 
-		return BookingMapper.toBooking(bookingRepository.findByPassenger(userRepository.findByUserName(user.getUserName()).get()));
+		return BookingMapper.toBooking(repos.bookingRepository.findByPassenger(repos.userRepository.findByUserName(user.getUserName()).get()));
 	}
 
 	@Override
 	public List<Booking> viewAllBookings() {
 
-		return BookingMapper.toBooking(bookingRepository.findAll());
+		return BookingMapper.toBooking(repos.bookingRepository.findAll());
 	}
 
 	@Override
 	public List<Booking> viewBookingsByTrip(Trip trip) {
 
-		return BookingMapper.toBooking(bookingRepository.findByTripCode(tripRepository.findByCode(trip.getCode())
+		return BookingMapper.toBooking(repos.bookingRepository.findByTripCode(repos.tripRepository.findByCode(trip.getCode())
 				.get()));
 	}
 

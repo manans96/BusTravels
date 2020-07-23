@@ -107,4 +107,28 @@ public class BusAppException {
 		}
 		
 	}
+
+	public static class InternalServerException extends RuntimeException {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1578854205725465642L;
+
+		private ResponseEntity entity;
+
+		public InternalServerException(ResponseEntity entity) {
+			super();
+			this.entity = entity;
+		}
+
+		public InternalServerException(ResponseEntity entity, String message) {
+			super(message);
+			this.entity = entity;
+		}
+
+		public ResponseEntity getEntity() {
+			return entity;
+		}
+	}
 }

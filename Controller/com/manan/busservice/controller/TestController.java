@@ -84,10 +84,10 @@ public class TestController {
 	}
 	
 	@GetMapping("/get")
-	public @ResponseBody BusOperator getUser() {
+	public @ResponseBody User getUser() {
 
-//		return userService.findUser("test96");
-		return busOperatorService.viewBusOperator("AAC123");
+		return userService.login("test96" , "neiuewn48fi ");
+//		return busOperatorService.viewBusOperator("AAC123");
 //		return busService.viewAllBusByOperator(new BusOperator().setOperatorCode("AAC123"));
 	}
 	

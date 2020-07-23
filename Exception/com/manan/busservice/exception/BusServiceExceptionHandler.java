@@ -57,4 +57,14 @@ public class BusServiceExceptionHandler {
 		response.addErrorMsgToResponse(wce, wce.getEntity(), "");
 		return response;
 	}
+	
+	@ExceptionHandler(BusAppException.InternalServerException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public Response handleInternalServerException(BusAppException.InternalServerException ise) {
+		
+		Response response = Response.credentialsError();
+		response.addErrorMsgToResponse(ise, ise.getEntity(), "");
+		return response;
+	}
 }

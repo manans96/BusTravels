@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.manan.busservice.dto.mapper.operator.BusOperatorMapper;
 import com.manan.busservice.dto.model.operator.BusOperator;
-import com.manan.busservice.jpa.repository.BusOperatorRepository;
-import com.manan.busservice.jpa.repository.UserRepository;
+import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operator.BusOperatorEntity;
 import com.manan.busservice.utility.DateUtils;
 
@@ -23,22 +22,24 @@ import com.manan.busservice.utility.DateUtils;
 @Component
 public class BusOperatorServiceImpl implements BusOperatorService {
 	
-	private BusOperatorRepository busOperatorRepository;
-	private UserRepository userRepository;
+	//deprecated
+//	private BusOperatorRepository busOperatorRepository;
+//	private UserRepository userRepository;
+	
+	private Repositories.Container repos;
 	
 	/**
 	 * 
 	 */
 	@Autowired
-	public BusOperatorServiceImpl(BusOperatorRepository busOperatorRepository, UserRepository userRepository) {
-		this.busOperatorRepository = busOperatorRepository;
-		this.userRepository = userRepository;
+	public BusOperatorServiceImpl(Repositories.Container repos) {
+		this.repos = repos;
 	}
 	
 	private Optional<BusOperatorEntity> optional;
 	
 	private void findByOperatorCode(String code) {
-		optional = busOperatorRepository.findByOperatorCode(code);
+		optional = repos.busOperatorRepository.findByOperatorCode(code);
 	}
 
 	@Override
@@ -46,12 +47,12 @@ public class BusOperatorServiceImpl implements BusOperatorService {
 
 		findByOperatorCode(busOperator.getOperatorCode());
 		if(optional.isEmpty()) {
-			return BusOperatorMapper.toBusOperator(busOperatorRepository.save(new BusOperatorEntity()
+			return BusOperatorMapper.toBusOperator(repos.busOperatorRepository.save(new BusOperatorEntity()
 					.setOperatorName(busOperator.getOperatorName())
 					.setLastUpdate(DateUtils.today())
 					.setOperatorCode(busOperator.getOperatorCode())
 					.setOperatorDetails(busOperator.getOperatorDetails())
-					.setOperator(userRepository.findByUserName(busOperator.getOperator().getUserName()).get().setRole("operator"))));
+					.setOperator(repos.userRepository.findByUserName(busOperator.getOperator().getUserName()).get().setRole("operator"))));
 		} else {
 			return new BusOperator();
 		}
@@ -63,7 +64,7 @@ public class BusOperatorServiceImpl implements BusOperatorService {
 		findByOperatorCode(busOperator.getOperatorCode());
 		if(!optional.isEmpty()) {
 			BusOperatorEntity busOperatorEntity = optional.get();
-			return BusOperatorMapper.toBusOperator(busOperatorRepository.save(busOperatorEntity)
+			return BusOperatorMapper.toBusOperator(repos.busOperatorRepository.save(busOperatorEntity)
 					.setOperatorDetails(busOperator.getOperatorDetails()));
 		} else {
 			return new BusOperator();
@@ -75,7 +76,7 @@ public class BusOperatorServiceImpl implements BusOperatorService {
 
 		findByOperatorCode(busOperator.getOperatorCode());
 		if(!optional.isEmpty()) {
-			busOperatorRepository.delete(optional.get());
+			repos.busOperatorRepository.delete(optional.get());
 		}
 
 	}
@@ -94,7 +95,7 @@ public class BusOperatorServiceImpl implements BusOperatorService {
 	@Override
 	public List<BusOperator> viewAllBusOperators() {
 
-		return BusOperatorMapper.toBusOperator(busOperatorRepository.findAll());
+		return BusOperatorMapper.toBusOperator(repos.busOperatorRepository.findAll());
 	}
 
 }

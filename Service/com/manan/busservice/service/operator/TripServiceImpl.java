@@ -12,8 +12,7 @@ import org.springframework.stereotype.Component;
 import com.manan.busservice.dto.mapper.operator.TripMapper;
 import com.manan.busservice.dto.model.operator.BusOperator;
 import com.manan.busservice.dto.model.operator.Trip;
-import com.manan.busservice.jpa.repository.BusOperatorRepository;
-import com.manan.busservice.jpa.repository.TripRepository;
+import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operator.TripEntity;
 import com.manan.busservice.utility.DateUtils;
 
@@ -24,19 +23,21 @@ import com.manan.busservice.utility.DateUtils;
 @Component
 public class TripServiceImpl implements TripService {
 
-	private BusOperatorRepository busOperatorRepository;
-	private TripRepository tripRepository;
+	//deprecated
+//	private BusOperatorRepository busOperatorRepository;
+//	private TripRepository tripRepository;
+	
+	private Repositories.Container repos;
 	
 	@Autowired
-	public TripServiceImpl(BusOperatorRepository busOperatorRepository, TripRepository tripRepository) {
-		this.busOperatorRepository = busOperatorRepository;
-		this.tripRepository = tripRepository;
+	public TripServiceImpl(Repositories.Container repos) {
+		this.repos = repos;
 	}
 	
 	Optional<TripEntity> optional;
 	
 	private void findByCode(Trip trip) {
-		optional = tripRepository.findByCode(trip.getCode());
+		optional = repos.tripRepository.findByCode(trip.getCode());
 	}
 
 	@Override
@@ -44,7 +45,7 @@ public class TripServiceImpl implements TripService {
 
 		findByCode(trip);
 		if(optional.isEmpty()) {
-			return TripMapper.toTrip(tripRepository.save(new TripEntity()
+			return TripMapper.toTrip(repos.tripRepository.save(new TripEntity()
 					.setCode(trip.getCode())
 					.setArriveStopCode(trip.getArriveCode())
 					.setDepartStopCode(trip.getDepartCode())
@@ -53,7 +54,7 @@ public class TripServiceImpl implements TripService {
 					.setHaltTime(trip.getHaltTime())
 					.setJourneyTime(trip.getJourneyTime())
 					.setLastUpdate(DateUtils.today())
-					.setOperator(busOperatorRepository.findByOperatorCode(trip.getBusOperator().getOperatorCode())
+					.setOperator(repos.busOperatorRepository.findByOperatorCode(trip.getBusOperator().getOperatorCode())
 							.get())
 					.setVisible(true)));
 		} else {
@@ -67,7 +68,7 @@ public class TripServiceImpl implements TripService {
 		findByCode(trip);
 		if(optional.isPresent()) {
 			TripEntity tripEntity = optional.get();
-			return TripMapper.toTrip(tripRepository.save(tripEntity
+			return TripMapper.toTrip(repos.tripRepository.save(tripEntity
 					.setArriveStopCode(trip.getArriveCode())
 					.setDepartStopCode(trip.getDepartCode())
 					.setHaltStop1(trip.getHaltStop1())
@@ -93,14 +94,14 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public List<Trip> viewAllTrips() {
 
-		List<TripEntity> tripList = tripRepository.findAll();
+		List<TripEntity> tripList = repos.tripRepository.findAll();
 		return TripMapper.toTrip(tripList);
 	}
 
 	@Override
 	public List<Trip> viewAllTripsByOperator(BusOperator busOperator) {
 
-		return TripMapper.toTrip(tripRepository.findByOperator(busOperatorRepository
+		return TripMapper.toTrip(repos.tripRepository.findByOperator(repos.busOperatorRepository
 				.findByOperatorCode(busOperator.getOperatorCode())
 				.get()));
 	}
@@ -111,7 +112,7 @@ public class TripServiceImpl implements TripService {
 		findByCode(trip);
 		if(optional.isPresent()) {
 			TripEntity tripEntity = optional.get();
-			return TripMapper.toTrip(tripRepository.save(tripEntity
+			return TripMapper.toTrip(repos.tripRepository.save(tripEntity
 					.setVisible(false)));
 		} else {
 			return new Trip();
@@ -125,7 +126,7 @@ public class TripServiceImpl implements TripService {
 		findByCode(trip);
 		if(optional.isPresent()) {
 			TripEntity tripEntity = optional.get();
-			return TripMapper.toTrip(tripRepository.save(tripEntity
+			return TripMapper.toTrip(repos.tripRepository.save(tripEntity
 					.setVisible(true)));
 		} else {
 			return new Trip();

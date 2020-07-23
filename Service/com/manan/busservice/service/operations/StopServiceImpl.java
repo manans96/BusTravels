@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.manan.busservice.dto.mapper.operations.StopMapper;
 import com.manan.busservice.dto.model.operations.Stop;
-import com.manan.busservice.jpa.repository.StopRepository;
+import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operations.StopEntity;
 
 /**
@@ -21,17 +21,17 @@ import com.manan.busservice.model.operations.StopEntity;
 @Component
 public class StopServiceImpl implements StopService {
 	
-	private StopRepository stopRepository;
+	private Repositories.Container repos;
 	
 	@Autowired
-	public StopServiceImpl(StopRepository stopRepository) {
-		this.stopRepository = stopRepository;
+	public StopServiceImpl(Repositories.Container repos) {
+		this.repos = repos;
 	}
 	
 	private Optional<StopEntity> optional;
 	
 	private void findByStopCode(Stop stop) {
-		optional = stopRepository.findByStopCode(stop.getStopCode());
+		optional = repos.stopRepository.findByStopCode(stop.getStopCode());
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class StopServiceImpl implements StopService {
 
 		findByStopCode(stop);
 		if(optional.isEmpty()) {
-			return StopMapper.toStop(stopRepository.save(new StopEntity()
+			return StopMapper.toStop(repos.stopRepository.save(new StopEntity()
 					.setStopCode(stop.getStopCode())
 					.setStopName(stop.getStopName())
 					.setStopType(stop.getStopType())));
@@ -54,7 +54,7 @@ public class StopServiceImpl implements StopService {
 		findByStopCode(stop);
 		if(optional.isPresent()) {
 			StopEntity stopEntity = optional.get();
-			return StopMapper.toStop(stopRepository.save(stopEntity
+			return StopMapper.toStop(repos.stopRepository.save(stopEntity
 					.setStopName(stop.getStopName())
 					.setStopType(stop.getStopType())));
 		} else {
@@ -72,7 +72,7 @@ public class StopServiceImpl implements StopService {
 	@Override
 	public List<Stop> listAllStops() {
 
-		return StopMapper.toStop(stopRepository.findAll());
+		return StopMapper.toStop(repos.stopRepository.findAll());
 	}
 
 }

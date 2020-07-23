@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.manan.busservice.dto.mapper.user.UserMapper;
 import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.dto.model.user.UserAuth;
 import com.manan.busservice.exception.BusAppException;
-import com.manan.busservice.jpa.repository.UserRepository;
+import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.user.UserAuthEntity;
 import com.manan.busservice.model.user.UserEntity;
 import com.manan.busservice.response.ResponseEntity;
@@ -21,16 +21,17 @@ import com.manan.busservice.utility.DateUtils;
  *
  */
 
-@Component
+@Service
 public class UserServiceImpl implements UserService {
 
 	//These are the autowired fields autowired by constructor
 	
-	private UserRepository userRepository;
+//	private UserRepository userRepository;		//it is deprecated
+	private Repositories.Container repos;
 	
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	public UserServiceImpl(Repositories.Container repos) {
+		this.repos = repos;
 	}
 	
 	//These are the normal fields needed by Business logic
@@ -39,17 +40,15 @@ public class UserServiceImpl implements UserService {
 	
 	
 	private void findByUserName(String userName) {
-		optional = userRepository.findByUserName(userName);
+		optional = repos.userRepository.findByUserName(userName);
 	}
 	
 	@Override
 	public User signup(User user, UserAuth userAuth) {
 
 		findByUserName(user.getUserName());
-		if(optional.isPresent()) {
-			return login(user, userAuth);
-		} else {
-			return UserMapper.toUser(userRepository.save(new UserEntity()
+		if(optional.isEmpty()) {
+			return UserMapper.toUser(repos.userRepository.save(new UserEntity()
 					.setUserName(user.getUserName())
 					.setFirstName(user.getFirstName())
 					.setLastName(user.getLastName())
@@ -59,18 +58,24 @@ public class UserServiceImpl implements UserService {
 					.setUserAuth(new UserAuthEntity()
 							.setPassword(userAuth.getPassword())
 							.setLastUpdate(DateUtils.today()))));
+		} else {
+			throw new BusAppException.ValidationException(ResponseEntity.USER);
 		}
 	}
 
 	@Override
-	public User login(User user, UserAuth userAuth) {
+	public User login(String userName, String password) {
 
-		findByUserName(user.getUserName());
-		if(optional.isPresent() && optional.get().getUserAuth().getPassword() == userAuth.getPassword()) {
-			return UserMapper.toUser(optional.get());
-		} else if(optional.isPresent() && optional.get().getUserAuth().getPassword() != userAuth.getPassword()) {
-			throw new BusAppException.ValidationException(ResponseEntity.USER);
-		}	
+		findByUserName(userName);
+		if(optional.isPresent()) {
+			boolean passAuth = password.equals(optional.get().getUserAuth().getPassword());
+			if(passAuth) {
+				return UserMapper.toUser(optional.get());
+			}
+			if(!passAuth) {
+				throw new BusAppException.WrongCredentialsException(ResponseEntity.USER);
+			}
+		}
 		throw new BusAppException.EntityNotFoundException(ResponseEntity.USER);
 	}
 
@@ -78,45 +83,48 @@ public class UserServiceImpl implements UserService {
 	public User updateProfile(User user) {
 
 		findByUserName(user.getUserName());
-		if(!optional.isEmpty()) {
+		if(optional.isPresent()) {
 			UserEntity userEntity = optional.get();
-			return UserMapper.toUser(userRepository.save(userEntity
+			return UserMapper.toUser(repos.userRepository.save(userEntity
 					.setEmail(user.getEmail())
 					.setFirstName(user.getFirstName())
 					.setLastName(user.getLastName())
 					.setPhoneNo(user.getPhoneNo())));
-		} else {
-			return new User();
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.USER);
 	}
 
 	@Override
-	public User updatePassword(User user, UserAuth userAuth) {
+	public User updatePassword(String userName, String oldPassword, String newPassword) {
 
-		findByUserName(user.getUserName());
-		if(!optional.isEmpty()) {
-			UserEntity userEntity = optional.get();
-			UserAuthEntity userAuthEntity = userEntity.getUserAuth();
-			return UserMapper.toUser(userRepository.save(userEntity
-					.setUserAuth(userAuthEntity
-							.setPassword(userAuth.getPassword())
-							.setLastUpdate(DateUtils.today()))));
-		} else {
-			return new User();
+		findByUserName(userName);
+		if(optional.isPresent()) {
+			boolean passMatch = oldPassword.equals(optional.get().getUserAuth().getPassword());
+			if(passMatch) {
+				UserEntity userEntity = optional.get();
+				UserAuthEntity userAuthEntity = userEntity.getUserAuth();
+				return UserMapper.toUser(repos.userRepository.save(userEntity
+						.setUserAuth(userAuthEntity
+								.setPassword(newPassword)
+								.setLastUpdate(DateUtils.today()))));
+			}
+			if(!passMatch) {
+				throw new BusAppException.WrongCredentialsException(ResponseEntity.USER);
+			}
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.USER);
 	}
 
 	@Override
-	public User changeRole(User user) {
+	public User changeRole(String userName, String role) {
 
-		findByUserName(user.getUserName());
-		if(!optional.isEmpty()) {
+		findByUserName(userName);
+		if(optional.isPresent()) {
 			UserEntity userEntity = optional.get();
-			return UserMapper.toUser(userRepository.save(userEntity
-					.setRole(user.getRole())));
-		} else {
-			return new User();
+			return UserMapper.toUser(repos.userRepository.save(userEntity
+					.setRole(role)));
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.USER);
 	}
 
 	@Override
@@ -131,10 +139,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> findAllUsers() {
-		return UserMapper.toUser(userRepository.findAll());
+		return UserMapper.toUser(repos.userRepository.findAll());
 	}
 
 	@Override
+	@Deprecated
 	public User findUser(User user) {
 
 		findByUserName(user.getUserName());

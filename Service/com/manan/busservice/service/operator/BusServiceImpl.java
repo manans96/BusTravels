@@ -12,8 +12,7 @@ import org.springframework.stereotype.Component;
 import com.manan.busservice.dto.mapper.operator.BusMapper;
 import com.manan.busservice.dto.model.operator.Bus;
 import com.manan.busservice.dto.model.operator.BusOperator;
-import com.manan.busservice.jpa.repository.BusOperatorRepository;
-import com.manan.busservice.jpa.repository.BusRepository;
+import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operator.BusEntity;
 import com.manan.busservice.utility.DateUtils;
 
@@ -24,19 +23,21 @@ import com.manan.busservice.utility.DateUtils;
 @Component
 public class BusServiceImpl implements BusService {
 	
-	private BusOperatorRepository busOperatorRepository;
-	private BusRepository busRepository;
+	//deprecated
+//	private BusOperatorRepository busOperatorRepository;
+//	private BusRepository busRepository;
+	
+	private Repositories.Container repos;
 	
 	@Autowired
-	public BusServiceImpl(BusOperatorRepository busOperatorRepository, BusRepository busRepository) {
-		this.busOperatorRepository = busOperatorRepository;
-		this.busRepository = busRepository;
+	public BusServiceImpl(Repositories.Container repos) {
+		this.repos = repos;
 	}
 	
 	Optional<BusEntity> optional;
 	
 	private void findByCode(Bus bus) {
-		optional = busRepository.findByBusCode(bus.getBusCode());
+		optional = repos.busRepository.findByBusCode(bus.getBusCode());
 	}
 
 	@Override
@@ -44,7 +45,7 @@ public class BusServiceImpl implements BusService {
 
 		findByCode(bus);
 		if(optional.isEmpty()) {
-			return BusMapper.toBus(busRepository.save(new BusEntity()
+			return BusMapper.toBus(repos.busRepository.save(new BusEntity()
 					.setBusCode(bus.getBusCode())
 					.setAvailable(bus.isAvailable())
 					.setBusModel(bus.getBusModel())
@@ -52,7 +53,7 @@ public class BusServiceImpl implements BusService {
 					.setHaltCost(bus.getHaltCost())
 					.setLastUpdate(DateUtils.today())
 					.setRunCost(bus.getRunCost())
-					.setOperator(busOperatorRepository.findByOperatorCode(bus.getOperator().getOperatorCode())
+					.setOperator(repos.busOperatorRepository.findByOperatorCode(bus.getOperator().getOperatorCode())
 							.get())));
 		} else {
 			return new Bus();
@@ -65,7 +66,7 @@ public class BusServiceImpl implements BusService {
 		findByCode(bus);
 		if(optional.isPresent()) {
 			BusEntity busEntity = optional.get();
-			return BusMapper.toBus(busRepository.save(busEntity
+			return BusMapper.toBus(repos.busRepository.save(busEntity
 					.setAvailable(bus.isAvailable())
 					.setBusModel(bus.getBusModel())
 					.setCapacity(bus.getCapacity())
@@ -87,14 +88,14 @@ public class BusServiceImpl implements BusService {
 	@Override
 	public List<Bus> viewAllBus() {
 
-		List<BusEntity> busList = busRepository.findAll();
+		List<BusEntity> busList = repos.busRepository.findAll();
 		return BusMapper.toBus(busList);
 	}
 
 	@Override
 	public List<Bus> viewAllBusByOperator(BusOperator busOperator) {
 
-		return BusMapper.toBus(busRepository.findByOperator(busOperatorRepository
+		return BusMapper.toBus(repos.busRepository.findByOperator(repos.busOperatorRepository
 				.findByOperatorCode(busOperator.getOperatorCode())
 				.get()));
 	}
@@ -105,7 +106,7 @@ public class BusServiceImpl implements BusService {
 		findByCode(bus);
 		if(optional.isPresent()) {
 			BusEntity busEntity = optional.get();
-			return BusMapper.toBus(busRepository.save(busEntity
+			return BusMapper.toBus(repos.busRepository.save(busEntity
 					.setAvailable(false)));
 		} else {
 			return new Bus();
@@ -118,7 +119,7 @@ public class BusServiceImpl implements BusService {
 		findByCode(bus);
 		if(optional.isPresent()) {
 			BusEntity busEntity = optional.get();
-			return BusMapper.toBus(busRepository.save(busEntity
+			return BusMapper.toBus(repos.busRepository.save(busEntity
 					.setAvailable(true)));
 		} else {
 			return new Bus();

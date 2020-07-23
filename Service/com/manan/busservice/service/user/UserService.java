@@ -18,12 +18,13 @@ public interface UserService {
 	
 	User updateProfile(User user);
 	
-	User updatePassword(User user, UserAuth userAuth, UserAuth newUserAuth);
+	User updatePassword(String userName, String oldPassword, String newPassword);
 	
-	User changeRole(User user);
+	User changeRole(String userName, String role);
 	
 	User findUser(String userName);
 
+	@Deprecated
 	User findUser(User user);
 	
 	List<User> findAllUsers();

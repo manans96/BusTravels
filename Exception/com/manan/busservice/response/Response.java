@@ -49,6 +49,13 @@ public class Response {
 		return response;
 	}
 	
+	public static Response internalServerError() {
+		
+		Response response = new Response()
+				.setStatus(ResponseStatus.INTERNAL_SERVER_ERROR);
+		return response;
+	}
+	
 	public void addErrorMsgToResponse(Exception ex, ResponseEntity entity, String details) {
 		ResponseError error = new ResponseError()
 				.setMessage(entity.getResponseEntity())
