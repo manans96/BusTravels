@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Component;
 
 import com.manan.busservice.model.operations.BookingEntity;
 import com.manan.busservice.model.operations.StopEntity;
@@ -87,6 +88,7 @@ public class Repositories {
 	}
 	
 	
+	@Component
 	public class Container {
 		
 		public UserRepository userRepository;

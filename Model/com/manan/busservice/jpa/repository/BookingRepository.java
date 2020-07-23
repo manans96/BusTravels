@@ -16,6 +16,7 @@ import com.manan.busservice.model.user.UserEntity;
  * @author Manan Sanghvi
  *
  */
+@Deprecated
 public interface BookingRepository extends JpaRepository<BookingEntity, Integer> {
 	
 	List<BookingEntity> findByPassenger(UserEntity userEntity);

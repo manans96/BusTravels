@@ -15,6 +15,7 @@ import com.manan.busservice.model.operator.BusOperatorEntity;
  * @author Manan Sanghvi
  *
  */
+@Deprecated
 public interface BusRepository extends JpaRepository<BusEntity, Integer> {
 	
 	Optional<BusEntity> findByBusCode(String code);
