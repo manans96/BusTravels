@@ -16,6 +16,7 @@ import com.manan.busservice.model.user.UserEntity;
  * @author Manan Sanghvi
  *
  */
+@Deprecated
 public interface TicketRepository extends JpaRepository<TicketEntity, Integer> {
 	
 	Optional<TicketEntity> findByTicketNumber(String ticketNumber);

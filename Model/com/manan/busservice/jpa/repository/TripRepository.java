@@ -15,6 +15,7 @@ import com.manan.busservice.model.operator.TripEntity;
  * @author Manan Sanghvi
  *
  */
+@Deprecated
 public interface TripRepository extends JpaRepository<TripEntity, Integer> {
 	
 	Optional<TripEntity> findByCode(String code);

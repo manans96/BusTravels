@@ -15,6 +15,7 @@ import com.manan.busservice.model.operator.TripEntity;
  * @author Manan Sanghvi
  *
  */
+@Deprecated
 public interface TripDetailsRepository extends JpaRepository<TripDetailsEntity, Integer> {
 	
 	Optional<TripDetailsEntity> findByTripDetailCode(String code);
