@@ -12,6 +12,7 @@ import com.manan.busservice.dto.model.operator.Trip;
  * @author Manan Sanghvi
  *
  */
+@Deprecated
 public interface TripDetailService {
 	
 	TripDetails addNewJourney(TripDetails tripDetails);

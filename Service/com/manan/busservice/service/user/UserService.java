@@ -10,6 +10,7 @@ import com.manan.busservice.dto.model.user.UserAuth;
  *
  */
 
+@Deprecated
 public interface UserService {
 	
 	User signup(User user, UserAuth userAuth);

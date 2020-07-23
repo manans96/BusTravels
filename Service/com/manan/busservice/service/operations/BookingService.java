@@ -13,6 +13,7 @@ import com.manan.busservice.dto.model.user.User;
  * @author Manan Sanghvi
  *
  */
+@Deprecated
 public interface BookingService {
 	
 	Booking newBooking(Booking booking);

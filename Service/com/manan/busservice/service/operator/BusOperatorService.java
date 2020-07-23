@@ -11,6 +11,7 @@ import com.manan.busservice.dto.model.operator.BusOperator;
  * @author Manan Sanghvi
  *
  */
+@Deprecated
 public interface BusOperatorService {
 	
 	BusOperator addNewOperator(BusOperator busOperator);

@@ -11,6 +11,7 @@ import com.manan.busservice.dto.model.operations.Stop;
  * @author Manan Sanghvi
  *
  */
+@Deprecated
 public interface StopService {
 	
 	Stop addStop(Stop stop);
