@@ -59,7 +59,7 @@ public class BusAppException {
 		}
 	}
 
-	public static class ValidationException extends RuntimeException {
+	public static class BadRequestException extends RuntimeException {
 
 		/**
 		 * 
@@ -68,12 +68,12 @@ public class BusAppException {
 		
 		private ResponseEntity entity;
 
-		public ValidationException(ResponseEntity entity) {
+		public BadRequestException(ResponseEntity entity) {
 			super();
 			this.entity = entity;
 		}
 
-		public ValidationException(ResponseEntity entity, String message) {
+		public BadRequestException(ResponseEntity entity, String message) {
 			super(message);
 			this.entity = entity;
 		}
@@ -131,4 +131,29 @@ public class BusAppException {
 			return entity;
 		}
 	}
+
+	public static class ForbiddenException extends RuntimeException {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 4227305455472382045L;
+		
+		private ResponseEntity entity;
+
+		public ForbiddenException(ResponseEntity entity) {
+			super();
+			this.entity = entity;
+		}
+
+		public ForbiddenException(ResponseEntity entity, String message) {
+			super(message);
+			this.entity = entity;
+		}
+
+		public ResponseEntity getEntity() {
+			return entity;
+		}
+	}
+
 }

@@ -57,7 +57,7 @@ public class TripServiceImpl implements Services.TripService {
 								.get())
 						.setVisible(true)));
 			} catch(RuntimeException re) {
-				throw new BusAppException.ValidationException(ResponseEntity.TRIP);
+				throw new BusAppException.BadRequestException(ResponseEntity.TRIP);
 			}
 		}
 		throw new BusAppException.DuplicateEntityException(ResponseEntity.TRIP);
@@ -78,7 +78,7 @@ public class TripServiceImpl implements Services.TripService {
 						.setHaltTime(trip.getHaltTime())
 						.setJourneyTime(trip.getJourneyTime())));
 			} catch(RuntimeException re) {
-				throw new BusAppException.ValidationException(ResponseEntity.TRIP);
+				throw new BusAppException.BadRequestException(ResponseEntity.TRIP);
 			}
 		}
 		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIP);

@@ -38,13 +38,13 @@ public class BusServiceExceptionHandler {
 		return response;
 	}
 	
-	@ExceptionHandler(BusAppException.ValidationException.class)
+	@ExceptionHandler(BusAppException.BadRequestException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public Response handleValidationException(BusAppException.ValidationException ve) {
+	public Response handleValidationException(BusAppException.BadRequestException bre) {
 		
-		Response response = Response.validationError();
-		response.addErrorMsgToResponse(ve, ve.getEntity(), "");
+		Response response = Response.badRequest();
+		response.addErrorMsgToResponse(bre, bre.getEntity(), "");
 		return response;
 	}
 	
@@ -63,8 +63,18 @@ public class BusServiceExceptionHandler {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Response handleInternalServerException(BusAppException.InternalServerException ise) {
 		
-		Response response = Response.credentialsError();
+		Response response = Response.internalServerError();
 		response.addErrorMsgToResponse(ise, ise.getEntity(), "");
+		return response;
+	}
+	
+	@ExceptionHandler(BusAppException.ForbiddenException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public Response handleForbiddenException(BusAppException.ForbiddenException fe) {
+		
+		Response response = Response.forbidden();
+		response.addErrorMsgToResponse(fe, fe.getEntity(), "");
 		return response;
 	}
 }

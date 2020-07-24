@@ -59,7 +59,7 @@ public class UserServiceImpl implements Services.UserService {
 								.setPassword(userAuth.getPassword())
 								.setLastUpdate(DateUtils.today()))));
 			} catch (RuntimeException re) {
-				throw new BusAppException.ValidationException(ResponseEntity.USER);
+				throw new BusAppException.BadRequestException(ResponseEntity.USER);
 			}
 		}
 		throw new BusAppException.DuplicateEntityException(ResponseEntity.USER);
@@ -94,7 +94,7 @@ public class UserServiceImpl implements Services.UserService {
 						.setLastName(user.getLastName())
 						.setPhoneNo(user.getPhoneNo())));
 			} catch(RuntimeException re) {
-				throw new BusAppException.ValidationException(ResponseEntity.USER);
+				throw new BusAppException.BadRequestException(ResponseEntity.USER);
 			}
 		}
 		throw new BusAppException.EntityNotFoundException(ResponseEntity.USER);

@@ -11,9 +11,10 @@ import org.springframework.stereotype.Component;
 
 import com.manan.busservice.dto.mapper.operations.TripDetailsMapper;
 import com.manan.busservice.dto.model.operations.TripDetails;
-import com.manan.busservice.dto.model.operator.Trip;
+import com.manan.busservice.exception.BusAppException;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operations.TripDetailsEntity;
+import com.manan.busservice.response.ResponseEntity;
 import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
 
@@ -33,84 +34,91 @@ public class TripDetailServiceImpl implements Services.TripDetailService {
 	
 	private Optional<TripDetailsEntity> optional;
 	
-	private void findByTripDetailsCode(TripDetails tripDetails) {
-		optional = repos.tripDetailsRepository.findByTripDetailCode(tripDetails.getTripDetailCode());
+	private void findByTripDetailsCode(String tripDetailCode) {
+		optional = repos.tripDetailsRepository.findByTripDetailCode(tripDetailCode);
 	}
 
 	@Override
 	public TripDetails addNewJourney(TripDetails tripDetails) {
 		
-		findByTripDetailsCode(tripDetails);
+		findByTripDetailsCode(tripDetails.getTripDetailCode());
 		if(optional.isEmpty()) {
-			return TripDetailsMapper.toTripDetails(repos.tripDetailsRepository.save(new TripDetailsEntity()
-					.setTripDetailCode(tripDetails.getTripDetailCode())
-					.setDepartureTime(tripDetails.getDepartureTime())
-					.setActive(true)
-					.setAvailableSeats(tripDetails.getAvailableSeats())
-					.setCost(tripDetails.getCost())
-					.setLastUpdate(DateUtils.today())
-					.setBus(repos.busRepository.findByBusCode(tripDetails.getBus().getBusCode())
-							.get())
-					.setTripCode(repos.tripRepository.findByCode(tripDetails.getTripCode().getCode())
-							.get())
-					));
-		} else {
-			return new TripDetails();
+			try {
+				return TripDetailsMapper.toTripDetails(repos.tripDetailsRepository.save(new TripDetailsEntity()
+						.setTripDetailCode(tripDetails.getTripDetailCode())
+						.setDepartureTime(tripDetails.getDepartureTime())
+						.setActive(true)
+						.setAvailableSeats(tripDetails.getAvailableSeats())
+						.setCost(tripDetails.getCost())
+						.setLastUpdate(DateUtils.today())
+						.setBus(repos.busRepository.findByBusCode(tripDetails.getBus().getBusCode())
+								.get())
+						.setTripCode(repos.tripRepository.findByCode(tripDetails.getTripCode().getCode())
+								.get())
+						));
+			} catch(RuntimeException re) {
+				throw new BusAppException.BadRequestException(ResponseEntity.TRIPDETAILS);
+			}
 		}
+		throw new BusAppException.DuplicateEntityException(ResponseEntity.TRIPDETAILS);
 	}
 
 	@Override
 	public TripDetails editJourney(TripDetails tripDetails) {
 
-		findByTripDetailsCode(tripDetails);
+		findByTripDetailsCode(tripDetails.getTripDetailCode());
 		if(optional.isPresent()) {
-			TripDetailsEntity tripDetailsEntity = optional.get();
-			return TripDetailsMapper.toTripDetails(repos.tripDetailsRepository.save(tripDetailsEntity
-					.setAvailableSeats(tripDetails.getAvailableSeats())
-					.setCost(tripDetails.getCost())
-					.setDepartureTime(tripDetails.getDepartureTime())
-					.setLastUpdate(tripDetails.getLastUpdate())
-					.setBus(repos.busRepository.findByBusCode(tripDetails.getBus().getBusCode())
-							.get())
-					));
-		} else {
-			return new TripDetails();
+			try {
+				TripDetailsEntity tripDetailsEntity = optional.get();
+				return TripDetailsMapper.toTripDetails(repos.tripDetailsRepository.save(tripDetailsEntity
+						.setAvailableSeats(tripDetails.getAvailableSeats())
+						.setCost(tripDetails.getCost())
+						.setDepartureTime(tripDetails.getDepartureTime())
+						.setLastUpdate(tripDetails.getLastUpdate())
+						.setBus(repos.busRepository.findByBusCode(tripDetails.getBus().getBusCode())
+								.get())
+						));
+			} catch(RuntimeException re) {
+				throw new BusAppException.BadRequestException(ResponseEntity.TRIPDETAILS);
+			}
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIPDETAILS);
 	}
 
 	@Override
-	public TripDetails disableTrip(TripDetails tripDetails) {
+	public TripDetails disableTrip(String tripDetailCode) {
 
-		findByTripDetailsCode(tripDetails);
+		findByTripDetailsCode(tripDetailCode);
 		if(optional.isPresent()) {
 			TripDetailsEntity tripDetailsEntity = optional.get();
 			return TripDetailsMapper.toTripDetails(repos.tripDetailsRepository.save(tripDetailsEntity
 					.setActive(false)
 					.setLastUpdate(DateUtils.today())));
-		} else {
-			return new TripDetails();
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIPDETAILS);
 	}
 
 	@Override
-	public TripDetails enableTrip(TripDetails tripDetails) {
+	public TripDetails enableTrip(String tripDetailCode) {
 
-		findByTripDetailsCode(tripDetails);
+		findByTripDetailsCode(tripDetailCode);
 		if(optional.isPresent()) {
 			TripDetailsEntity tripDetailsEntity = optional.get();
 			return TripDetailsMapper.toTripDetails(repos.tripDetailsRepository.save(tripDetailsEntity
 					.setActive(true)
 					.setLastUpdate(DateUtils.today())));
-		} else {
-			return new TripDetails();
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIPDETAILS);
 	}
 
 	@Override
-	public TripDetails viewTrip(TripDetails tripDetails) {
+	public TripDetails viewTrip(String tripDetailCode) {
 
-		findByTripDetailsCode(tripDetails);
-		return TripDetailsMapper.toTripDetails(optional.get());
+		findByTripDetailsCode(tripDetailCode);
+		if(optional.isPresent()) {
+			return TripDetailsMapper.toTripDetails(optional.get());
+		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIPDETAILS);		
 	}
 
 	@Override
@@ -120,9 +128,9 @@ public class TripDetailServiceImpl implements Services.TripDetailService {
 	}
 
 	@Override
-	public List<TripDetails> viewTripDetailsByTrip(Trip trip) {
+	public List<TripDetails> viewTripDetailsByTrip(String tripCode) {
 
-		return TripDetailsMapper.toTripDetails(repos.tripDetailsRepository.findByTripCode(repos.tripRepository.findByCode(trip.getCode())
+		return TripDetailsMapper.toTripDetails(repos.tripDetailsRepository.findByTripCode(repos.tripRepository.findByCode(tripCode)
 				.get()));
 	}
 

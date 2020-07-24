@@ -11,8 +11,10 @@ import org.springframework.stereotype.Component;
 
 import com.manan.busservice.dto.mapper.operations.StopMapper;
 import com.manan.busservice.dto.model.operations.Stop;
+import com.manan.busservice.exception.BusAppException;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operations.StopEntity;
+import com.manan.busservice.response.ResponseEntity;
 import com.manan.busservice.service.Services;
 
 /**
@@ -31,43 +33,52 @@ public class StopServiceImpl implements Services.StopService {
 	
 	private Optional<StopEntity> optional;
 	
-	private void findByStopCode(Stop stop) {
-		optional = repos.stopRepository.findByStopCode(stop.getStopCode());
+	private void findByStopCode(String stopCode) {
+		optional = repos.stopRepository.findByStopCode(stopCode);
 	}
 
 	@Override
 	public Stop addStop(Stop stop) {
 
-		findByStopCode(stop);
+		findByStopCode(stop.getStopCode());
 		if(optional.isEmpty()) {
-			return StopMapper.toStop(repos.stopRepository.save(new StopEntity()
-					.setStopCode(stop.getStopCode())
-					.setStopName(stop.getStopName())
-					.setStopType(stop.getStopType())));
-		} else {
-			return new Stop();
+			try {
+				return StopMapper.toStop(repos.stopRepository.save(new StopEntity()
+						.setStopCode(stop.getStopCode())
+						.setStopName(stop.getStopName())
+						.setStopType(stop.getStopType())));
+			} catch(RuntimeException re) {
+				throw new BusAppException.BadRequestException(ResponseEntity.STOP);
+			}
 		}
+		throw new BusAppException.DuplicateEntityException(ResponseEntity.STOP);
 	}
 
 	@Override
 	public Stop editStop(Stop stop) {
 
-		findByStopCode(stop);
+		findByStopCode(stop.getStopCode());
 		if(optional.isPresent()) {
-			StopEntity stopEntity = optional.get();
-			return StopMapper.toStop(repos.stopRepository.save(stopEntity
-					.setStopName(stop.getStopName())
-					.setStopType(stop.getStopType())));
-		} else {
-			return new Stop();
+			try {
+				StopEntity stopEntity = optional.get();
+				return StopMapper.toStop(repos.stopRepository.save(stopEntity
+						.setStopName(stop.getStopName())
+						.setStopType(stop.getStopType())));
+			} catch(RuntimeException re) {
+				throw new BusAppException.BadRequestException(ResponseEntity.STOP);
+			}
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.STOP);
 	}
 
 	@Override
-	public Stop findStop(Stop stop) {
+	public Stop findStop(String stopCode) {
 
-		findByStopCode(stop);
-		return StopMapper.toStop(optional.get());
+		findByStopCode(stopCode);
+		if(optional.isPresent()) {
+			return StopMapper.toStop(optional.get());
+		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.STOP);		
 	}
 
 	@Override

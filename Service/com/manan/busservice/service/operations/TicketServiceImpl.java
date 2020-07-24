@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 
 import com.manan.busservice.dto.mapper.operations.TicketMapper;
 import com.manan.busservice.dto.model.operations.Ticket;
-import com.manan.busservice.dto.model.operations.TripDetails;
-import com.manan.busservice.dto.model.user.User;
+import com.manan.busservice.exception.BusAppException;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operations.TicketEntity;
+import com.manan.busservice.response.ResponseEntity;
 import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
 
@@ -32,70 +32,71 @@ public class TicketServiceImpl implements Services.TicketService {
 		this.repos = repos;
 	}
 	
-	private static Ticket ticket = new Ticket();
 	private Optional<TicketEntity> optional;
 	
-	private void findByTicketNumber(Ticket ticket) {
-		optional = repos.ticketRepository.findByTicketNumber(ticket.getTicketNumber());
+	private void findByTicketNumber(String ticketNumber) {
+		optional = repos.ticketRepository.findByTicketNumber(ticketNumber);
 	}
 
 	@Override
 	public Ticket newTicket(Ticket ticket) {
 
-		findByTicketNumber(ticket);
+		findByTicketNumber(ticket.getTicketNumber());
 		if(optional.isEmpty()) {
-			return TicketMapper.toTicket(repos.ticketRepository.save(new TicketEntity()
-					.setTicketNumber(ticket.getTicketNumber())
-					.setAmountPaid(ticket.getAmountPaid())
-					.setLastUpdate(DateUtils.today())
-					.setCancellable(ticket.isCancellable())
-					.setCancelled(false)
-					.setTotalTicket(ticket.getTotalTicket())
-					.setTripDetails(repos.tripDetailsRepository.findByTripDetailCode(ticket
-							.getTripDetails()
-							.getTripDetailCode())
-							.get())
-					.setPassenger(repos.userRepository.findByUserName(ticket
-							.getPassenger()
-							.getUserName())
-							.get())));
-		} else {
-			return TicketServiceImpl.ticket;
+			try {
+				return TicketMapper.toTicket(repos.ticketRepository.save(new TicketEntity()
+						.setTicketNumber(ticket.getTicketNumber())
+						.setAmountPaid(ticket.getAmountPaid())
+						.setLastUpdate(DateUtils.today())
+						.setCancellable(ticket.isCancellable())
+						.setCancelled(false)
+						.setTotalTicket(ticket.getTotalTicket())
+						.setTripDetails(repos.tripDetailsRepository.findByTripDetailCode(ticket
+								.getTripDetails()
+								.getTripDetailCode())
+								.get())
+						.setPassenger(repos.userRepository.findByUserName(ticket
+								.getPassenger()
+								.getUserName())
+								.get())));
+			} catch(RuntimeException re) {
+				throw new BusAppException.BadRequestException(ResponseEntity.TICKET);
+			}
 		}
+		throw new BusAppException.DuplicateEntityException(ResponseEntity.TICKET);
 	}
 
 	@Override
-	public Ticket cancelTicket(Ticket ticket) {
+	public Ticket cancelTicket(String ticketNumber) {
 
-		findByTicketNumber(ticket);
+		findByTicketNumber(ticketNumber);
 		if(optional.isPresent() && optional.get().isCancellable() == true) {
 			TicketEntity ticketEntity = optional.get();
 			return TicketMapper.toTicket(repos.ticketRepository.save(ticketEntity
 					.setCancelled(true)
 					.setLastUpdate(DateUtils.today())
 					));
-		} else {
-			return TicketServiceImpl.ticket;
+		} else if(optional.get().isCancellable() == false) {
+			throw new BusAppException.ForbiddenException(ResponseEntity.TICKET);
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.TICKET);
 	}
 
 	@Override
-	public Ticket viewTicket(Ticket ticket) {
+	public Ticket viewTicket(String ticketNumber) {
 
-		findByTicketNumber(ticket);
+		findByTicketNumber(ticketNumber);
 		if(optional.isPresent()) {
 			return TicketMapper.toTicket(optional.get());
-		} else {
-			return TicketServiceImpl.ticket;
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.TICKET);
 	}
 
 	@Override
-	public List<Ticket> viewAllTicketByUser(User user) {
+	public List<Ticket> viewAllTicketByUser(String userName) {
 
 		return TicketMapper.toTicket(repos.ticketRepository.findByPassenger(repos.userRepository
-				.findByUserName(user
-						.getUserName())
+				.findByUserName(userName)
 					.get()));
 	}
 
@@ -106,11 +107,10 @@ public class TicketServiceImpl implements Services.TicketService {
 	}
 
 	@Override
-	public List<Ticket> viewAllTicketByTripDetails(TripDetails tripDetails) {
+	public List<Ticket> viewAllTicketByTripDetails(String tripDetailCode) {
 
 		return TicketMapper.toTicket(repos.ticketRepository.findByTripDetails(repos.tripDetailsRepository
-				.findByTripDetailCode(tripDetails
-						.getTripDetailCode())
+				.findByTripDetailCode(tripDetailCode)
 					.get()));
 	}
 

@@ -54,7 +54,7 @@ public class BusOperatorServiceImpl implements Services.BusOperatorService {
 						.setOperatorDetails(busOperator.getOperatorDetails())
 						.setOperator(repos.userRepository.findByUserName(busOperator.getOperator().getUserName()).get().setRole("operator"))));
 			} catch(RuntimeException re) {
-				throw new BusAppException.ValidationException(ResponseEntity.BUSOPERATOR);
+				throw new BusAppException.BadRequestException(ResponseEntity.BUSOPERATOR);
 			}
 		}
 		throw new BusAppException.DuplicateEntityException(ResponseEntity.BUSOPERATOR);
@@ -70,7 +70,7 @@ public class BusOperatorServiceImpl implements Services.BusOperatorService {
 				return BusOperatorMapper.toBusOperator(repos.busOperatorRepository.save(busOperatorEntity)
 						.setOperatorDetails(busOperator.getOperatorDetails()));
 			} catch(RuntimeException re) {
-				throw new BusAppException.ValidationException(ResponseEntity.BUSOPERATOR);
+				throw new BusAppException.BadRequestException(ResponseEntity.BUSOPERATOR);
 			}
 		}
 		throw new BusAppException.EntityNotFoundException(ResponseEntity.BUSOPERATOR);

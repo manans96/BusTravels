@@ -55,7 +55,7 @@ public class BusServiceImpl implements Services.BusService {
 						.setOperator(repos.busOperatorRepository.findByOperatorCode(bus.getOperator().getOperatorCode())
 								.get())));
 			} catch(RuntimeException re) {
-				throw new BusAppException.ValidationException(ResponseEntity.BUS);
+				throw new BusAppException.BadRequestException(ResponseEntity.BUS);
 			}
 		}
 		throw new BusAppException.DuplicateEntityException(ResponseEntity.BUS);
@@ -76,7 +76,7 @@ public class BusServiceImpl implements Services.BusService {
 						.setLastUpdate(DateUtils.today())
 						.setRunCost(bus.getRunCost())));
 			} catch(RuntimeException re) {
-				throw new BusAppException.ValidationException(ResponseEntity.BUS);
+				throw new BusAppException.BadRequestException(ResponseEntity.BUS);
 			}
 		}
 		throw new BusAppException.EntityNotFoundException(ResponseEntity.BUS);

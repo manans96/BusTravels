@@ -35,10 +35,10 @@ public class Response {
 		return response;
 	}
 	
-	public static Response validationError() {
+	public static Response badRequest() {
 		
 		Response response = new Response()
-				.setStatus(ResponseStatus.VALIDATION_EXCEPTION);
+				.setStatus(ResponseStatus.BAD_REQUEST);
 		return response;
 	}
 	
@@ -53,6 +53,13 @@ public class Response {
 		
 		Response response = new Response()
 				.setStatus(ResponseStatus.INTERNAL_SERVER_ERROR);
+		return response;
+	}
+	
+public static Response forbidden() {
+		
+		Response response = new Response()
+				.setStatus(ResponseStatus.FORBIDDEN);
 		return response;
 	}
 	

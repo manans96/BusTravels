@@ -108,13 +108,13 @@ public class Services {
 		
 		TripDetails editJourney(TripDetails tripDetails);
 		
-		TripDetails disableTrip(TripDetails tripDetails);
+		TripDetails disableTrip(String tripDetailCode);
 		
-		TripDetails enableTrip(TripDetails tripDetails);
+		TripDetails enableTrip(String tripDetailCode);
 		
-		TripDetails viewTrip(TripDetails tripDetails);
+		TripDetails viewTrip(String tripDetailCode);
 		
-		List<TripDetails> viewTripDetailsByTrip(Trip trip);
+		List<TripDetails> viewTripDetailsByTrip(String tripCode);
 		
 		List<TripDetails> viewAllTrips();
 
@@ -125,13 +125,13 @@ public class Services {
 		
 		Ticket newTicket(Ticket ticket);
 		
-		Ticket cancelTicket(Ticket ticket);
+		Ticket cancelTicket(String ticketCode);
 		
-		Ticket viewTicket(Ticket ticket);
+		Ticket viewTicket(String ticketCode);
 		
-		List<Ticket> viewAllTicketByUser(User user);
+		List<Ticket> viewAllTicketByUser(String userName);
 		
-		List<Ticket> viewAllTicketByTripDetails(TripDetails tripDetails);
+		List<Ticket> viewAllTicketByTripDetails(String tripDetailsCode);
 		
 		List<Ticket> viewAllTickets();
 
@@ -144,13 +144,13 @@ public class Services {
 		
 		Booking editBooking(Booking booking);
 		
-		void cancelBooking(Booking booking);
+		void cancelBooking(String bookingCode);
 		
-		Booking viewBooking(Booking booking);
+		Booking viewBooking(String bookingCode);
 		
-		List<Booking> viewAllBookingByUser(User user);
+		List<Booking> viewAllBookingByUser(String userName);
 		
-		List<Booking> viewBookingsByTrip(Trip trip);
+		List<Booking> viewBookingsByTrip(String tripCode);
 		
 		List<Booking> viewAllBookings();
 
@@ -163,7 +163,7 @@ public class Services {
 		
 		Stop editStop(Stop stop);
 		
-		Stop findStop(Stop stop);
+		Stop findStop(String stopCode);
 		
 		List<Stop> listAllStops();
 
