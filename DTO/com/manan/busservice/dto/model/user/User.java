@@ -1,6 +1,7 @@
 package com.manan.busservice.dto.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.manan.busservice.utility.mnemonics.UserRole;
 import com.sun.istack.NotNull;
 
 import lombok.Data;
@@ -18,6 +19,6 @@ public class User {
 	@NotNull private String lastName;
 	@NotNull private String email;
 	@NotNull private String phoneNo;
-	@NotNull private String role;
+	@NotNull private UserRole role;
 
 }

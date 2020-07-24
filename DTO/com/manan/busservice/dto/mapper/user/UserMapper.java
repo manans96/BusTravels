@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.model.user.UserEntity;
+import com.manan.busservice.utility.mnemonics.UserRole;
 
 public class UserMapper {
 	
@@ -16,7 +17,7 @@ public class UserMapper {
 				.setLastName(user.getLastName())
 				.setEmail(user.getEmail())
 				.setPhoneNo(user.getPhoneNo())
-				.setRole(user.getRole());
+				.setRole(UserRole.valueOf(user.getRole().toUpperCase()));
 		
 	}
 	

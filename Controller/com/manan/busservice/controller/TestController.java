@@ -22,6 +22,7 @@ import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.dto.model.user.UserAuth;
 import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
+import com.manan.busservice.utility.mnemonics.UserRole;
 
 @RestController
 @RequestMapping("/test")
@@ -40,13 +41,13 @@ public class TestController {
 		User user = new User()
 				.setFirstName("Manan")
 				.setLastName("Sanghvi")
-				.setUserName("user96")
-				.setEmail("mks8328@hgfla")
-				.setPhoneNo("2894653818")
-				.setRole("user");
+				.setUserName("extra20")
+				.setEmail("extra20@hgfla")
+				.setPhoneNo("28767455648")
+				.setRole(UserRole.USER);
 		
 		UserAuth userAuth = new UserAuth()
-				.setPassword("neiuewfn48fi")
+				.setPassword("neiuewfnwesf48dffi")
 				.setLastUpdate(DateUtils.today());
 		
 		return new ResponseEntity<>(services.userService.signup(user, userAuth), HttpStatus.OK);

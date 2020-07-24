@@ -54,7 +54,7 @@ public class UserServiceImpl implements Services.UserService {
 						.setLastName(user.getLastName())
 						.setEmail(user.getEmail())
 						.setPhoneNo(user.getPhoneNo())
-						.setRole(user.getRole())
+						.setRole(user.getRole().getRoleString())
 						.setUserAuth(new UserAuthEntity()
 								.setPassword(userAuth.getPassword())
 								.setLastUpdate(DateUtils.today()))));

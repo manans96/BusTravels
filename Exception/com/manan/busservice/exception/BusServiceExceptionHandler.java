@@ -33,7 +33,7 @@ public class BusServiceExceptionHandler {
 	@ResponseStatus(HttpStatus.CONFLICT)
 	public Response handleDuplicateException(BusAppException.DuplicateEntityException dee) {
 		
-		Response response = Response.notFound();
+		Response response = Response.duplicate();
 		response.addErrorMsgToResponse(dee, dee.getEntity(), "");
 		return response;
 	}
