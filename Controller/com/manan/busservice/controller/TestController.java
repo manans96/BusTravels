@@ -123,7 +123,7 @@ public class TestController {
 				.setStopType("minor");
 		
 		services.stopService.addStop(stop);
-		return services.stopService.findStop(stop);
+		return services.stopService.findStop(stop.getStopCode());
 	}
 	
 	@PostMapping("/addbooking")
@@ -143,7 +143,7 @@ public class TestController {
 	@GetMapping("/getbooking")
 	public @ResponseBody Booking getBooking() {
 		
-		return services.bookingService.viewBooking(new Booking().setBookingCode("BOOK123"));
+		return services.bookingService.viewBooking("BOOK123");
 	}
 	
 	@PostMapping("/addtripdetail")
@@ -154,8 +154,8 @@ public class TestController {
 				.setCost(500)
 				.setDepartureTime(new Date(1596110500000L))
 				.setTripDetailCode("TRIPDET123")
-				.setTripCode(services.tripService.viewTrip(new Trip().setCode("TRIP1")))
-				.setBus(services.busService.viewBus(new Bus().setBusCode("JAS123")));
+				.setTripCode(services.tripService.viewTrip("TRIP1"))
+				.setBus(services.busService.viewBus("JAS123"));
 		
 		return services.tripDetailService.addNewJourney(tripDetails);
 	}
@@ -163,7 +163,7 @@ public class TestController {
 	@GetMapping("/gettripdetail")
 	public @ResponseBody TripDetails getTripDetails() {
 		
-		return services.tripDetailService.viewTrip(new TripDetails().setTripDetailCode("TRIPDET123"));
+		return services.tripDetailService.viewTrip("TRIPDET123");
 	}
 	
 	@PostMapping("/addticket")
@@ -175,7 +175,7 @@ public class TestController {
 				.setTicketNumber("TICKET123")
 				.setTotalTicket(2)
 				.setPassenger(services.userService.findUser("test96"))
-				.setTripDetails(services.tripDetailService.viewTrip(new TripDetails().setTripDetailCode("TRIPDET123")));
+				.setTripDetails(services.tripDetailService.viewTrip("TRIPDET123"));
 		
 		return services.ticketService.newTicket(ticket);
 	}
@@ -183,7 +183,7 @@ public class TestController {
 	@GetMapping("/getticket")
 	public @ResponseBody Ticket getTicket() {
 		
-		return services.ticketService.viewTicket(new Ticket().setTicketNumber("TICKET123"));
+		return services.ticketService.viewTicket("TICKET123");
 	}
 
 }
