@@ -40,11 +40,11 @@ public class BusServiceExceptionHandler {
 	
 	@ExceptionHandler(BusAppException.BadRequestException.class)
 	@ResponseBody
-	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public Response handleValidationException(BusAppException.BadRequestException bre) {
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public Response handleBadRequestException(BusAppException.BadRequestException bre) {
 		
 		Response response = Response.badRequest();
-		response.addErrorMsgToResponse(bre, bre.getEntity(), "");
+		response.addErrorMsgToResponse(bre, bre.getEntity(), bre.getMessage());
 		return response;
 	}
 	

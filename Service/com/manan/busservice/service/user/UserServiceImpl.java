@@ -94,7 +94,7 @@ public class UserServiceImpl implements Services.UserService {
 						.setLastName(user.getLastName())
 						.setPhoneNo(user.getPhoneNo())));
 			} catch(RuntimeException re) {
-				throw new BusAppException.BadRequestException(ResponseEntity.USER);
+				throw new BusAppException.BadRequestException(ResponseEntity.USER, re.getMessage());
 			}
 		}
 		throw new BusAppException.EntityNotFoundException(ResponseEntity.USER);

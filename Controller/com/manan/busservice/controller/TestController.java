@@ -40,10 +40,10 @@ public class TestController {
 		User user = new User()
 				.setFirstName("Manan")
 				.setLastName("Sanghvi")
-				.setUserName("test96")
-				.setEmail("mks8328@rthgire")
-				.setPhoneNo("24646464848")
-				.setRole("admin");
+				.setUserName("test20")
+				.setEmail("mks8328@klsdmcla")
+				.setPhoneNo("24646464818")
+				.setRole("user");
 		
 		UserAuth userAuth = new UserAuth()
 				.setPassword("neiuewn48fi")
@@ -58,7 +58,7 @@ public class TestController {
 	@GetMapping("/get")
 	public @ResponseBody User getUser() {
 
-		return services.userService.login("test96" , "neiuewn48fi ");
+		return services.userService.login("test96" , "neiuewn48fi");
 //		return busOperatorService.viewBusOperator("AAC123");
 //		return busService.viewAllBusByOperator(new BusOperator().setOperatorCode("AAC123"));
 	}

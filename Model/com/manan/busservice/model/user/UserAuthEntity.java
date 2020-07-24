@@ -22,7 +22,7 @@ public class UserAuthEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonIgnore
 	private int idUserAuth;
-	@Column(nullable = false, unique = true) private String password;
+	@Column(nullable = false) private String password;
 	@Column(nullable = false) private java.util.Date lastUpdate;	
 
 }
