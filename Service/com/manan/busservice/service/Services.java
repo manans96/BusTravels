@@ -55,7 +55,7 @@ public class Services {
 		
 		BusOperator updateBusOperatorDetails(BusOperator busOperator);
 		
-		void deleteBusOperator(BusOperator busOperator);
+		void deleteBusOperator(String operatorCode);
 		
 		BusOperator viewBusOperator(String operatorCode);
 		
@@ -70,15 +70,15 @@ public class Services {
 		
 		Bus editBus(Bus bus);
 		
-		Bus viewBus(Bus bus);
+		Bus viewBus(String busCode);
 		
 		List<Bus> viewAllBus();
 		
-		List<Bus> viewAllBusByOperator(BusOperator busOperator);
+		List<Bus> viewAllBusByOperator(String operatorCode);
 		
-		Bus disableBus(Bus bus);
+		Bus disableBus(String busCode);
 		
-		Bus enableBus(Bus bus);
+		Bus enableBus(String busCode);
 
 	}
 
@@ -89,15 +89,15 @@ public class Services {
 		
 		Trip editTrip(Trip trip);
 		
-		Trip viewTrip(Trip trip);
+		Trip viewTrip(String code);
 		
 		List<Trip> viewAllTrips();
 		
-		List<Trip> viewAllTripsByOperator(BusOperator busOperator);
+		List<Trip> viewAllTripsByOperator(String operatorCode);
 		
-		Trip disableTrip(Trip trip);
+		Trip disableTrip(String code);
 		
-		Trip enableTrip(Trip trip);
+		Trip enableTrip(String code);
 
 	}
 

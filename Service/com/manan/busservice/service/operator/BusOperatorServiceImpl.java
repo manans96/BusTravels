@@ -11,8 +11,10 @@ import org.springframework.stereotype.Component;
 
 import com.manan.busservice.dto.mapper.operator.BusOperatorMapper;
 import com.manan.busservice.dto.model.operator.BusOperator;
+import com.manan.busservice.exception.BusAppException;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operator.BusOperatorEntity;
+import com.manan.busservice.response.ResponseEntity;
 import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
 
@@ -44,36 +46,44 @@ public class BusOperatorServiceImpl implements Services.BusOperatorService {
 
 		findByOperatorCode(busOperator.getOperatorCode());
 		if(optional.isEmpty()) {
-			return BusOperatorMapper.toBusOperator(repos.busOperatorRepository.save(new BusOperatorEntity()
-					.setOperatorName(busOperator.getOperatorName())
-					.setLastUpdate(DateUtils.today())
-					.setOperatorCode(busOperator.getOperatorCode())
-					.setOperatorDetails(busOperator.getOperatorDetails())
-					.setOperator(repos.userRepository.findByUserName(busOperator.getOperator().getUserName()).get().setRole("operator"))));
-		} else {
-			return new BusOperator();
+			try {
+				return BusOperatorMapper.toBusOperator(repos.busOperatorRepository.save(new BusOperatorEntity()
+						.setOperatorName(busOperator.getOperatorName())
+						.setLastUpdate(DateUtils.today())
+						.setOperatorCode(busOperator.getOperatorCode())
+						.setOperatorDetails(busOperator.getOperatorDetails())
+						.setOperator(repos.userRepository.findByUserName(busOperator.getOperator().getUserName()).get().setRole("operator"))));
+			} catch(RuntimeException re) {
+				throw new BusAppException.ValidationException(ResponseEntity.BUSOPERATOR);
+			}
 		}
+		throw new BusAppException.DuplicateEntityException(ResponseEntity.BUSOPERATOR);
 	}
 
 	@Override
 	public BusOperator updateBusOperatorDetails(BusOperator busOperator) {
 
 		findByOperatorCode(busOperator.getOperatorCode());
-		if(!optional.isEmpty()) {
-			BusOperatorEntity busOperatorEntity = optional.get();
-			return BusOperatorMapper.toBusOperator(repos.busOperatorRepository.save(busOperatorEntity)
-					.setOperatorDetails(busOperator.getOperatorDetails()));
-		} else {
-			return new BusOperator();
+		if(optional.isPresent()) {
+			try {
+				BusOperatorEntity busOperatorEntity = optional.get();
+				return BusOperatorMapper.toBusOperator(repos.busOperatorRepository.save(busOperatorEntity)
+						.setOperatorDetails(busOperator.getOperatorDetails()));
+			} catch(RuntimeException re) {
+				throw new BusAppException.ValidationException(ResponseEntity.BUSOPERATOR);
+			}
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.BUSOPERATOR);
 	}
 
 	@Override
-	public void deleteBusOperator(BusOperator busOperator) {
+	public void deleteBusOperator(String operatorCode) {
 
-		findByOperatorCode(busOperator.getOperatorCode());
-		if(!optional.isEmpty()) {
+		findByOperatorCode(operatorCode);
+		if(optional.isPresent()) {
 			repos.busOperatorRepository.delete(optional.get());
+		} else {
+			throw new BusAppException.EntityNotFoundException(ResponseEntity.BUSOPERATOR);
 		}
 
 	}
@@ -84,9 +94,8 @@ public class BusOperatorServiceImpl implements Services.BusOperatorService {
 		findByOperatorCode(operatorCode);
 		if(optional.isPresent()) {
 			return BusOperatorMapper.toBusOperator(optional.get());
-		} else {
-			return new BusOperator();
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.BUSOPERATOR);
 	}
 
 	@Override

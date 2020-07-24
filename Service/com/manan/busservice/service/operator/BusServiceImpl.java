@@ -11,9 +11,10 @@ import org.springframework.stereotype.Component;
 
 import com.manan.busservice.dto.mapper.operator.BusMapper;
 import com.manan.busservice.dto.model.operator.Bus;
-import com.manan.busservice.dto.model.operator.BusOperator;
+import com.manan.busservice.exception.BusAppException;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operator.BusEntity;
+import com.manan.busservice.response.ResponseEntity;
 import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
 
@@ -33,53 +34,62 @@ public class BusServiceImpl implements Services.BusService {
 	
 	Optional<BusEntity> optional;
 	
-	private void findByCode(Bus bus) {
-		optional = repos.busRepository.findByBusCode(bus.getBusCode());
+	private void findByCode(String busCode) {
+		optional = repos.busRepository.findByBusCode(busCode);
 	}
 
 	@Override
 	public Bus addBus(Bus bus) {
 
-		findByCode(bus);
+		findByCode(bus.getBusCode());
 		if(optional.isEmpty()) {
-			return BusMapper.toBus(repos.busRepository.save(new BusEntity()
-					.setBusCode(bus.getBusCode())
-					.setAvailable(bus.isAvailable())
-					.setBusModel(bus.getBusModel())
-					.setCapacity(bus.getCapacity())
-					.setHaltCost(bus.getHaltCost())
-					.setLastUpdate(DateUtils.today())
-					.setRunCost(bus.getRunCost())
-					.setOperator(repos.busOperatorRepository.findByOperatorCode(bus.getOperator().getOperatorCode())
-							.get())));
-		} else {
-			return new Bus();
+			try {
+				return BusMapper.toBus(repos.busRepository.save(new BusEntity()
+						.setBusCode(bus.getBusCode())
+						.setAvailable(bus.isAvailable())
+						.setBusModel(bus.getBusModel())
+						.setCapacity(bus.getCapacity())
+						.setHaltCost(bus.getHaltCost())
+						.setLastUpdate(DateUtils.today())
+						.setRunCost(bus.getRunCost())
+						.setOperator(repos.busOperatorRepository.findByOperatorCode(bus.getOperator().getOperatorCode())
+								.get())));
+			} catch(RuntimeException re) {
+				throw new BusAppException.ValidationException(ResponseEntity.BUS);
+			}
 		}
+		throw new BusAppException.DuplicateEntityException(ResponseEntity.BUS);
 	}
 
 	@Override
 	public Bus editBus(Bus bus) {
 
-		findByCode(bus);
+		findByCode(bus.getBusCode());
 		if(optional.isPresent()) {
-			BusEntity busEntity = optional.get();
-			return BusMapper.toBus(repos.busRepository.save(busEntity
-					.setAvailable(bus.isAvailable())
-					.setBusModel(bus.getBusModel())
-					.setCapacity(bus.getCapacity())
-					.setHaltCost(bus.getHaltCost())
-					.setLastUpdate(DateUtils.today())
-					.setRunCost(bus.getRunCost())));
-		} else {
-			return new Bus();
+			try {
+				BusEntity busEntity = optional.get();
+				return BusMapper.toBus(repos.busRepository.save(busEntity
+						.setAvailable(bus.isAvailable())
+						.setBusModel(bus.getBusModel())
+						.setCapacity(bus.getCapacity())
+						.setHaltCost(bus.getHaltCost())
+						.setLastUpdate(DateUtils.today())
+						.setRunCost(bus.getRunCost())));
+			} catch(RuntimeException re) {
+				throw new BusAppException.ValidationException(ResponseEntity.BUS);
+			}
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.BUS);
 	}
 
 	@Override
-	public Bus viewBus(Bus bus) {
+	public Bus viewBus(String busCode) {
 
-		findByCode(bus);
-		return BusMapper.toBus(optional.get());
+		findByCode(busCode);
+		if(optional.isPresent()) {
+			return BusMapper.toBus(optional.get());
+		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.BUS);
 	}
 
 	@Override
@@ -90,37 +100,35 @@ public class BusServiceImpl implements Services.BusService {
 	}
 
 	@Override
-	public List<Bus> viewAllBusByOperator(BusOperator busOperator) {
+	public List<Bus> viewAllBusByOperator(String operatorCode) {
 
 		return BusMapper.toBus(repos.busRepository.findByOperator(repos.busOperatorRepository
-				.findByOperatorCode(busOperator.getOperatorCode())
+				.findByOperatorCode(operatorCode)
 				.get()));
 	}
 
 	@Override
-	public Bus disableBus(Bus bus) {
+	public Bus disableBus(String busCode) {
 
-		findByCode(bus);
+		findByCode(busCode);
 		if(optional.isPresent()) {
 			BusEntity busEntity = optional.get();
 			return BusMapper.toBus(repos.busRepository.save(busEntity
 					.setAvailable(false)));
-		} else {
-			return new Bus();
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.BUS);
 	}
 
 	@Override
-	public Bus enableBus(Bus bus) {
+	public Bus enableBus(String busCode) {
 
-		findByCode(bus);
+		findByCode(busCode);
 		if(optional.isPresent()) {
 			BusEntity busEntity = optional.get();
 			return BusMapper.toBus(repos.busRepository.save(busEntity
 					.setAvailable(true)));
-		} else {
-			return new Bus();
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.BUS);
 	}
 
 }

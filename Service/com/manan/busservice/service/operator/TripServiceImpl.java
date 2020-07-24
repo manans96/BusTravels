@@ -10,10 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.manan.busservice.dto.mapper.operator.TripMapper;
-import com.manan.busservice.dto.model.operator.BusOperator;
 import com.manan.busservice.dto.model.operator.Trip;
+import com.manan.busservice.exception.BusAppException;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operator.TripEntity;
+import com.manan.busservice.response.ResponseEntity;
 import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
 
@@ -33,59 +34,64 @@ public class TripServiceImpl implements Services.TripService {
 	
 	Optional<TripEntity> optional;
 	
-	private void findByCode(Trip trip) {
-		optional = repos.tripRepository.findByCode(trip.getCode());
+	private void findByCode(String code) {
+		optional = repos.tripRepository.findByCode(code);
 	}
 
 	@Override
 	public Trip addTrip(Trip trip) {
 
-		findByCode(trip);
+		findByCode(trip.getCode());
 		if(optional.isEmpty()) {
-			return TripMapper.toTrip(repos.tripRepository.save(new TripEntity()
-					.setCode(trip.getCode())
-					.setArriveStopCode(trip.getArriveCode())
-					.setDepartStopCode(trip.getDepartCode())
-					.setHaltStop1(trip.getHaltStop1())
-					.setHaltStop2(trip.getHaltStop2())
-					.setHaltTime(trip.getHaltTime())
-					.setJourneyTime(trip.getJourneyTime())
-					.setLastUpdate(DateUtils.today())
-					.setOperator(repos.busOperatorRepository.findByOperatorCode(trip.getBusOperator().getOperatorCode())
-							.get())
-					.setVisible(true)));
-		} else {
-			return new Trip();
+			try {
+				return TripMapper.toTrip(repos.tripRepository.save(new TripEntity()
+						.setCode(trip.getCode())
+						.setArriveStopCode(trip.getArriveCode())
+						.setDepartStopCode(trip.getDepartCode())
+						.setHaltStop1(trip.getHaltStop1())
+						.setHaltStop2(trip.getHaltStop2())
+						.setHaltTime(trip.getHaltTime())
+						.setJourneyTime(trip.getJourneyTime())
+						.setLastUpdate(DateUtils.today())
+						.setOperator(repos.busOperatorRepository.findByOperatorCode(trip.getBusOperator().getOperatorCode())
+								.get())
+						.setVisible(true)));
+			} catch(RuntimeException re) {
+				throw new BusAppException.ValidationException(ResponseEntity.TRIP);
+			}
 		}
+		throw new BusAppException.DuplicateEntityException(ResponseEntity.TRIP);
 	}
 
 	@Override
 	public Trip editTrip(Trip trip) {
 		
-		findByCode(trip);
+		findByCode(trip.getCode());
 		if(optional.isPresent()) {
-			TripEntity tripEntity = optional.get();
-			return TripMapper.toTrip(repos.tripRepository.save(tripEntity
-					.setArriveStopCode(trip.getArriveCode())
-					.setDepartStopCode(trip.getDepartCode())
-					.setHaltStop1(trip.getHaltStop1())
-					.setHaltStop2(trip.getHaltStop2())
-					.setHaltTime(trip.getHaltTime())
-					.setJourneyTime(trip.getJourneyTime())));
-		} else {
-			return new Trip();
+			try {
+				TripEntity tripEntity = optional.get();
+				return TripMapper.toTrip(repos.tripRepository.save(tripEntity
+						.setArriveStopCode(trip.getArriveCode())
+						.setDepartStopCode(trip.getDepartCode())
+						.setHaltStop1(trip.getHaltStop1())
+						.setHaltStop2(trip.getHaltStop2())
+						.setHaltTime(trip.getHaltTime())
+						.setJourneyTime(trip.getJourneyTime())));
+			} catch(RuntimeException re) {
+				throw new BusAppException.ValidationException(ResponseEntity.TRIP);
+			}
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIP);
 	}
 
 	@Override
-	public Trip viewTrip(Trip trip) {
+	public Trip viewTrip(String code) {
 
-		findByCode(trip);
+		findByCode(code);
 		if(optional.isPresent()) {
 			return TripMapper.toTrip(optional.get());
-		} else {
-			return new Trip();
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIP);
 	}
 
 	@Override
@@ -96,38 +102,36 @@ public class TripServiceImpl implements Services.TripService {
 	}
 
 	@Override
-	public List<Trip> viewAllTripsByOperator(BusOperator busOperator) {
+	public List<Trip> viewAllTripsByOperator(String operatorCode) {
 
 		return TripMapper.toTrip(repos.tripRepository.findByOperator(repos.busOperatorRepository
-				.findByOperatorCode(busOperator.getOperatorCode())
+				.findByOperatorCode(operatorCode)
 				.get()));
 	}
 
 	@Override
-	public Trip disableTrip(Trip trip) {
+	public Trip disableTrip(String code) {
 
-		findByCode(trip);
+		findByCode(code);
 		if(optional.isPresent()) {
 			TripEntity tripEntity = optional.get();
 			return TripMapper.toTrip(repos.tripRepository.save(tripEntity
 					.setVisible(false)));
-		} else {
-			return new Trip();
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIP);
 
 	}
 
 	@Override
-	public Trip enableTrip(Trip trip) {
+	public Trip enableTrip(String code) {
 
-		findByCode(trip);
+		findByCode(code);
 		if(optional.isPresent()) {
 			TripEntity tripEntity = optional.get();
 			return TripMapper.toTrip(repos.tripRepository.save(tripEntity
 					.setVisible(true)));
-		} else {
-			return new Trip();
 		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIP);
 	}
 
 }

@@ -47,19 +47,22 @@ public class UserServiceImpl implements Services.UserService {
 
 		findByUserName(user.getUserName());
 		if(optional.isEmpty()) {
-			return UserMapper.toUser(repos.userRepository.save(new UserEntity()
-					.setUserName(user.getUserName())
-					.setFirstName(user.getFirstName())
-					.setLastName(user.getLastName())
-					.setEmail(user.getEmail())
-					.setPhoneNo(user.getPhoneNo())
-					.setRole(user.getRole())
-					.setUserAuth(new UserAuthEntity()
-							.setPassword(userAuth.getPassword())
-							.setLastUpdate(DateUtils.today()))));
-		} else {
-			throw new BusAppException.ValidationException(ResponseEntity.USER);
+			try {
+				return UserMapper.toUser(repos.userRepository.save(new UserEntity()
+						.setUserName(user.getUserName())
+						.setFirstName(user.getFirstName())
+						.setLastName(user.getLastName())
+						.setEmail(user.getEmail())
+						.setPhoneNo(user.getPhoneNo())
+						.setRole(user.getRole())
+						.setUserAuth(new UserAuthEntity()
+								.setPassword(userAuth.getPassword())
+								.setLastUpdate(DateUtils.today()))));
+			} catch (RuntimeException re) {
+				throw new BusAppException.ValidationException(ResponseEntity.USER);
+			}
 		}
+		throw new BusAppException.DuplicateEntityException(ResponseEntity.USER);
 	}
 
 	@Override
@@ -83,12 +86,16 @@ public class UserServiceImpl implements Services.UserService {
 
 		findByUserName(user.getUserName());
 		if(optional.isPresent()) {
-			UserEntity userEntity = optional.get();
-			return UserMapper.toUser(repos.userRepository.save(userEntity
-					.setEmail(user.getEmail())
-					.setFirstName(user.getFirstName())
-					.setLastName(user.getLastName())
-					.setPhoneNo(user.getPhoneNo())));
+			try {
+				UserEntity userEntity = optional.get();
+				return UserMapper.toUser(repos.userRepository.save(userEntity
+						.setEmail(user.getEmail())
+						.setFirstName(user.getFirstName())
+						.setLastName(user.getLastName())
+						.setPhoneNo(user.getPhoneNo())));
+			} catch(RuntimeException re) {
+				throw new BusAppException.ValidationException(ResponseEntity.USER);
+			}
 		}
 		throw new BusAppException.EntityNotFoundException(ResponseEntity.USER);
 	}
