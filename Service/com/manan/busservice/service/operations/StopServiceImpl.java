@@ -46,7 +46,7 @@ public class StopServiceImpl implements Services.StopService {
 				return StopMapper.toStop(repos.stopRepository.save(new StopEntity()
 						.setStopCode(stop.getStopCode())
 						.setStopName(stop.getStopName())
-						.setStopType(stop.getStopType())));
+						.setStopType(stop.getStopType().getStopType())));
 			} catch(RuntimeException re) {
 				throw new BusAppException.BadRequestException(ResponseEntity.STOP);
 			}
@@ -63,7 +63,7 @@ public class StopServiceImpl implements Services.StopService {
 				StopEntity stopEntity = optional.get();
 				return StopMapper.toStop(repos.stopRepository.save(stopEntity
 						.setStopName(stop.getStopName())
-						.setStopType(stop.getStopType())));
+						.setStopType(stop.getStopType().getStopType())));
 			} catch(RuntimeException re) {
 				throw new BusAppException.BadRequestException(ResponseEntity.STOP);
 			}

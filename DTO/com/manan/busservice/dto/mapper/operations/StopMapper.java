@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.manan.busservice.dto.model.operations.Stop;
 import com.manan.busservice.model.operations.StopEntity;
+import com.manan.busservice.utility.mnemonics.StopType;
 
 public class StopMapper {
 	
@@ -13,7 +14,7 @@ public class StopMapper {
 		return new Stop()
 				.setStopCode(stop.getStopCode())
 				.setStopName(stop.getStopName())
-				.setStopType(stop.getStopType());
+				.setStopType(StopType.valueOf(stop.getStopType().toUpperCase()));
 		
 	}
 	
