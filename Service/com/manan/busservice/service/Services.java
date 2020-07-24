@@ -114,6 +114,10 @@ public class Services {
 		
 		TripDetails viewTrip(String tripDetailCode);
 		
+		TripDetails deductSeats(String tripDetailCode, int tickets);
+
+		TripDetails addSeats(String tripDetailCode, int tickets);
+		
 		List<TripDetails> viewTripDetailsByTrip(String tripCode);
 		
 		List<TripDetails> viewAllTrips();

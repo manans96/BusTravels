@@ -48,7 +48,7 @@ public class TripDetailServiceImpl implements Services.TripDetailService {
 						.setTripDetailCode(tripDetails.getTripDetailCode())
 						.setDepartureTime(tripDetails.getDepartureTime())
 						.setActive(true)
-						.setAvailableSeats(tripDetails.getAvailableSeats())
+						.setAvailableSeats(tripDetails.getBus().getCapacity())
 						.setCost(tripDetails.getCost())
 						.setLastUpdate(DateUtils.today())
 						.setBus(repos.busRepository.findByBusCode(tripDetails.getBus().getBusCode())
@@ -132,6 +132,36 @@ public class TripDetailServiceImpl implements Services.TripDetailService {
 
 		return TripDetailsMapper.toTripDetails(repos.tripDetailsRepository.findByTripCode(repos.tripRepository.findByCode(tripCode)
 				.get()));
+	}
+
+	@Override
+	public TripDetails deductSeats(String tripDetailCode, int tickets) {
+
+		findByTripDetailsCode(tripDetailCode);
+		if(optional.isPresent()) {
+			TripDetailsEntity tripDetailsEntity = optional.get();
+			int i = tripDetailsEntity.getAvailableSeats();
+			i = i - tickets;
+			return TripDetailsMapper.toTripDetails(repos.tripDetailsRepository.save(tripDetailsEntity
+					.setAvailableSeats(i)
+					));
+		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIPDETAILS);	
+	}
+
+	@Override
+	public TripDetails addSeats(String tripDetailCode, int tickets) {
+		
+		findByTripDetailsCode(tripDetailCode);
+		if(optional.isPresent()) {
+			TripDetailsEntity tripDetailsEntity = optional.get();
+			int i = tripDetailsEntity.getAvailableSeats();
+			i = i + tickets;
+			return TripDetailsMapper.toTripDetails(repos.tripDetailsRepository.save(tripDetailsEntity
+					.setAvailableSeats(i)
+					));
+		}
+		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIPDETAILS);	
 	}
 
 }

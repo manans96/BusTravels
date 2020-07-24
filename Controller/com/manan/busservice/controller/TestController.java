@@ -40,13 +40,13 @@ public class TestController {
 		User user = new User()
 				.setFirstName("Manan")
 				.setLastName("Sanghvi")
-				.setUserName("test20")
-				.setEmail("mks8328@klsdmcla")
-				.setPhoneNo("24646464818")
+				.setUserName("user96")
+				.setEmail("mks8328@hgfla")
+				.setPhoneNo("2894653818")
 				.setRole("user");
 		
 		UserAuth userAuth = new UserAuth()
-				.setPassword("neiuewn48fi")
+				.setPassword("neiuewfn48fi")
 				.setLastUpdate(DateUtils.today());
 		
 		return new ResponseEntity<>(services.userService.signup(user, userAuth), HttpStatus.OK);
@@ -58,7 +58,7 @@ public class TestController {
 	@GetMapping("/get")
 	public @ResponseBody User getUser() {
 
-		return services.userService.login("test96" , "neiuewn48fi");
+		return services.userService.login("test96" , "neiuewfn48fi");
 //		return busOperatorService.viewBusOperator("AAC123");
 //		return busService.viewAllBusByOperator(new BusOperator().setOperatorCode("AAC123"));
 	}
@@ -118,9 +118,9 @@ public class TestController {
 	public @ResponseBody Stop newStop() {
 		
 		Stop stop = new Stop()
-				.setStopCode("LON")
-				.setStopName("Lonavla")
-				.setStopType("minor");
+				.setStopCode("PUN")
+				.setStopName("Pune")
+				.setStopType("major");
 		
 		services.stopService.addStop(stop);
 		return services.stopService.findStop(stop.getStopCode());
