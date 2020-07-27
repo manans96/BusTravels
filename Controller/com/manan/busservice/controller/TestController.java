@@ -22,6 +22,7 @@ import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.dto.model.user.UserAuth;
 import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
+import com.manan.busservice.utility.mnemonics.StopType;
 import com.manan.busservice.utility.mnemonics.UserRole;
 
 @RestController
@@ -121,7 +122,7 @@ public class TestController {
 		Stop stop = new Stop()
 				.setStopCode("PUN")
 				.setStopName("Pune")
-				.setStopType("major");
+				.setStopType(StopType.MAJOR);
 		
 		services.stopService.addStop(stop);
 		return services.stopService.findStop(stop.getStopCode());
