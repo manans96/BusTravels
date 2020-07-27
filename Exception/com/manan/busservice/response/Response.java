@@ -63,7 +63,7 @@ public static Response forbidden() {
 		return response;
 	}
 	
-	public void addErrorMsgToResponse(Exception ex, ResponseEntity entity, String details) {
+	public void addErrorMsgToResponse(Exception ex, EntityResponse entity, String details) {
 		ResponseError error = new ResponseError()
 				.setMessage(entity.getResponseEntity())
 				.setDetails(details)

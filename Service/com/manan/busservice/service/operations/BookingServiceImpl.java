@@ -14,7 +14,7 @@ import com.manan.busservice.dto.model.operations.Booking;
 import com.manan.busservice.exception.BusAppException;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operations.BookingEntity;
-import com.manan.busservice.response.ResponseEntity;
+import com.manan.busservice.response.EntityResponse;
 import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
 
@@ -57,10 +57,10 @@ public class BookingServiceImpl implements Services.BookingService {
 						.setPassenger(repos.userRepository.findByUserName(booking.getPassenger().getUserName())
 								.get())));
 			} catch(RuntimeException re) {
-				throw new BusAppException.BadRequestException(ResponseEntity.BOOKING);
+				throw new BusAppException.BadRequestException(EntityResponse.BOOKING);
 			}
 		}
-		throw new BusAppException.DuplicateEntityException(ResponseEntity.BOOKING);
+		throw new BusAppException.DuplicateEntityException(EntityResponse.BOOKING);
 	}
 
 	@Override
@@ -80,10 +80,10 @@ public class BookingServiceImpl implements Services.BookingService {
 								.get())
 						));
 			} catch(RuntimeException re) {
-				throw new BusAppException.BadRequestException(ResponseEntity.BOOKING);
+				throw new BusAppException.BadRequestException(EntityResponse.BOOKING);
 			}
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.BOOKING);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.BOOKING);
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class BookingServiceImpl implements Services.BookingService {
 			BookingMapper.toBooking(repos.bookingRepository.save(bookingEntity
 					.setCancelled(true)));
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.BOOKING);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.BOOKING);
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public class BookingServiceImpl implements Services.BookingService {
 		if(optional.isPresent()) {
 			return BookingMapper.toBooking(optional.get());
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.BOOKING);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.BOOKING);
 	}
 
 	@Override

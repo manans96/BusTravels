@@ -3,7 +3,7 @@
  */
 package com.manan.busservice.exception;
 
-import com.manan.busservice.response.ResponseEntity;
+import com.manan.busservice.response.EntityResponse;
 
 /**
  * @author Manan Sanghvi
@@ -18,19 +18,19 @@ public class BusAppException {
 		 */
 		private static final long serialVersionUID = 8717991220116242274L;
 
-		private ResponseEntity entity;
+		private EntityResponse entity;
 		
-		public EntityNotFoundException(ResponseEntity entity) {
+		public EntityNotFoundException(EntityResponse entity) {
 			super();
 			this.entity = entity;
 		}
 
-		public EntityNotFoundException(ResponseEntity entity, String message) {
+		public EntityNotFoundException(EntityResponse entity, String message) {
 			super(message);
 			this.entity = entity;
 		}
 		
-		public ResponseEntity getEntity() {
+		public EntityResponse getEntity() {
 			return this.entity;
 		}
 	}
@@ -42,19 +42,19 @@ public class BusAppException {
 		 */
 		private static final long serialVersionUID = -824903261791335262L;
 
-		private ResponseEntity entity;
+		private EntityResponse entity;
 
-		public DuplicateEntityException(ResponseEntity entity) {
+		public DuplicateEntityException(EntityResponse entity) {
 			super();
 			this.entity = entity;
 		}
 
-		public DuplicateEntityException(ResponseEntity entity, String message) {
+		public DuplicateEntityException(EntityResponse entity, String message) {
 			super(message);
 			this.entity = entity;
 		}
 		
-		public ResponseEntity getEntity() {
+		public EntityResponse getEntity() {
 			return this.entity;
 		}
 	}
@@ -66,19 +66,19 @@ public class BusAppException {
 		 */
 		private static final long serialVersionUID = 2064428674233075906L;
 		
-		private ResponseEntity entity;
+		private EntityResponse entity;
 
-		public BadRequestException(ResponseEntity entity) {
+		public BadRequestException(EntityResponse entity) {
 			super();
 			this.entity = entity;
 		}
 
-		public BadRequestException(ResponseEntity entity, String message) {
+		public BadRequestException(EntityResponse entity, String message) {
 			super(message);
 			this.entity = entity;
 		}
 
-		public ResponseEntity getEntity() {
+		public EntityResponse getEntity() {
 			return entity;
 		}
 	}
@@ -90,19 +90,19 @@ public class BusAppException {
 		 */
 		private static final long serialVersionUID = -1651100744220140201L;
 
-		private ResponseEntity entity;
+		private EntityResponse entity;
 
-		public WrongCredentialsException(ResponseEntity entity) {
+		public WrongCredentialsException(EntityResponse entity) {
 			super();
 			this.entity = entity;
 		}
 
-		public WrongCredentialsException(ResponseEntity entity, String message) {
+		public WrongCredentialsException(EntityResponse entity, String message) {
 			super(message);
 			this.entity = entity;
 		}
 
-		public ResponseEntity getEntity() {
+		public EntityResponse getEntity() {
 			return entity;
 		}
 		
@@ -115,19 +115,19 @@ public class BusAppException {
 		 */
 		private static final long serialVersionUID = 1578854205725465642L;
 
-		private ResponseEntity entity;
+		private EntityResponse entity;
 
-		public InternalServerException(ResponseEntity entity) {
+		public InternalServerException(EntityResponse entity) {
 			super();
 			this.entity = entity;
 		}
 
-		public InternalServerException(ResponseEntity entity, String message) {
+		public InternalServerException(EntityResponse entity, String message) {
 			super(message);
 			this.entity = entity;
 		}
 
-		public ResponseEntity getEntity() {
+		public EntityResponse getEntity() {
 			return entity;
 		}
 	}
@@ -139,19 +139,19 @@ public class BusAppException {
 		 */
 		private static final long serialVersionUID = 4227305455472382045L;
 		
-		private ResponseEntity entity;
+		private EntityResponse entity;
 
-		public ForbiddenException(ResponseEntity entity) {
+		public ForbiddenException(EntityResponse entity) {
 			super();
 			this.entity = entity;
 		}
 
-		public ForbiddenException(ResponseEntity entity, String message) {
+		public ForbiddenException(EntityResponse entity, String message) {
 			super(message);
 			this.entity = entity;
 		}
 
-		public ResponseEntity getEntity() {
+		public EntityResponse getEntity() {
 			return entity;
 		}
 	}

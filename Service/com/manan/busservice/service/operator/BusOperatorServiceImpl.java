@@ -14,7 +14,7 @@ import com.manan.busservice.dto.model.operator.BusOperator;
 import com.manan.busservice.exception.BusAppException;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operator.BusOperatorEntity;
-import com.manan.busservice.response.ResponseEntity;
+import com.manan.busservice.response.EntityResponse;
 import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
 
@@ -54,10 +54,10 @@ public class BusOperatorServiceImpl implements Services.BusOperatorService {
 						.setOperatorDetails(busOperator.getOperatorDetails())
 						.setOperator(repos.userRepository.findByUserName(busOperator.getOperator().getUserName()).get().setRole("operator"))));
 			} catch(RuntimeException re) {
-				throw new BusAppException.BadRequestException(ResponseEntity.BUSOPERATOR);
+				throw new BusAppException.BadRequestException(EntityResponse.BUSOPERATOR);
 			}
 		}
-		throw new BusAppException.DuplicateEntityException(ResponseEntity.BUSOPERATOR);
+		throw new BusAppException.DuplicateEntityException(EntityResponse.BUSOPERATOR);
 	}
 
 	@Override
@@ -70,10 +70,10 @@ public class BusOperatorServiceImpl implements Services.BusOperatorService {
 				return BusOperatorMapper.toBusOperator(repos.busOperatorRepository.save(busOperatorEntity)
 						.setOperatorDetails(busOperator.getOperatorDetails()));
 			} catch(RuntimeException re) {
-				throw new BusAppException.BadRequestException(ResponseEntity.BUSOPERATOR);
+				throw new BusAppException.BadRequestException(EntityResponse.BUSOPERATOR);
 			}
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.BUSOPERATOR);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.BUSOPERATOR);
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class BusOperatorServiceImpl implements Services.BusOperatorService {
 		if(optional.isPresent()) {
 			repos.busOperatorRepository.delete(optional.get());
 		} else {
-			throw new BusAppException.EntityNotFoundException(ResponseEntity.BUSOPERATOR);
+			throw new BusAppException.EntityNotFoundException(EntityResponse.BUSOPERATOR);
 		}
 
 	}
@@ -95,7 +95,7 @@ public class BusOperatorServiceImpl implements Services.BusOperatorService {
 		if(optional.isPresent()) {
 			return BusOperatorMapper.toBusOperator(optional.get());
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.BUSOPERATOR);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.BUSOPERATOR);
 	}
 
 	@Override

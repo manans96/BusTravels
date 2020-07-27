@@ -13,7 +13,7 @@ import com.manan.busservice.exception.BusAppException;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.user.UserAuthEntity;
 import com.manan.busservice.model.user.UserEntity;
-import com.manan.busservice.response.ResponseEntity;
+import com.manan.busservice.response.EntityResponse;
 import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
 
@@ -59,10 +59,10 @@ public class UserServiceImpl implements Services.UserService {
 								.setPassword(userAuth.getPassword())
 								.setLastUpdate(DateUtils.today()))));
 			} catch (RuntimeException re) {
-				throw new BusAppException.BadRequestException(ResponseEntity.USER);
+				throw new BusAppException.BadRequestException(EntityResponse.USER);
 			}
 		}
-		throw new BusAppException.DuplicateEntityException(ResponseEntity.USER);
+		throw new BusAppException.DuplicateEntityException(EntityResponse.USER);
 	}
 
 	@Override
@@ -75,10 +75,10 @@ public class UserServiceImpl implements Services.UserService {
 				return UserMapper.toUser(optional.get());
 			}
 			if(!passAuth) {
-				throw new BusAppException.WrongCredentialsException(ResponseEntity.USER);
+				throw new BusAppException.WrongCredentialsException(EntityResponse.USER);
 			}
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.USER);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.USER);
 	}
 
 	@Override
@@ -94,10 +94,10 @@ public class UserServiceImpl implements Services.UserService {
 						.setLastName(user.getLastName())
 						.setPhoneNo(user.getPhoneNo())));
 			} catch(RuntimeException re) {
-				throw new BusAppException.BadRequestException(ResponseEntity.USER, re.getMessage());
+				throw new BusAppException.BadRequestException(EntityResponse.USER, re.getMessage());
 			}
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.USER);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.USER);
 	}
 
 	@Override
@@ -115,10 +115,10 @@ public class UserServiceImpl implements Services.UserService {
 								.setLastUpdate(DateUtils.today()))));
 			}
 			if(!passMatch) {
-				throw new BusAppException.WrongCredentialsException(ResponseEntity.USER);
+				throw new BusAppException.WrongCredentialsException(EntityResponse.USER);
 			}
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.USER);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.USER);
 	}
 
 	@Override
@@ -130,7 +130,7 @@ public class UserServiceImpl implements Services.UserService {
 			return UserMapper.toUser(repos.userRepository.save(userEntity
 					.setRole(role)));
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.USER);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.USER);
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public class UserServiceImpl implements Services.UserService {
 		if(optional.isPresent()) {
 			return UserMapper.toUser(optional.get());
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.USER);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.USER);
 	}
 
 	@Override

@@ -14,7 +14,7 @@ import com.manan.busservice.dto.model.operations.Ticket;
 import com.manan.busservice.exception.BusAppException;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operations.TicketEntity;
-import com.manan.busservice.response.ResponseEntity;
+import com.manan.busservice.response.EntityResponse;
 import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
 
@@ -60,10 +60,10 @@ public class TicketServiceImpl implements Services.TicketService {
 								.getUserName())
 								.get())));
 			} catch(RuntimeException re) {
-				throw new BusAppException.BadRequestException(ResponseEntity.TICKET);
+				throw new BusAppException.BadRequestException(EntityResponse.TICKET);
 			}
 		}
-		throw new BusAppException.DuplicateEntityException(ResponseEntity.TICKET);
+		throw new BusAppException.DuplicateEntityException(EntityResponse.TICKET);
 	}
 
 	@Override
@@ -77,9 +77,9 @@ public class TicketServiceImpl implements Services.TicketService {
 					.setLastUpdate(DateUtils.today())
 					));
 		} else if(optional.get().isCancellable() == false) {
-			throw new BusAppException.ForbiddenException(ResponseEntity.TICKET);
+			throw new BusAppException.ForbiddenException(EntityResponse.TICKET);
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.TICKET);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.TICKET);
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class TicketServiceImpl implements Services.TicketService {
 		if(optional.isPresent()) {
 			return TicketMapper.toTicket(optional.get());
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.TICKET);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.TICKET);
 	}
 
 	@Override

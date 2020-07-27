@@ -7,7 +7,7 @@ package com.manan.busservice.response;
  * @author Manan Sanghvi
  *
  */
-public enum ResponseEntity {
+public enum EntityResponse {
 	
 	USER("user"),
 	BUS("bus"),
@@ -20,7 +20,7 @@ public enum ResponseEntity {
 	
 	private String responseEntity;
 	
-	ResponseEntity(String responseEntity) {
+	EntityResponse(String responseEntity) {
 		this.responseEntity = responseEntity;
 	}
 

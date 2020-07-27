@@ -14,7 +14,7 @@ import com.manan.busservice.dto.model.operations.Stop;
 import com.manan.busservice.exception.BusAppException;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operations.StopEntity;
-import com.manan.busservice.response.ResponseEntity;
+import com.manan.busservice.response.EntityResponse;
 import com.manan.busservice.service.Services;
 
 /**
@@ -48,10 +48,10 @@ public class StopServiceImpl implements Services.StopService {
 						.setStopName(stop.getStopName())
 						.setStopType(stop.getStopType().getStopType())));
 			} catch(RuntimeException re) {
-				throw new BusAppException.BadRequestException(ResponseEntity.STOP);
+				throw new BusAppException.BadRequestException(EntityResponse.STOP);
 			}
 		}
-		throw new BusAppException.DuplicateEntityException(ResponseEntity.STOP);
+		throw new BusAppException.DuplicateEntityException(EntityResponse.STOP);
 	}
 
 	@Override
@@ -65,10 +65,10 @@ public class StopServiceImpl implements Services.StopService {
 						.setStopName(stop.getStopName())
 						.setStopType(stop.getStopType().getStopType())));
 			} catch(RuntimeException re) {
-				throw new BusAppException.BadRequestException(ResponseEntity.STOP);
+				throw new BusAppException.BadRequestException(EntityResponse.STOP);
 			}
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.STOP);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.STOP);
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class StopServiceImpl implements Services.StopService {
 		if(optional.isPresent()) {
 			return StopMapper.toStop(optional.get());
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.STOP);		
+		throw new BusAppException.EntityNotFoundException(EntityResponse.STOP);		
 	}
 
 	@Override

@@ -14,7 +14,7 @@ import com.manan.busservice.dto.model.operations.TripDetails;
 import com.manan.busservice.exception.BusAppException;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operations.TripDetailsEntity;
-import com.manan.busservice.response.ResponseEntity;
+import com.manan.busservice.response.EntityResponse;
 import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
 
@@ -57,10 +57,10 @@ public class TripDetailServiceImpl implements Services.TripDetailService {
 								.get())
 						));
 			} catch(RuntimeException re) {
-				throw new BusAppException.BadRequestException(ResponseEntity.TRIPDETAILS);
+				throw new BusAppException.BadRequestException(EntityResponse.TRIPDETAILS);
 			}
 		}
-		throw new BusAppException.DuplicateEntityException(ResponseEntity.TRIPDETAILS);
+		throw new BusAppException.DuplicateEntityException(EntityResponse.TRIPDETAILS);
 	}
 
 	@Override
@@ -79,10 +79,10 @@ public class TripDetailServiceImpl implements Services.TripDetailService {
 								.get())
 						));
 			} catch(RuntimeException re) {
-				throw new BusAppException.BadRequestException(ResponseEntity.TRIPDETAILS);
+				throw new BusAppException.BadRequestException(EntityResponse.TRIPDETAILS);
 			}
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIPDETAILS);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.TRIPDETAILS);
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class TripDetailServiceImpl implements Services.TripDetailService {
 					.setActive(false)
 					.setLastUpdate(DateUtils.today())));
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIPDETAILS);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.TRIPDETAILS);
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class TripDetailServiceImpl implements Services.TripDetailService {
 					.setActive(true)
 					.setLastUpdate(DateUtils.today())));
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIPDETAILS);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.TRIPDETAILS);
 	}
 
 	@Override
@@ -118,7 +118,7 @@ public class TripDetailServiceImpl implements Services.TripDetailService {
 		if(optional.isPresent()) {
 			return TripDetailsMapper.toTripDetails(optional.get());
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIPDETAILS);		
+		throw new BusAppException.EntityNotFoundException(EntityResponse.TRIPDETAILS);		
 	}
 
 	@Override
@@ -146,7 +146,7 @@ public class TripDetailServiceImpl implements Services.TripDetailService {
 					.setAvailableSeats(i)
 					));
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIPDETAILS);	
+		throw new BusAppException.EntityNotFoundException(EntityResponse.TRIPDETAILS);	
 	}
 
 	@Override
@@ -161,7 +161,7 @@ public class TripDetailServiceImpl implements Services.TripDetailService {
 					.setAvailableSeats(i)
 					));
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIPDETAILS);	
+		throw new BusAppException.EntityNotFoundException(EntityResponse.TRIPDETAILS);	
 	}
 
 }

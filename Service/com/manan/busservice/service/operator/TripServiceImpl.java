@@ -14,7 +14,7 @@ import com.manan.busservice.dto.model.operator.Trip;
 import com.manan.busservice.exception.BusAppException;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.operator.TripEntity;
-import com.manan.busservice.response.ResponseEntity;
+import com.manan.busservice.response.EntityResponse;
 import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
 
@@ -57,10 +57,10 @@ public class TripServiceImpl implements Services.TripService {
 								.get())
 						.setVisible(true)));
 			} catch(RuntimeException re) {
-				throw new BusAppException.BadRequestException(ResponseEntity.TRIP);
+				throw new BusAppException.BadRequestException(EntityResponse.TRIP);
 			}
 		}
-		throw new BusAppException.DuplicateEntityException(ResponseEntity.TRIP);
+		throw new BusAppException.DuplicateEntityException(EntityResponse.TRIP);
 	}
 
 	@Override
@@ -78,10 +78,10 @@ public class TripServiceImpl implements Services.TripService {
 						.setHaltTime(trip.getHaltTime())
 						.setJourneyTime(trip.getJourneyTime())));
 			} catch(RuntimeException re) {
-				throw new BusAppException.BadRequestException(ResponseEntity.TRIP);
+				throw new BusAppException.BadRequestException(EntityResponse.TRIP);
 			}
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIP);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.TRIP);
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class TripServiceImpl implements Services.TripService {
 		if(optional.isPresent()) {
 			return TripMapper.toTrip(optional.get());
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIP);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.TRIP);
 	}
 
 	@Override
@@ -118,7 +118,7 @@ public class TripServiceImpl implements Services.TripService {
 			return TripMapper.toTrip(repos.tripRepository.save(tripEntity
 					.setVisible(false)));
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIP);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.TRIP);
 
 	}
 
@@ -131,7 +131,7 @@ public class TripServiceImpl implements Services.TripService {
 			return TripMapper.toTrip(repos.tripRepository.save(tripEntity
 					.setVisible(true)));
 		}
-		throw new BusAppException.EntityNotFoundException(ResponseEntity.TRIP);
+		throw new BusAppException.EntityNotFoundException(EntityResponse.TRIP);
 	}
 
 }
