@@ -42,13 +42,13 @@ public class TestController {
 		User user = new User()
 				.setFirstName("Manan")
 				.setLastName("Sanghvi")
-				.setUserName("extra20")
-				.setEmail("extra20@hgfla")
-				.setPhoneNo("28767455648")
+				.setUserName("extra2020")
+				.setEmail("extra20@hgfwgrdsla")
+				.setPhoneNo("2876787455648")
 				.setRole(UserRole.USER);
 		
 		UserAuth userAuth = new UserAuth()
-				.setPassword("neiuewfnwesf48dffi")
+				.setPassword("neiuewfnwesfd48dffi")
 				.setLastUpdate(DateUtils.today());
 		
 		return new ResponseEntity<>(services.userService.signup(user, userAuth), HttpStatus.OK);
@@ -60,7 +60,7 @@ public class TestController {
 	@GetMapping("/get")
 	public @ResponseBody User getUser() {
 
-		return services.userService.login("test96" , "neiuewfn48fi");
+		return services.userService.login("extra2020" , "neiuewfnwesfd48dffi");
 //		return busOperatorService.viewBusOperator("AAC123");
 //		return busService.viewAllBusByOperator(new BusOperator().setOperatorCode("AAC123"));
 	}

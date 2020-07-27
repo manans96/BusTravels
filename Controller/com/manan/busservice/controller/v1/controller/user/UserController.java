@@ -53,6 +53,7 @@ public class UserController {
 				.setRole(UserRole.USER),
 			new UserAuth()
 				.setPassword(signup.getPassword()));
+		services.userService.login(signup.getUserName(), signup.getPassword());
 
 		return new ResponseEntity<>("Signup for " + signup.getUserName() + " successful", HttpStatus.CREATED);
 	}

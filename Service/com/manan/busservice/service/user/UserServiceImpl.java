@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.manan.busservice.dto.mapper.user.UserMapper;
@@ -38,6 +40,8 @@ public class UserServiceImpl implements Services.UserService {
 	
 	private Optional<UserEntity> optional;
 	
+	//implementing password encryption
+	private PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	
 	private void findByUserName(String userName) {
 		optional = repos.userRepository.findByUserName(userName);
@@ -57,7 +61,7 @@ public class UserServiceImpl implements Services.UserService {
 						.setPhoneNo(user.getPhoneNo())
 						.setRole(user.getRole().getRoleString())
 						.setUserAuth(new UserAuthEntity()
-								.setPassword(userAuth.getPassword())
+								.setPassword(passwordEncoder.encode(userAuth.getPassword()))
 								.setLastUpdate(DateUtils.today()))));
 			} catch (RuntimeException re) {
 				throw new BusAppException.BadRequestException(EntityResponse.USER);
@@ -71,7 +75,7 @@ public class UserServiceImpl implements Services.UserService {
 
 		findByUserName(userName);
 		if(optional.isPresent()) {
-			boolean passAuth = password.equals(optional.get().getUserAuth().getPassword());
+			boolean passAuth = passwordEncoder.matches(password, optional.get().getUserAuth().getPassword());
 			if(passAuth) {
 				return UserMapper.toUser(optional.get());
 			}
@@ -106,7 +110,7 @@ public class UserServiceImpl implements Services.UserService {
 
 		findByUserName(userName);
 		if(optional.isPresent()) {
-			boolean passMatch = oldPassword.equals(optional.get().getUserAuth().getPassword());
+			boolean passMatch = passwordEncoder.matches(oldPassword, optional.get().getUserAuth().getPassword());
 			if(passMatch) {
 				UserEntity userEntity = optional.get();
 				UserAuthEntity userAuthEntity = userEntity.getUserAuth();
