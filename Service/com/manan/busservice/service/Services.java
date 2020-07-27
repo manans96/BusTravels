@@ -18,6 +18,7 @@ import com.manan.busservice.dto.model.operator.BusOperator;
 import com.manan.busservice.dto.model.operator.Trip;
 import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.dto.model.user.UserAuth;
+import com.manan.busservice.utility.mnemonics.UserRole;
 
 /**
  * @author Manan Sanghvi
@@ -37,7 +38,7 @@ public class Services {
 		
 		User updatePassword(String userName, String oldPassword, String newPassword);
 		
-		User changeRole(String userName, String role);
+		User changeRole(String userName, UserRole role);
 		
 		User findUser(String userName);
 

@@ -9,6 +9,7 @@ package com.manan.busservice.utility.mnemonics;
  */
 public enum UserRole {
 
+	SUPERADMIN("superadmin"),
 	ADMIN("admin"),
 	OPERATOR("operator"),
 	USER("user");

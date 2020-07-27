@@ -16,6 +16,7 @@ import com.manan.busservice.model.user.UserEntity;
 import com.manan.busservice.response.EntityResponse;
 import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.DateUtils;
+import com.manan.busservice.utility.mnemonics.UserRole;
 
 /**
  * @author Manan Sanghvi
@@ -122,13 +123,16 @@ public class UserServiceImpl implements Services.UserService {
 	}
 
 	@Override
-	public User changeRole(String userName, String role) {
+	public User changeRole(String userName, UserRole role) {
 
 		findByUserName(userName);
 		if(optional.isPresent()) {
 			UserEntity userEntity = optional.get();
-			return UserMapper.toUser(repos.userRepository.save(userEntity
-					.setRole(role)));
+			if(!userEntity.getRole().equals(UserRole.SUPERADMIN.getRoleString())) {
+				return UserMapper.toUser(repos.userRepository.save(userEntity
+						.setRole(role.getRoleString())));
+			}
+			throw new BusAppException.ForbiddenException(EntityResponse.USER);
 		}
 		throw new BusAppException.EntityNotFoundException(EntityResponse.USER);
 	}
