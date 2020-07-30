@@ -3,8 +3,6 @@
  */
 package com.manan.busservice.controller.v1.controller.user;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -100,23 +98,5 @@ public class UserController {
 		return new ResponseEntity<>(services.userService.findUser(username), HttpStatus.OK);
 	}
 	
-	@GetMapping("/getusers")
-	public ResponseEntity<List<User>> getAllUsers() {
-		
-		return new ResponseEntity<>(services.userService.findAllUsers(), HttpStatus.OK);
-	}
 	
-	@PatchMapping("/makeadmin/{username}")
-	public ResponseEntity<String> makeAdmin(@PathVariable String username) {
-		
-		services.userService.changeRole(username, UserRole.ADMIN);
-		return new ResponseEntity<>("The user " + username + " is now an admin", HttpStatus.OK);
-	}
-	
-	@PatchMapping("/makeuser/{username}")
-	public ResponseEntity<String> makeUser(@PathVariable String username) {
-		
-		services.userService.changeRole(username, UserRole.USER);
-		return new ResponseEntity<>("The admin " + username + " is now a user", HttpStatus.OK);
-	}
 }
