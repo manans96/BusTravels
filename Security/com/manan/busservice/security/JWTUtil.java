@@ -11,7 +11,6 @@ import javax.crypto.SecretKey;
 
 import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.utility.DateUtils;
-import com.manan.busservice.utility.mnemonics.UserRole;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -37,16 +36,14 @@ public class JWTUtil implements Serializable {
 	
 	
 	public String userToken(User user) {
-		UserRole role = user.getRole();
 		String subject = user.getUserName();
-		return generateToken(role, subject);
+		return generateToken(subject);
 	}
 	
-	private String generateToken(UserRole role, String subject) {
+	private String generateToken(String subject) {
 		
 		return Jwts.builder()
-				.setSubject(role.getRoleString())
-				.setAudience(subject)
+				.setSubject(subject)
 				.setIssuedAt(DateUtils.today())
 				.setExpiration(new Date(System.currentTimeMillis() + JWT_VALIDITY))
 				.signWith(key)
@@ -57,6 +54,10 @@ public class JWTUtil implements Serializable {
 		return getClaimFromToken(token, Claims::getSubject);
 	}
 	
+	private Date getExpirationDateFromToken(String token) {
+		return getClaimFromToken(token, Claims::getExpiration);
+	}
+	
 	// T means any object ie it signifies Object
 	public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
 		final Claims claims = getAllClaimsFromToken(token);
@@ -65,5 +66,15 @@ public class JWTUtil implements Serializable {
 	
 	private Claims getAllClaimsFromToken(String token) {
 		return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+	}
+	
+	private boolean isTokenExpired(String token) {
+		final Date expiration = getExpirationDateFromToken(token);
+		return expiration.after(DateUtils.today());
+	}
+	
+	public boolean validateToken(String token, User user) {
+		String username = getUsernameFromToken(token);
+		return username.equals(user.getUserName()) && !isTokenExpired(token);
 	}
 }

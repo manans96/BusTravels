@@ -9,19 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.manan.busservice.controller.v1.request.user.ChangePasswordRequest;
-import com.manan.busservice.controller.v1.request.user.LoginRequest;
-import com.manan.busservice.controller.v1.request.user.SignUpRequest;
-import com.manan.busservice.controller.v1.request.user.UserEditRequest;
+import com.manan.busservice.controller.v1.controller.user.request.ChangePasswordRequest;
+import com.manan.busservice.controller.v1.controller.user.request.UserEditRequest;
 import com.manan.busservice.dto.model.user.User;
-import com.manan.busservice.dto.model.user.UserAuth;
 import com.manan.busservice.service.Services;
-import com.manan.busservice.utility.mnemonics.UserRole;
 
 /**
  * @author Manan Sanghvi
@@ -38,33 +33,7 @@ public class UserController {
 		this.services = services;
 	}
 	
-	@PostMapping("/signup")
-	public ResponseEntity<String> signup(@RequestBody SignUpRequest signup) {
-		
-		services.userService.signup(
-			new User()
-				.setEmail(signup.getEmail())
-				.setUserName(signup.getUserName())
-				.setFirstName(signup.getFirstName())
-				.setLastName(signup.getLastName())
-				.setPhoneNo(signup.getPhoneNo())
-				.setRole(UserRole.USER),
-			new UserAuth()
-				.setPassword(signup.getPassword()));
-		services.userService.login(signup.getUserName(), signup.getPassword());
-
-		return new ResponseEntity<>("Signup for " + signup.getUserName() + " successful", HttpStatus.CREATED);
-	}
-	
-	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody LoginRequest login) {
-		
-		services.userService.login(login.getUserName(), login.getPassword());
-		
-		return new ResponseEntity<>(login.getUserName() + " login successful", HttpStatus.OK);
-	}
-	
-	@PostMapping("/logout")
+	@GetMapping("/logout")
 	public ResponseEntity<String> logout() {
 		
 		return new ResponseEntity<>("Logout successful", HttpStatus.OK);

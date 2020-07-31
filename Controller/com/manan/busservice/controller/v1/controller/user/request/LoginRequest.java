@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.manan.busservice.controller.v1.request.user;
+package com.manan.busservice.controller.v1.controller.user.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

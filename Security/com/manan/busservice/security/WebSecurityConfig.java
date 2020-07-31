@@ -41,8 +41,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.jdbcAuthentication()
 				.dataSource(dataSource)
 				.passwordEncoder(passwordEncoder())
-				.usersByUsernameQuery("")
-				.authoritiesByUsernameQuery("");
+				.usersByUsernameQuery(
+						"select u.user_name as username, a.password as password, u.enabled as enabled from user u, userauth a"
+						+ " where id_user=id_user_auth=1 and user_name = ?")
+				.authoritiesByUsernameQuery("select user_name as username, role as authority from user where user_name = ?");
 	}
 
 	@Override
@@ -65,9 +67,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable()
 			//authorize these requests for all
 			.authorizeRequests().antMatchers("/api/v1/login", "/api/v1/signup").permitAll()
-			.antMatchers("/api/v1/admin").hasRole(UserRole.ADMIN.getRoleString())
+			.antMatchers("/api/v1/admin")
+				.hasAnyRole(UserRole.ADMIN.getRoleString(), UserRole.SUPERADMIN.getRoleString())
 			.antMatchers("/api/v1/user")
-			.hasAnyRole(UserRole.ADMIN.getRoleString(), UserRole.USER.getRoleString(), UserRole.OPERATOR.getRoleString())
+				.hasAnyRole(UserRole.ADMIN.getRoleString(), UserRole.USER.getRoleString(), UserRole.OPERATOR.getRoleString(), UserRole.SUPERADMIN.getRoleString())
 			.antMatchers("/api/**").authenticated()
 			.anyRequest().authenticated();
 	}

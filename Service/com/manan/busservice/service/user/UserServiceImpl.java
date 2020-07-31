@@ -164,4 +164,33 @@ public class UserServiceImpl implements Services.UserService {
 		return UserMapper.toUser(optional.get());
 	}
 
+	@Override
+	public User enableUser(String userName) {
+
+		findByUserName(userName);
+		if(optional.isPresent()) {
+			UserEntity userEntity = optional.get();
+			if(!userEntity.getRole().equals(UserRole.SUPERADMIN.getRoleString())) {
+				return UserMapper.toUser(repos.userRepository.save(userEntity
+						.setEnabled(true)));
+			}
+			throw new BusAppException.ForbiddenException(EntityResponse.USER);
+		}
+		throw new BusAppException.EntityNotFoundException(EntityResponse.USER);
+	}
+
+	@Override
+	public User disableUser(String userName) {
+
+		findByUserName(userName);
+		if(optional.isPresent()) {
+			UserEntity userEntity = optional.get();
+			if(!userEntity.getRole().equals(UserRole.SUPERADMIN.getRoleString())) {
+				return UserMapper.toUser(repos.userRepository.save(userEntity
+						.setEnabled(false)));
+			}
+			throw new BusAppException.ForbiddenException(EntityResponse.USER);
+		}
+		throw new BusAppException.EntityNotFoundException(EntityResponse.USER);
+	}
 }

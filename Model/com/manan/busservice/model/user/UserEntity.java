@@ -36,6 +36,7 @@ public class UserEntity {
 	@Column(nullable = false, unique = true) private String email;
 	@Column(nullable = false, unique = true) private String phoneNo;
 	@Column(nullable = false) private String role;
+	@Column(nullable = false) private boolean enabled;
 	
 	@OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL)
 	private List<TicketEntity> ticket;

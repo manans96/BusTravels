@@ -46,7 +46,10 @@ public class Services {
 		User findUser(User user);
 		
 		List<User> findAllUsers();
-
+		
+		User enableUser(String userName);
+		
+		User disableUser(String userName);
 	}
 
 	@Service

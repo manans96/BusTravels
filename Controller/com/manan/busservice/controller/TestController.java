@@ -187,5 +187,11 @@ public class TestController {
 		
 		return services.ticketService.viewTicket("TICKET123");
 	}
+	
+	@GetMapping("/enable")
+	public @ResponseBody User enable() {
+		
+		return services.userService.enableUser("test20");
+	}
 
 }
