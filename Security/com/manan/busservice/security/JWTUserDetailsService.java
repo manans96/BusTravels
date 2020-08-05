@@ -3,24 +3,24 @@
  */
 package com.manan.busservice.security;
 
-import java.util.Collections;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-import com.manan.busservice.exception.BusAppException;
 import com.manan.busservice.jpa.repository.Repositories;
 import com.manan.busservice.model.user.UserEntity;
-import com.manan.busservice.response.EntityResponse;
 
 /**
  * @author Manan Sanghvi
  *
  */
+@Service
 public class JWTUserDetailsService implements UserDetailsService {
 
 	private Repositories.Container repos;
@@ -31,22 +31,21 @@ public class JWTUserDetailsService implements UserDetailsService {
 	}
 	
 	@Override
+	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		String userName = null;
 		String password = null;
+		String role;
+		
 		Optional<UserEntity> optional = repos.userRepository.findByUserName(username);
 		if(optional.isPresent()) {
 			UserEntity user = optional.get();
-			userName = user.getUserName();
 			password = user.getUserAuth().getPassword();
+			role = user.getRole();
 		} else {
-			throw new BusAppException.EntityNotFoundException(EntityResponse.USER);
+			throw new UsernameNotFoundException("User with username: " + username + " is not found");
 		}
-		
-		//this User is from
-		//org.springframework.security.core.userdetails.User.User(String username, String password, Collection<? extends GrantedAuthority> authorities)
-		return new User(userName, password, Collections.emptyList());
+		return new JWTUserDetails(username, password, role, true);
 	}
 
 }

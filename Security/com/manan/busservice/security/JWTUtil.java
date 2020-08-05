@@ -9,6 +9,8 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.stereotype.Component;
+
 import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.utility.DateUtils;
 
@@ -21,6 +23,7 @@ import io.jsonwebtoken.security.Keys;
  * @author Manan Sanghvi
  *
  */
+@Component
 public class JWTUtil implements Serializable {
 
 	/**
@@ -75,6 +78,6 @@ public class JWTUtil implements Serializable {
 	
 	public boolean validateToken(String token, User user) {
 		String username = getUsernameFromToken(token);
-		return username.equals(user.getUserName()) && !isTokenExpired(token);
+		return username.equals(user.getUserName()) && isTokenExpired(token);
 	}
 }

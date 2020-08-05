@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.manan.busservice.dto.model.user.User;
@@ -27,6 +28,7 @@ import io.jsonwebtoken.ExpiredJwtException;
  * @author Manan Sanghvi
  *
  */
+@Component
 public class JWTRequestFilter extends OncePerRequestFilter {
 	
 	private JWTUtil jwtUtil;
@@ -44,10 +46,11 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-		String token = resolveToken(request);
+		String token = null;
 		String username = null;
 		
 		try {
+			token = resolveToken(request);
 			username = jwtUtil.getUsernameFromToken(token);
 		} catch(IllegalArgumentException iae) {
 			System.out.println("Unable to get JWT token");
@@ -62,12 +65,12 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 			
 			if(jwtUtil.validateToken(token, user)) {
 				
-				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+				UsernamePasswordAuthenticationToken authentication =
 						new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 				
-				usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				
-				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
 		}
 		filterChain.doFilter(request, response);
@@ -79,7 +82,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 	
 	private String resolveToken(HttpServletRequest request) {
 		
-		final String requestTokenHeader = request.getHeader("Bearer ");
+		final String requestTokenHeader = request.getHeader("Authorization");
 		
 		if(requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
 			return requestTokenHeader.substring(7, requestTokenHeader.length());
