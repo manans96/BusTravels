@@ -25,6 +25,7 @@ import com.manan.busservice.utility.mnemonics.UserRole;
  */
 @RestController
 @RequestMapping("/api/v1/admin")
+@PreAuthorize("hasRole('admin')")
 public class UserAdminController {
 	
 	private Services.Container services;
@@ -35,7 +36,6 @@ public class UserAdminController {
 	}
 	
 	@GetMapping("/getusers")
-	@PreAuthorize("hasRole('admin')")
 	public ResponseEntity<List<User>> getAllUsers() {
 		
 		return new ResponseEntity<>(services.userService.findAllUsers(), HttpStatus.OK);

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.manan.busservice.security;
+package com.manan.busservice.security.jwt;
 
 import java.io.IOException;
 

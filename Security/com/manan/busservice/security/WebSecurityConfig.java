@@ -20,6 +20,9 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.manan.busservice.security.jwt.JWTRequestFilter;
+import com.manan.busservice.security.jwt.JWTUserDetailsService;
+
 /**	
  * @author Manan Sanghvi
  *
@@ -47,13 +50,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth
 			.userDetailsService(jwtUserDetailsService)
 			.passwordEncoder(passwordEncoder());
-//				.jdbcAuthentication()
-//				.dataSource(dataSource)
-//				.passwordEncoder(passwordEncoder())
-//				.usersByUsernameQuery(
-//						"select u.user_name as username, a.password as password, u.enabled as enabled from user u, userauth a"
-//						+ " where id_user=id_user_auth=1 and user_name = ?")
-//				.authoritiesByUsernameQuery("select user_name as username, role as authority from user where user_name = ?");
 	}
 
 	@Override
@@ -75,13 +71,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-			//authorize these requests for all
-//			.authorizeRequests().antMatchers("/api/v1/login", "/api/v1/signup").permitAll()
-//			.antMatchers("/api/v1/admin")
-//				.hasAnyRole(UserRole.ADMIN.getRoleString(), UserRole.SUPERADMIN.getRoleString())
-//			.antMatchers("/api/v1/user")
-//				.hasAnyRole(UserRole.ADMIN.getRoleString(), UserRole.USER.getRoleString(), UserRole.OPERATOR.getRoleString(), UserRole.SUPERADMIN.getRoleString())
-//			.antMatchers("/api/**").authenticated()
 			.authorizeRequests().antMatchers("/api/v1/**").permitAll()
 			.anyRequest().authenticated();
 		

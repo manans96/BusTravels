@@ -6,6 +6,7 @@ package com.manan.busservice.controller.v1.controller.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ import com.manan.busservice.controller.v1.controller.user.request.SignUpRequest;
 import com.manan.busservice.controller.v1.controller.user.response.JWTResponse;
 import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.dto.model.user.UserAuth;
-import com.manan.busservice.security.JWTUtil;
+import com.manan.busservice.security.jwt.JWTUtil;
 import com.manan.busservice.service.Services;
 import com.manan.busservice.utility.mnemonics.UserRole;
 
@@ -26,6 +27,7 @@ import com.manan.busservice.utility.mnemonics.UserRole;
  */
 @RestController
 @RequestMapping("/api/v1")
+@PreAuthorize("permitAll()")
 public class LoginController {
 	
 	private Services.Container services;

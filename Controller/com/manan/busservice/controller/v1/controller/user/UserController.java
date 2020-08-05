@@ -25,6 +25,7 @@ import com.manan.busservice.service.Services;
  */
 @RestController
 @RequestMapping("/api/v1/user")
+@PreAuthorize("hasRole('user') or hasRole('admin') or hasRole('operator')")
 public class UserController {
 
 	private Services.Container services;
@@ -35,7 +36,6 @@ public class UserController {
 	}
 	
 	@GetMapping("/logout")
-	@PreAuthorize("hasRole('user')")
 	public ResponseEntity<String> logout() {
 		
 		return new ResponseEntity<>("Logout successful", HttpStatus.OK);
