@@ -67,7 +67,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests().antMatchers("/api/v1/**").permitAll()
-			.anyRequest().authenticated();
+			.anyRequest().authenticated()
+			.and()
+			.logout().logoutUrl("/api/v1/user/logout");
 		
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 	}
