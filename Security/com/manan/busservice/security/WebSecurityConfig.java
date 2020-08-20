@@ -3,8 +3,6 @@
  */
 package com.manan.busservice.security;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,14 +30,11 @@ import com.manan.busservice.security.jwt.JWTUserDetailsService;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	@SuppressWarnings("unused")
-	private DataSource dataSource;
 	private JWTRequestFilter jwtFilter;
 	private JWTUserDetailsService jwtUserDetailsService;
 	
 	@Autowired
-	public WebSecurityConfig(DataSource dataSource, JWTRequestFilter jwtFilter, JWTUserDetailsService jwtUserDetailsService) {
-		this.dataSource = dataSource;
+	public WebSecurityConfig(JWTRequestFilter jwtFilter, JWTUserDetailsService jwtUserDetailsService) {
 		this.jwtFilter = jwtFilter;
 		this.jwtUserDetailsService = jwtUserDetailsService;
 	}
