@@ -34,6 +34,12 @@ public class UserAdminController {
 	public UserAdminController(Services.Container services) {
 		this.services = services;
 	}
+
+	@GetMapping("/{username}")
+	public ResponseEntity<User> getUser(@PathVariable String username) {
+		
+		return new ResponseEntity<>(services.userService.findUser(username), HttpStatus.OK);
+	}
 	
 	@GetMapping("/getusers")
 	public ResponseEntity<List<User>> getAllUsers() {

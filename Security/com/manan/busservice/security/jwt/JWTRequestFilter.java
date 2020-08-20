@@ -23,6 +23,7 @@ import com.manan.busservice.dto.model.user.User;
 import com.manan.busservice.service.Services;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 
 /**
  * @author Manan Sanghvi
@@ -56,6 +57,8 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 			System.out.println("Unable to get JWT token");
 		} catch(ExpiredJwtException eje) {
 			System.out.println("The token has been expired");
+		} catch(SignatureException se) {
+			System.out.println(se.getMessage());
 		}
 		
 		if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
